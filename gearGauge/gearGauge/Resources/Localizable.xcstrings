@@ -1,0 +1,114 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "gear.type.bicycle" : {
+      "comment" : "Bicycle",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bicycle"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自転車"
+          }
+        }
+      }
+    },
+    "gear.type.shoes" : {
+      "comment" : "Shoes",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shoes"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "靴"
+          }
+        }
+      }
+    },
+    "workout.type.indoorCycle" : {
+      "comment" : "Indoor Cycle",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indoor Cycle"
+          }
+        }
+      }
+    },
+    "workout.type.indoorRun" : {
+      "comment" : "Indoor Run",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indoor Run"
+          }
+        }
+      }
+    },
+    "workout.type.indoorWalk" : {
+      "comment" : "Indoor Walk",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indoor Walk"
+          }
+        }
+      }
+    },
+    "workout.type.outdoorCycle" : {
+      "comment" : "Outdoor Cycle",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outdoor Cycle"
+          }
+        }
+      }
+    },
+    "workout.type.outdoorRun" : {
+      "comment" : "Outdoor Run",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outdoor Run"
+          }
+        }
+      }
+    },
+    "workout.type.outdoorWalk" : {
+      "comment" : "Outdoor Walk",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outdoor Walk"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}
