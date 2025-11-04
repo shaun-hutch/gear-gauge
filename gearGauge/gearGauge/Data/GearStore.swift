@@ -39,30 +39,30 @@ protocol GearStoreProtocol {
     func deleteAll() throws
 }
 
-final class GearStore: GearStoreProtocol {
-    func fetchAll() throws -> [Gear] {
-        <#code#>
-    }
-    
-    func fetchActive() throws -> [Gear] {
-        <#code#>
-    }
-    
-    func fetchPrimary() throws -> Gear? {
-        <#code#>
-    }
-    
-    func create(gear: Gear) throws {
-        <#code#>
-    }
-    
-    func update(gear: Gear) throws {
-        <#code#>
-    }
-    
-    func deleteAll() throws {
-        <#code#>
-    }
-    
-
-}
+//final class GearStore: GearStoreProtocol {
+//    func fetchAll() throws -> [Gear] {
+//        <#code#>
+//    }
+//    
+//    func fetchActive() throws -> [Gear] {
+//        <#code#>
+//    }
+//    
+//    func fetchPrimary() throws -> Gear? {
+//        <#code#>
+//    }
+//    
+//    func create(gear: Gear) throws {
+//        <#code#>
+//    }
+//    
+//    func update(gear: Gear) throws {
+//        <#code#>
+//    }
+//    
+//    func deleteAll() throws {
+//        <#code#>
+//    }
+//    
+//
+//}

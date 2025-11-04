@@ -10,25 +10,14 @@ import SwiftData
 
 /// A piece of fitness gear which is tracked by the user.
 /// Stores distance travelled for a piece of gear, like shoes or a bicycle
+@available(iOS 26, *)
 @Model
 final class Gear: BaseEntity {
-    // MARK: audit properties
-    /// unique identifier
-    var id: UUID
-    /// date which entity was created
-    var createdDate: Date?
-    /// date which entity was last updated
-    var lastUpdatedDate: Date?
-    /// version of the most recent change to tne entity
-    var version: Int
-    /// if the entity is marked as deleted
-    var isDeleted: Bool
-    
     // MARK: main properties
     /// name of the gear
     var name: String
-    /// what category the gear is
-    var type: GearType
+    /// what category the gear is (stored as raw String value for SwiftData)
+    private var typeRawValue: String
     /// how far the gear has gone in kilometres.
     /// Users can set this on create to manually set a distance on gear creation
     var currentDistance: Double
@@ -41,6 +30,17 @@ final class Gear: BaseEntity {
     /// if the gear is currently active
     var isActive: Bool
     
+    /// The type of gear (computed from raw value)
+    /// SwiftData cannot store enums, just primitive values
+    var type: GearType {
+        get {
+            GearType(rawValue: typeRawValue) ?? .shoes
+        }
+        set {
+            typeRawValue = newValue.rawValue
+        }
+    }
+    
     
     // MARK: - Relationships
     /// Workouts associated with this gear item
@@ -51,7 +51,6 @@ final class Gear: BaseEntity {
     
     // MARK: - Initialisation
     init(
-        id: UUID = UUID(),
         name: String,
         type: GearType,
         currentDistance: Double = 0,
@@ -60,18 +59,17 @@ final class Gear: BaseEntity {
         isPrimary: Bool = false,
         isActive: Bool = true
     ) {
-        self.id = id
-        self.createdDate = Date()
-        self.lastUpdatedDate = Date()
-        self.version = 1
         self.name = name
-        self.type = type
+        self.typeRawValue = type.rawValue
         self.currentDistance = currentDistance
         self.maxDistance = maxDistance
         self.notes = notes
         self.isPrimary = isPrimary
         self.isActive = isActive
         self.workouts = []
+        
+        // Call parent initializer with defaults
+        super.init()
     }
     
 }

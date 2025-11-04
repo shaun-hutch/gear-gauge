@@ -9,20 +9,9 @@ import HealthKit
 import SwiftData
 import SwiftUI
 
+@available(iOS 26, *)
 @Model
 final class Workout: BaseEntity {
-    // MARK: Audit properties
-    /// unique identifier
-    var id: UUID
-    /// date which entity was created
-    var createdDate: Date?
-    /// date which entity was last updated
-    var lastUpdatedDate: Date?
-    /// version of the most recent change to tne entity
-    var version: Int
-    /// if the entity is marked as deleted
-    var isDeleted: Bool
-
     // MARK: Main properties
     /// HealthKit UUID for this workout (for deduplication)
     @Attribute(.unique) var healthKitUUID: UUID
@@ -32,10 +21,21 @@ final class Workout: BaseEntity {
     var startDate: Date
     /// When the workout ended
     var endDate: Date
-    /// Activity type of the healthKit (indoor running, indoor cycling, etc...)
-    var workoutActivityType: HKWorkoutActivityType
+    /// Activity type raw value from HealthKit (stored as UInt for SwiftData compatibility)
+    private var workoutActivityTypeRawValue: UInt
     /// If the workout is an indoor one (defined by checking if specific metadata exists)
     var isIndoor: Bool
+    
+    /// Activity type of the HealthKit workout (computed from raw value)
+    /// SwiftData cannot store enums, just primitive values
+    var workoutActivityType: HKWorkoutActivityType {
+        get {
+            HKWorkoutActivityType(rawValue: workoutActivityTypeRawValue) ?? .other
+        }
+        set {
+            workoutActivityTypeRawValue = newValue.rawValue
+        }
+    }
 
     // MARK: - Relationships
     /// The gear item (or items) used for this workout
@@ -43,23 +43,24 @@ final class Workout: BaseEntity {
 
     // MARK: - Initialization
     init(
-        id: UUID = UUID(),
         healthKitUUID: UUID,
-        workoutType: String,
+        activityType: HKWorkoutActivityType,
         totalDistance: Double,
         startDate: Date,
         endDate: Date,
+        isIndoor: Bool = false,
         gear: [Gear] = []
     ) {
-        self.id = id
-        self.createdDate = Date()
-        self.lastUpdatedDate = Date()
-        self.version = 1
         self.healthKitUUID = healthKitUUID
+        self.workoutActivityTypeRawValue = activityType.rawValue
         self.totalDistance = totalDistance
         self.startDate = startDate
         self.endDate = endDate
+        self.isIndoor = isIndoor
         self.gear = gear
+        
+        // Call parent initializer with defaults
+        super.init()
     }
 
     // MARK: Computed properties
@@ -72,7 +73,6 @@ final class Workout: BaseEntity {
             return isIndoor ? WorkoutType.indoorWalk : WorkoutType.outdoorWalk
         case .cycling:
             return isIndoor ? WorkoutType.indoorCycle : WorkoutType.outdoorCycle
-        case .other:
         default:
             return WorkoutType.other
         }

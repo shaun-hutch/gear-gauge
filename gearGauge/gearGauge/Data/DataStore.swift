@@ -41,6 +41,18 @@ protocol DataStoreProtocol {
     /// - Parameter entity: The entity to delete
     /// - Throws: Error if deletion fails
     func delete<T: PersistentModel & BaseEntity>(_ entity: T) throws
+    
+    /// Create multiple entities in a single transaction
+    /// If any creation fails, all changes are rolled back
+    /// - Parameter entities: Array of entities to create
+    /// - Throws: Error if creation fails
+    func createBulk<T: PersistentModel & BaseEntity>(_ entities: [T]) throws
+    
+    /// Delete multiple entities in a single transaction
+    /// If any deletion fails, all changes are rolled back
+    /// - Parameter entities: Array of entities to delete
+    /// - Throws: Error if deletion fails
+    func deleteBulk<T: PersistentModel & BaseEntity>(_ entities: [T]) throws
 }
 
 
@@ -51,10 +63,6 @@ final class DataStore: DataStoreProtocol {
     internal let modelContext: ModelContext
     
     func create<T: PersistentModel & BaseEntity>(_ entity: T) throws {
-        entity.createdDate = Date()
-        entity.lastUpdatedDate = Date()
-        entity.version = 1
-        entity.isDeleted = false
         modelContext.insert(entity)
         try save()
     }
@@ -68,12 +76,39 @@ final class DataStore: DataStoreProtocol {
     }
     
     func update<T: PersistentModel & BaseEntity>(_ entity: T) throws {
-        entity.lastUpdatedDate = Date()
-        entity.version += 1
+        entity.markAsUpdated()
+        try save()
     }
     
     func delete<T: PersistentModel & BaseEntity>(_ entity: T) throws {
-        <#code#>
+        entity.markAsDeleted()
+        try save()
+    }
+    
+    // MARK: - Bulk Operations
+    
+    /// Create multiple entities in a single transaction
+    /// All entities are inserted and saved atomically
+    /// If save fails, all changes are rolled back automatically
+    /// - Parameter entities: Array of entities to create
+    /// - Throws: Error if creation fails
+    func createBulk<T: PersistentModel & BaseEntity>(_ entities: [T]) throws {
+        for entity in entities {
+            modelContext.insert(entity)
+        }
+        try save()
+    }
+    
+    /// Delete multiple entities in a single transaction
+    /// All entities are marked as deleted and saved atomically
+    /// If save fails, all changes are rolled back automatically
+    /// - Parameter entities: Array of entities to delete
+    /// - Throws: Error if deletion fails
+    func deleteBulk<T: PersistentModel & BaseEntity>(_ entities: [T]) throws {
+        for entity in entities {
+            entity.markAsDeleted()
+        }
+        try save()
     }
         
     // MARK: - Initialization
@@ -89,12 +124,16 @@ final class DataStore: DataStoreProtocol {
     
     /// Save any pending changes to the model context
     /// - Throws: Error if save fails
-    func save() throws {
-        try modelContext.save()
+    private func save() throws {
+        do {
+            try modelContext.save()
+        } catch {
+            rollback()
+        }
     }
     
     /// Rollback any unsaved changes
-    func rollback() {
+    private func rollback() {
         modelContext.rollback()
     }
 }
