@@ -16,5 +16,7 @@ protocol BaseEntity: Identifiable {
     var lastUpdatedDate: Date? { get set }
     /// version number of the entity
     var version: Int { get set }
+    /// if the entity is deleted
+    var isDeleted: Bool { get set }
 
 }

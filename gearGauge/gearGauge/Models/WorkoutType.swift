@@ -14,6 +14,7 @@ enum WorkoutType: String, CaseIterable, Identifiable {
     case indoorWalk
     case outdoorCycle
     case indoorCycle
+    case other
 
     var id: String { self.rawValue }
 
@@ -31,6 +32,8 @@ enum WorkoutType: String, CaseIterable, Identifiable {
             return String(localized: .workoutTypeOutdoorCycle)
         case .indoorCycle:
             return String(localized: .workoutTypeIndoorCycle)
+        case .other:
+            return String(localized: .workoutTypeOther)
 
         }
     }
@@ -49,6 +52,8 @@ enum WorkoutType: String, CaseIterable, Identifiable {
             return "figure.outdoor.cycle.circle"
         case .indoorCycle:
             return "figure.indoor.cycle.circle"
+        case .other:
+            return "chevron.right.circle"
         }
     }
 }

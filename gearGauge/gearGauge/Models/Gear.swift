@@ -21,6 +21,8 @@ final class Gear: BaseEntity {
     var lastUpdatedDate: Date?
     /// version of the most recent change to tne entity
     var version: Int
+    /// if the entity is marked as deleted
+    var isDeleted: Bool
     
     // MARK: main properties
     /// name of the gear

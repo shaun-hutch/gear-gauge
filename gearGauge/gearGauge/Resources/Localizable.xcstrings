@@ -73,6 +73,18 @@
         }
       }
     },
+    "workout.type.other" : {
+      "comment" : "Other",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Other"
+          }
+        }
+      }
+    },
     "workout.type.outdoorCycle" : {
       "comment" : "Outdoor Cycle",
       "extractionState" : "manual",
