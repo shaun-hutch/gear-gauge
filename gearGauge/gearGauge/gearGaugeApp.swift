@@ -10,19 +10,8 @@ import SwiftData
 
 @main
 struct gearGaugeApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Gear.self,
-            Workout.self
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    // Use the shared model container from SharedModelContainer
+    var sharedModelContainer: ModelContainer = SharedModelContainer.create()
 
     var body: some Scene {
         WindowGroup {
