@@ -14,6 +14,8 @@ The code will be done in Swift, using SwiftUI for the UI components. For data st
 
 When you put together any file changes, please explain what is being changed, and have it commented appropriately. Where appropriate too, provide relevant unit testing. If the change constitutes a large overreach, it may be better to break it down into smaller changes. This case may also be a candidte for a UI automation test.
 
+If I am simply asking a question on why something is like what it is, just answer the question directly without suggesting code changes, unless I ask what can I change.
+
 ### Testing
 Unit tests will be created for the data model and business logic. UI tests will be created for the main user flows.
 

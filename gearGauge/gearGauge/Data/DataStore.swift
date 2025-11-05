@@ -12,8 +12,6 @@ import SwiftUI
 protocol DataStoreProtocol {
     var modelContext: ModelContext { get }
     
-    // MARK: CRUD operations
-    
     /// Create and insert a new entity into the model context
     /// - Parameter entity: The entity to create
     /// - Throws: Error if creation fails
@@ -62,12 +60,18 @@ protocol DataStoreProtocol {
 final class DataStore: DataStoreProtocol {
     internal let modelContext: ModelContext
     
+    // MARK: CRUD operations
+    
     func create<T: PersistentModel & BaseEntity>(_ entity: T) throws {
         modelContext.insert(entity)
         try save()
     }
     
-    func fetch<T: PersistentModel & BaseEntity>(_ type: T.Type, predicate: Predicate<T>?, sortDescriptors: [SortDescriptor<T>]?) throws -> [T] {
+    func fetch<T: PersistentModel & BaseEntity>(
+        _ type: T.Type,
+        predicate: Predicate<T>?,
+        sortDescriptors: [SortDescriptor<T>]?
+    ) throws -> [T] {
         let descriptor = FetchDescriptor<T>(
             predicate: predicate ?? nil,
             sortBy: sortDescriptors ?? []
@@ -110,7 +114,7 @@ final class DataStore: DataStoreProtocol {
         }
         try save()
     }
-        
+    
     // MARK: - Initialization
     
     /// Initialize DataStore with a model context
@@ -118,7 +122,7 @@ final class DataStore: DataStoreProtocol {
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
     }
-
+    
     
     // MARK: - General Operations
     
