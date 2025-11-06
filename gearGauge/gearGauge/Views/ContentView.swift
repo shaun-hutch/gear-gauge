@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @State public var selectedTab: Int = 0
+    
     @Environment(\.modelContext) private var modelContext
     @Query private var gearItems: [Gear]
     
@@ -22,34 +24,32 @@ struct ContentView: View {
     }
     
     var body: some View {
-        TabView {
-            // home
-            VStack {
-                Text(.home)
-            }.tabItem {
-                Image(systemName: "gauge.with.needle")
-                    .accessibilityLabel(.tabLabelHome)
-                Text(.tabLabelHome)
+        TabView(selection: $selectedTab) {
+            // Home tab - filled gauge when selected, outline when not
+            Tab(value: 0) {
+                HomeView()
+            } label: {
+                Label(.tabLabelHome, systemImage: selectedTab == 0 ? "gauge.with.needle.fill" : "gauge.with.needle")
             }
+            .accessibilityLabel(.tabLabelHome)
             
-            VStack {
-                Text(.gear)
-            }.tabItem {
-                Image(systemName: "shoe.circle")
-                    .accessibilityLabel(.tabLabelGear)
-                Text(.tabLabelGear)
+            // Gear tab - filled shoe when selected, outline when not
+            Tab(value: 1) {
+                GearListView()
+            } label: {
+                Label(.tabLabelGear, systemImage: selectedTab == 1 ? "shoe.circle.fill" : "shoe.circle")
             }
+            .accessibilityLabel(.tabLabelGear)
             
-            VStack {
-                Text("Settings")
-            }.tabItem {
-                Image(systemName: "gear")
-                    .accessibilityLabel(.tabLabelSettings)
-                Text(.tabLabelSettings)
+            // Settings tab - filled gear when selected, outline when not
+            Tab(value: 2) {
+                SettingsView()
+            } label: {
+                Label(.tabLabelSettings, systemImage: selectedTab == 2 ? "gearshape.fill" : "gearshape")
             }
+            .accessibilityLabel(.tabLabelSettings)
         }
         .accentColor(Color.appTintColor)
-        
     }
 }
 
