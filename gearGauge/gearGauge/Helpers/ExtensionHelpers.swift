@@ -10,3 +10,20 @@ import SwiftUI
 extension Color {
     static let appTintColor = Color("AppTintColor")
 }
+
+extension UserDefaultsService {
+    /// sets the UserDefaults to initial values (including first launch has now completed)
+    /// if
+    static func setDefaults() {
+        // if the app has done a first launch, then do nothing here
+        guard getBool(forKey: Constants.hasDoneFirstLaunch) == true else {
+            return
+        }
+        
+        // otherwise set initial values
+        set(value: true, forKey: Constants.hasDoneFirstLaunch)
+        set(value: false, forKey: Constants.hasPremium)
+        
+        // set other defaults here
+    }
+}
