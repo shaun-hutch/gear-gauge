@@ -29,6 +29,10 @@ final class Gear: BaseEntity {
     var isPrimary: Bool
     /// if the gear is currently active
     var isActive: Bool
+    /// gear start date
+    var startDate: Date
+    /// gear end date (retirement date)
+    var endDate: Date?
     
     /// The type of gear (computed from raw value)
     /// SwiftData cannot store enums, just primitive values
@@ -57,7 +61,8 @@ final class Gear: BaseEntity {
         maxDistance: Double,
         notes: String? = nil,
         isPrimary: Bool = false,
-        isActive: Bool = true
+        isActive: Bool = true,
+        startDate: Date
     ) {
         self.name = name
         self.typeRawValue = type.rawValue
@@ -67,6 +72,7 @@ final class Gear: BaseEntity {
         self.isPrimary = isPrimary
         self.isActive = isActive
         self.workouts = []
+        self.startDate = startDate
         
         // Call parent initializer with defaults
         super.init()

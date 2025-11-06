@@ -54,7 +54,8 @@ struct ContentView: View {
             let newGear = Gear(
                 name: "New Gear",
                 type: .shoes,
-                maxDistance: 500
+                maxDistance: 500,
+                startDate: Date()
             )
             
             do {
