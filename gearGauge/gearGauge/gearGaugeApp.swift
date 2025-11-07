@@ -19,7 +19,7 @@ struct gearGaugeApp: App {
         WindowGroup {
             ContentView()
                 .onAppear {
-                    if (firstLaunch()) {
+                    if (UserDefaultHelpers.firstLaunch()) {
                         showWelcomeAlert = true
                     }
                 }
@@ -30,18 +30,6 @@ struct gearGaugeApp: App {
                 }
         }
         .modelContainer(sharedModelContainer)
-    }
-    
-    
-    private func firstLaunch() -> Bool {
-        print("first launch?")
-        // if first app launch
-        if UserDefaultsService.getBool(forKey: Constants.hasDoneFirstLaunch) == nil {
-            print("setting defaults")
-            UserDefaultsService.setDefaults()
-            
-            return true
-        } else { return false }
     }
 }
 	

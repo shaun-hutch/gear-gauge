@@ -50,6 +50,9 @@ struct ContentView: View {
             .accessibilityLabel(.tabLabelSettings)
         }
         .accentColor(Color.appTintColor)
+        .onChange(of: selectedTab) { oldValue, newValue in
+            print("Selected tab changed from \(oldValue) to \(newValue)")
+        }
     }
 }
 

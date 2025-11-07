@@ -16,7 +16,8 @@ extension UserDefaultsService {
     /// if
     static func setDefaults() {
         // if the app has done a first launch, then do nothing here
-        guard getBool(forKey: Constants.hasDoneFirstLaunch) == true else {
+        if let hasLaunched = getBool(forKey: Constants.hasDoneFirstLaunch), hasLaunched == true {
+            print("already true, shouldn't be here")
             return
         }
         
