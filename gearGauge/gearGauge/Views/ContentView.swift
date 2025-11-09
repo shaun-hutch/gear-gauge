@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    
+    
     @State public var selectedTab: Int = 0
     
     @Environment(\.modelContext) private var modelContext
@@ -27,7 +29,7 @@ struct ContentView: View {
         TabView(selection: $selectedTab) {
             // Home tab - filled gauge when selected, outline when not
             Tab(value: 0) {
-                HomeView()
+                HomeView(gearStore: gearStore)
             } label: {
                 Label(.tabLabelHome, systemImage: selectedTab == 0 ? "gauge.with.needle.fill" : "gauge.with.needle")
             }

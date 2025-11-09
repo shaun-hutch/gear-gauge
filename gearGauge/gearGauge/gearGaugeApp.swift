@@ -10,9 +10,7 @@ import SwiftData
 
 @main
 struct gearGaugeApp: App {
-    // Use the shared model container from SharedModelContainer
-    var sharedModelContainer: ModelContainer = SharedModelContainer.create()
-    
+    private var sharedModelContainer: ModelContainer = SharedModelContainer.create()
     @State private var showWelcomeAlert: Bool = false
 
     var body: some Scene {
