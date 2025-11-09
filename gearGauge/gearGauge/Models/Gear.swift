@@ -79,3 +79,18 @@ final class Gear: BaseEntity {
     }
     
 }
+
+extension Gear {
+    static func SampleGear() -> Gear {
+        return self.init(
+            name: "Asics Gel Kayano",
+            type: .shoes,
+            currentDistance: 300,
+            maxDistance: 1000,
+            notes: "Great running shoes",
+            isPrimary: true,
+            isActive: true,
+            startDate: Date.newDateTime(year: 2025, month: 3, day: 15)
+        )
+    }
+}
