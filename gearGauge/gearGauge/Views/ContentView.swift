@@ -9,25 +9,26 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    // MARK: - State
+    
+    /// Currently selected tab in the TabView
     @State public var selectedTab: Int = 0
     
-    @Environment(\.modelContext) private var modelContext
-    @Query private var gearItems: [Gear]
+    // MARK: - ViewModels
     
-    // Initialize stores using the environment's modelContext
-    private var dataStore: DataStoreProtocol {
-        DataStore(modelContext: modelContext)
-    }
+    /// ViewModel for gear-related operations
+    /// Injected from the app level to maintain consistent state
+    var gearViewModel: GearViewModel
     
-    private var gearStore: GearStoreProtocol {
-        GearStore(dataStore: dataStore)
-    }
+    /// ViewModel for workout-related operations
+    /// Injected from the app level to maintain consistent state
+    var workoutViewModel: WorkoutViewModel
     
     var body: some View {
         TabView(selection: $selectedTab) {
             // Home tab - filled gauge when selected, outline when not
             Tab(value: 0) {
-                HomeView(gearStore: gearStore)
+                HomeView(gearViewModel: gearViewModel)
             } label: {
                 Label(.tabLabelHome, systemImage: selectedTab == 0 ? "gauge.with.needle.fill" : "gauge.with.needle")
             }
@@ -35,7 +36,7 @@ struct ContentView: View {
             
             // Gear tab - filled shoe when selected, outline when not
             Tab(value: 1) {
-                GearListView()
+                GearListView(gearViewModel: gearViewModel)
             } label: {
                 Label(.tabLabelGear, systemImage: selectedTab == 1 ? "shoe.circle.fill" : "shoe.circle")
             }
@@ -57,6 +58,18 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
-        .modelContainer(SharedModelContainer.create(inMemory: true))
+    // Create mock stores for preview
+    let mockDataStore = DataStore(modelContext: SharedModelContainer.create(inMemory: true).mainContext)
+    let mockGearStore = GearStore(dataStore: mockDataStore)
+    let mockWorkoutStore = WorkoutStore(dataStore: mockDataStore)
+    
+    // Create ViewModels with mock stores
+    let gearViewModel = GearViewModel(gearStore: mockGearStore)
+    let workoutViewModel = WorkoutViewModel(workoutStore: mockWorkoutStore)
+    
+    return ContentView(
+        gearViewModel: gearViewModel,
+        workoutViewModel: workoutViewModel
+    )
+    .modelContainer(SharedModelContainer.create(inMemory: true))
 }
