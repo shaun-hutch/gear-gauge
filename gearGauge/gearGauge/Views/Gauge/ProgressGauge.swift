@@ -10,10 +10,12 @@ import SwiftUI
 struct ProgressGauge: Shape {
     let maxDistance: Double
     let currentDistance: Double
+    let lineWidth: CGFloat
     
-    init(maxDistance: Double, currentDistance: Double) {
+    init(maxDistance: Double, currentDistance: Double, lineWidth: CGFloat) {
         self.maxDistance = maxDistance
         self.currentDistance = currentDistance
+        self.lineWidth = lineWidth
     }
     
     private var percentage: Double {
@@ -29,7 +31,7 @@ struct ProgressGauge: Shape {
         let center = CGPoint(x: rect.midX, y: rect.midY)
         let radius = min(rect.width, rect.height) / 2
         return Path { path in
-            path.addArc(center: center, radius: radius - 10, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+            path.addArc(center: center, radius: radius - (lineWidth / 2), startAngle: startAngle, endAngle: endAngle, clockwise: false)
         }
     }
     

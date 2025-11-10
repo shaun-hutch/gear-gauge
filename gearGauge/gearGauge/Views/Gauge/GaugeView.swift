@@ -41,7 +41,7 @@ struct GaugeView: View {
 
 #Preview {
     var gear = Gear.SampleGear()
-    gear.currentDistance = 1000
+    gear.currentDistance = 900
     
     return GaugeView(gear: gear)
 }
