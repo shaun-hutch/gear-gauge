@@ -12,24 +12,26 @@ struct GaugeView: View {
     
     @Environment(\.colorScheme) private var colorScheme
     
+    private let lineWidth: CGFloat = 50
+    
     var body: some View {
         VStack {
             Circle()
-                .strokeBorder(lineWidth: 20)
+                .strokeBorder(lineWidth: lineWidth)
                 .overlay {
                     VStack {
                         Image(systemName: gear.type.displayIcon)
-                            .font(.system(size: 150))
+                            .font(.system(size: 120))
                             .foregroundStyle(Color.appTintColor)
                         
                     }
                 }
                 .overlay {
-                    ProgressGauge(maxDistance: gear.maxDistance, currentDistance: gear.currentDistance)
-                        .stroke(colorScheme == .dark ? Color.black : Color.white, style: StrokeStyle(lineWidth: 10, lineCap: .round, lineJoin: .round))
+                    ProgressGauge(maxDistance: gear.maxDistance, currentDistance: gear.currentDistance, lineWidth: lineWidth)
+                        .stroke(Color.appTintColor, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
                 }
                 .frame(width: 300, height: 300) // 150 radius
-                .foregroundStyle(Color.appTintColor)
+                .foregroundStyle(Color.appTintColor.opacity(0.3))
             
             
         }
@@ -38,5 +40,8 @@ struct GaugeView: View {
 }
 
 #Preview {
-    GaugeView(gear: Gear.SampleGear())
+    var gear = Gear.SampleGear()
+    gear.currentDistance = 1000
+    
+    return GaugeView(gear: gear)
 }
