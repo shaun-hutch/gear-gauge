@@ -9,29 +9,43 @@ import SwiftUI
 import SwiftData
 
 struct HomeView: View {
-    let gearStore: GearStoreProtocol
-    @State private var gear: Gear
+    var gearStore: GearStoreProtocol
+    
+    @State private var gear: Gear?
+    @State private var isLoading: Bool = true
+    @State private var error: Error?
     
     var body: some View {
-        if gear != nil {
-            GaugeView(gear: gear)
-        }
-        
-        
-        
-        
-        // fetch primary gear
-        
-        // show distance
-        
-        
-        VStack {
-            Text(.home)
-        }
-        .onAppear {
-            Task {
-                gear = try gearStore.fetchPrimary()
+        Group {
+            if isLoading {
+                ProgressView()
+            } else if let error = error {
+                Text("unable to load gear")
+            } else if let gear = gear {
+                GaugeView(gear: gear)
+            } else {
+                Text("No primary gear")
             }
+            
+            
+        }.onAppear {
+            fetchPrimaryGear()
+        }
+        
+    
+        
+    }
+    
+    private func fetchPrimaryGear() {
+        isLoading = true
+        error = nil
+        
+        do {
+            gear = try gearStore.fetchPrimary()
+            isLoading = false
+        } catch {
+            self.error = error
+            isLoading = false
         }
     }
         

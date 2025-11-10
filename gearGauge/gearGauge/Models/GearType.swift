@@ -25,9 +25,9 @@ enum GearType: String, CaseIterable, Identifiable {
     var displayIcon: String {
         switch self {
         case .shoes:
-            return "shoe.circle"
+            return "shoe"
         case .bicycle:
-            return "bicycle.circle"
+            return "bicycle"
         }
     }
 }

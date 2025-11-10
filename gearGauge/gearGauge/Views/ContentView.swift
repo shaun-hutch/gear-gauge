@@ -9,8 +9,6 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    
-    
     @State public var selectedTab: Int = 0
     
     @Environment(\.modelContext) private var modelContext
