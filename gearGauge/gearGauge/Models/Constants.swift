@@ -10,4 +10,6 @@ struct Constants {
     static let hasDoneFirstLaunch = "hasDoneFirstLaunch"
     /// key to denote if the user has paid for premium
     static let hasPremium = "hasPremium"
+    /// key to denote if the user has granted HealthKit access
+    static let hasHealthKitAccess = "hasHealthKitAccess"
 }

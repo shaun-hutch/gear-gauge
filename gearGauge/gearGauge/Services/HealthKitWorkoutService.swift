@@ -75,6 +75,11 @@ final class HealthKitWorkoutService: WorkoutServiceProtocol {
                 continuation.resume(returning: success)
             }
         }
+        
+        let actualStatus = healthStore.authorizationStatus(for: HKObjectType.workoutType())
+        let actualAccess = (actualStatus == .sharingAuthorized)
+        
+        print("hasAccess: \(success)")
 
         // Update local state for fast UI checks
         hasAccess = success

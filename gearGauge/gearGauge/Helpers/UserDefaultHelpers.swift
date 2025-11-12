@@ -25,4 +25,18 @@ struct UserDefaultHelpers {
             return false
         }
     }
+    
+    // MARK: - HealthKit Access Helpers
+    
+    /// Gets the stored HealthKit access status from UserDefaults
+    /// - Returns: `true` if user previously granted access, `false` if denied, `nil` if never requested
+    static func getHealthKitAccess() -> Bool? {
+        return UserDefaultsService.getBool(forKey: Constants.hasHealthKitAccess)
+    }
+    
+    /// Saves the HealthKit access status to UserDefaults
+    /// - Parameter hasAccess: `true` if user granted access, `false` if denied
+    static func setHealthKitAccess(_ hasAccess: Bool) {
+        UserDefaultsService.set(value: hasAccess, forKey: Constants.hasHealthKitAccess)
+    }
 }
