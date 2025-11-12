@@ -21,22 +21,12 @@ struct HomeView: View {
                 // Loading state
                 ProgressView("Loading gear...")
             } else if let error = gearViewModel.error {
-                // Error state
-                ContentUnavailableView(
-                    "Unable to load gear",
-                    systemImage: "exclamationmark.triangle",
-                    description: Text(error.localizedDescription)
-                )
+                errorView(error: error.localizedDescription)
             } else if let gear = gearViewModel.primaryGear {
                 // Success state - show the gear gauge
                 GaugeView(gear: gear)
             } else {
-                // Empty state - no primary gear set
-                ContentUnavailableView(
-                    "No Primary Gear",
-                    systemImage: "figure.run",
-                    description: Text("Set up your first gear to start tracking.")
-                )
+                emptyView
             }
         }
         .onAppear {
@@ -44,7 +34,35 @@ struct HomeView: View {
             gearViewModel.fetchPrimaryGear()
         }
     }
+    
+    func errorView(error: String) -> some View {
+        ContentUnavailableView(
+            "Unable to load gear",
+            systemImage: "exclamationmark.triangle",
+            description: Text(error)
+        )
+    }
+    
+    var emptyView: some View {
+        ContentUnavailableView {
+            Label("No Primary Gear", systemImage: "figure.run")
+                .tint(Color.appTintColor)
+        } description: {
+            Text("Set up your first gear to start tracking.")
+        } actions: {
+            Button(action: {
+                print("add clicked!")
+            }) {
+                HStack {
+                    Image(systemName: "plus")
+                    Text("Add Gear")
+                }
+            }
+        }
+    }
 }
+
+
 
 // MARK: - Preview
 

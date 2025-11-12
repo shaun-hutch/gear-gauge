@@ -12,7 +12,7 @@ struct ContentView: View {
     // MARK: - State
     
     /// Currently selected tab in the TabView
-    @State public var selectedTab: Int = 0
+    @State public var selectedTab: Int = 2
     
     // MARK: - ViewModels
     
@@ -58,8 +58,12 @@ struct ContentView: View {
 }
 
 #Preview {
-    // Create mock stores for preview
-    let mockDataStore = DataStore(modelContext: SharedModelContainer.create(inMemory: true).mainContext)
+    // Create a single in-memory container for the preview
+    let container = SharedModelContainer.create(inMemory: true)
+    let context = container.mainContext
+    
+    // Create mock stores for preview using the same context
+    let mockDataStore = DataStore(modelContext: context)
     let mockGearStore = GearStore(dataStore: mockDataStore)
     let mockWorkoutStore = WorkoutStore(dataStore: mockDataStore)
     
@@ -71,5 +75,5 @@ struct ContentView: View {
         gearViewModel: gearViewModel,
         workoutViewModel: workoutViewModel
     )
-    .modelContainer(SharedModelContainer.create(inMemory: true))
+    .modelContainer(container)
 }
