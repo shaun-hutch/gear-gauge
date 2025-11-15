@@ -30,7 +30,7 @@ struct ContentView: View {
             Tab(value: 0) {
                 HomeView(gearViewModel: gearViewModel)
             } label: {
-                Label(.tabLabelHome, systemImage: selectedTab == 0 ? "gauge.with.needle.fill" : "gauge.with.needle")
+                Label(.tabLabelHome, systemImage: "gauge.with.dots.needle.bottom.50percent")
             }
             .accessibilityLabel(.tabLabelHome)
             
@@ -38,7 +38,7 @@ struct ContentView: View {
             Tab(value: 1) {
                 GearListView(gearViewModel: gearViewModel)
             } label: {
-                Label(.tabLabelGear, systemImage: selectedTab == 1 ? "shoe.circle.fill" : "shoe.circle")
+                Label(.tabLabelGear, systemImage: "shoe")
             }
             .accessibilityLabel(.tabLabelGear)
             
@@ -46,11 +46,11 @@ struct ContentView: View {
             Tab(value: 2) {
                 SettingsView()
             } label: {
-                Label(.tabLabelSettings, systemImage: selectedTab == 2 ? "gearshape.fill" : "gearshape")
+                Label(.tabLabelSettings, systemImage: "gear")
             }
             .accessibilityLabel(.tabLabelSettings)
         }
-        .accentColor(Color.appTintColor)
+        .accentColor(.appTint)
         .onChange(of: selectedTab) { oldValue, newValue in
             print("Selected tab changed from \(oldValue) to \(newValue)")
         }

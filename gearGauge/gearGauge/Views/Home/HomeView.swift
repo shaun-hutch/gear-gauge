@@ -46,7 +46,7 @@ struct HomeView: View {
     var emptyView: some View {
         ContentUnavailableView {
             Label("No Primary Gear", systemImage: "figure.run")
-                .tint(Color.appTintColor)
+                .tint(.appTint)
         } description: {
             Text("Set up your first gear to start tracking.")
         } actions: {

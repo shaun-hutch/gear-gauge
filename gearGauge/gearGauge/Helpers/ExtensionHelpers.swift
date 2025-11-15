@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-// MARK: Color
-extension Color {
-    static let appTintColor = Color("AppTintColor")
-}
-
 // MARK: UserDefaultsService
 extension UserDefaultsService {
     /// sets the UserDefaults to initial values (including first launch has now completed)

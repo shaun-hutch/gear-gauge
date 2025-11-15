@@ -22,16 +22,16 @@ struct GaugeView: View {
                     VStack {
                         Image(systemName: gear.type.displayIcon)
                             .font(.system(size: 120))
-                            .foregroundStyle(Color.appTintColor)
+                            .foregroundStyle(.appTint)
                         
                     }
                 }
                 .overlay {
                     ProgressGauge(maxDistance: gear.maxDistance, currentDistance: gear.currentDistance, lineWidth: lineWidth)
-                        .stroke(Color.appTintColor, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
+                        .stroke(.appTint, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
                 }
                 .frame(width: 300, height: 300) // 150 radius
-                .foregroundStyle(Color.appTintColor.opacity(0.3))
+                .foregroundStyle(.appTint.opacity(0.3))
             
             
         }

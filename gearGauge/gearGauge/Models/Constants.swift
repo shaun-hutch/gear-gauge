@@ -12,4 +12,8 @@ struct Constants {
     static let hasPremium = "hasPremium"
     /// key to denote if the user has granted HealthKit access
     static let hasHealthKitAccess = "hasHealthKitAccess"
+    /// key to denote what unit the user has selected (kilometers/miles)
+    static let distanceUnit = "distanceUnit"
+    /// key to denote if background workout fetching is enabled
+    static let hasBackgroundFetchEnabled = "hasBackgroundFetchEnabled"
 }
