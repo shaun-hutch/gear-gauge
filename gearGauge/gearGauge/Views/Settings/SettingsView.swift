@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SettingsView: View {    
+struct SettingsView: View {
     // value representing userDefault
     @State private var healthKitEnabled: Bool = false
     // distance unit (0 = km, 1 = mi)
@@ -20,6 +20,8 @@ struct SettingsView: View {
     @State private var isImportingWorkouts: Bool = false
     
     private let options: [String] = ["Kilometers", "Miles"]
+    
+    var healthKitWorkoutService: WorkoutServiceProtocol
     
     var body: some View {
         NavigationView {
@@ -56,7 +58,7 @@ struct SettingsView: View {
             Text("HealthKit Integration")
             Spacer()
             if healthKitEnabled {
-                Image(systemName: "checkmark")
+                Image(systemName: "checkmark") 
                     .foregroundStyle(.appTint)
                     .font(.body.bold())
                 
@@ -70,7 +72,7 @@ struct SettingsView: View {
                     isRequestingHealthKit = true
                     print("requested!")
                     Task {
-                        try await Task.sleep(nanoseconds: 1_000_000_000)
+                        await requestHealthKitPermissions()
                         isRequestingHealthKit = false
                     }
                 }) {
@@ -105,7 +107,7 @@ struct SettingsView: View {
                 Text("Import Workouts")
                     .foregroundStyle(.appTint)
                     .font(.body.bold())
-                    
+                
             }
             .frame(maxWidth: .infinity, alignment: .center)
         }
@@ -149,8 +151,14 @@ struct SettingsView: View {
         backgroundFetchEnabled = UserDefaultsService.get(forKey: Constants.hasBackgroundFetchEnabled) ?? false
     }
     
-    private func requestHealthKitPermissions() {
-        
+    private func requestHealthKitPermissions() async {
+        do {
+            try await healthKitWorkoutService.requestAccess()
+            healthKitEnabled = healthKitWorkoutService.hasAccess
+            UserDefaultHelpers.setHealthKitAccess(healthKitEnabled)
+        } catch {
+            print("Failed to request HK permissions: \(error)")
+        }
     }
     
     private var appVersionString: String {

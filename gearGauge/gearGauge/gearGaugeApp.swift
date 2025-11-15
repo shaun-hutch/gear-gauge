@@ -50,6 +50,10 @@ struct gearGaugeApp: App {
         WorkoutViewModel(workoutStore: workoutStore)
     }
     
+    var healthKitWorkoutService: WorkoutServiceProtocol {
+        HealthKitWorkoutService()
+    }
+    
     // MARK: - UI State
     
     @State private var showWelcomeAlert: Bool = false
@@ -59,7 +63,8 @@ struct gearGaugeApp: App {
             // Pass ViewModels to ContentView for dependency injection
             ContentView(
                 gearViewModel: gearViewModel,
-                workoutViewModel: workoutViewModel
+                workoutViewModel: workoutViewModel,
+                healthKitWorkoutService: healthKitWorkoutService
             )
             .onAppear {
                 if (UserDefaultHelpers.firstLaunch()) {
