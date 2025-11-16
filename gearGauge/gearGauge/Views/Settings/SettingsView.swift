@@ -19,6 +19,8 @@ struct SettingsView: View {
     @State private var backgroundFetchEnabled: Bool = false
     /// If the user has requested to manually import workouts
     @State private var isImportingWorkouts: Bool = false
+    /// if the user has premium status (has purchased)
+    @State private var hasPremium: Bool = false
     
     private let options: [String] = ["Kilometers", "Miles"]
     
@@ -30,19 +32,31 @@ struct SettingsView: View {
                 List {
                     Section(header: Text("HealthKit")) {
                         HealthKitToggleListItem
+                        if hasRequestedHealthKitAuth {
+                            healthKitOpenSettingsListItem
+                        }
+                        
+                    }
+                    Section(header: Text("Workout Loading")) {
                         HealthKitBackgroundFetchListItem
                         if hasRequestedHealthKitAuth {
                             ImportWorkoutsListItem
                         }
-                        
                     }
+                    
                     Section(header: Text("Distance Unit")) {
                         DistanceDenominationListItem
                     }
+                    Section(header: Text("Premium")) {
+                        PremiumStatusListItem
+                        UpgradeRestorePurchaseListItem
+                    }
+                    
                     VersionInfoListItem
                     
                 }
                 .scrollDisabled(true)
+                .listSectionSpacing(2)
                 
             }
             .onAppear {
@@ -54,39 +68,66 @@ struct SettingsView: View {
     }
     
     
+    // MARK: HealthKit section items
+    
     var HealthKitToggleListItem: some View {
-        HStack {
-            Text("HealthKit Integration")
-            Spacer()
-            if hasRequestedHealthKitAuth {
-                Image(systemName: "checkmark") 
-                    .foregroundStyle(.appTint)
-                    .font(.body.bold())
-                
-            } else if isRequestingHealthKit {
-                ProgressView()
-                    .progressViewStyle(.circular)
-                    .tint(.appTint)
-                
-            } else {
-                Button(action: {
-                    isRequestingHealthKit = true
-                    Task {
-                        await requestHealthKitPermissions()
-                        isRequestingHealthKit = false
-                    }
-                }) {
-                    HStack {
-                        Text("Request")
-                            .foregroundStyle(.appTint)
-                        Image(systemName: "heart.fill")
+        Button(action: {
+            // Only allow requesting if not already requested
+            guard !hasRequestedHealthKitAuth else { return }
+            
+            isRequestingHealthKit = true
+            Task {
+                await requestHealthKitPermissions()
+                isRequestingHealthKit = false
+            }
+        }) {
+            HStack {
+                Text("HealthKit Integration")
+                Spacer()
+                HStack {
+                    Text(hasRequestedHealthKitAuth ? "Requested" : "Request")
+                        .foregroundStyle(.appTint)
+                    if isRequestingHealthKit {
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                            .tint(.appTint)
+                    } else {
+                        Image(systemName: hasRequestedHealthKitAuth ? "checkmark" : "heart.fill")
                             .foregroundStyle(.appTint)
                             .font(.body.bold())
                     }
                 }
             }
         }
+        .buttonStyle(.plain) // Maintains list row appearance
+        .disabled(hasRequestedHealthKitAuth) // Disable entire row once requested
     }
+    
+    var healthKitOpenSettingsListItem: some View {
+        Button(action: {
+            openHealthAppsPage()
+        }) {
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    Text("Open in Health")
+                    Spacer()
+                    HStack {
+                        Text("Open")
+                            .foregroundStyle(.appTint)
+                        Image(systemName: "arrow.up.right.square.fill")
+                            .foregroundStyle(.appTint)
+                            .font(.body.bold())
+                    }
+                }
+                Text("In Health: Privacy → Apps → gearGauge")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .buttonStyle(.plain) // Maintains list row appearance
+    }
+    
+    // MARK: Background fetch & import
     
     var HealthKitBackgroundFetchListItem: some View {
         Toggle("Background Fetch", isOn: $backgroundFetchEnabled)
@@ -98,7 +139,7 @@ struct SettingsView: View {
     
     var ImportWorkoutsListItem: some View {
         Button(action: {
-            
+            importWorkouts()
         }) {
             HStack (alignment: .center){
                 Image(systemName: "square.and.arrow.down")
@@ -113,6 +154,7 @@ struct SettingsView: View {
         }
     }
     
+    // MARK: Distance unit section item
     
     var DistanceDenominationListItem: some View {
         Picker("", selection: $pickerDistanceUnit) {
@@ -126,6 +168,52 @@ struct SettingsView: View {
         .pickerStyle(.inline)
         .labelsHidden()
     }
+    
+    // MARK: Premium status
+    
+    var PremiumStatusListItem: some View {
+        HStack {
+            Text("Status")
+            Spacer()
+            Text(hasPremium ? "Premium" : "Free")
+                .foregroundStyle(hasPremium ? .appTint : .primary)
+                .font(.body.bold())
+        }
+    }
+    
+    var UpgradeRestorePurchaseListItem: some View {
+        HStack {
+            Button(action: {
+                print("restore purchase!")
+            }) {
+                HStack {
+                    Image(systemName: "purchased.circle")
+                        .foregroundStyle(.appTint)
+                        .font(.body.bold())
+                    Text("Restore")
+                        .foregroundStyle(.appTint)
+                }
+            }
+            .buttonStyle(.plain)
+            Spacer()
+            Button(action: {
+                print("purchase!")
+            }) {
+                HStack {
+                    Text("Purchase")
+                        .foregroundStyle(.appTint)
+                    Image(systemName: "dollarsign.circle")
+                        .foregroundStyle(.appTint)
+                        .font(.body.bold())
+                }
+            }
+            .buttonStyle(.plain)
+        }
+    }
+    
+    
+    
+    // MARK: Version information
     
     var VersionInfoListItem: some View {
         VStack {
@@ -152,7 +240,6 @@ struct SettingsView: View {
     }
     
     /// Requests HealthKit authorization from the user
-    /// 
     /// Note: Due to HealthKit's privacy design, we cannot determine if the user
     /// granted or denied permission. We only track that the authorization sheet
     /// was shown. Actual access is verified when attempting to fetch workouts.
@@ -170,6 +257,21 @@ struct SettingsView: View {
             hasRequestedHealthKitAuth = false
             UserDefaultsService.set(value: false, forKey: Constants.hasRequestedHealthKitAuthorization)
         }
+    }
+    
+    private func openHealthAppsPage() {
+        let url = URL(string: "x-apple-health://")!
+        
+        if UIApplication.shared.canOpenURL(url) {
+            print("can open")
+            UIApplication.shared.open(url)
+        } else {
+            print("cannot")
+        }
+    }
+    
+    private func importWorkouts() {
+        print("import workouts!")
     }
     
     private var appVersionString: String {
