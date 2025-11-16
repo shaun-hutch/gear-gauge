@@ -27,11 +27,6 @@ final class HealthKitWorkoutService: WorkoutServiceProtocol {
     /// Updated after calling enableBackgroundDelivery()
     var backgroundDeliveryAvailable: Bool = false
     
-    /// Indicates if authorization request has been completed
-    /// Note: This does NOT guarantee access was granted due to HealthKit's privacy design.
-    /// The only way to verify actual access is to attempt a fetch and check for empty results.
-    var hasAccess: Bool = false
-    
     // MARK: - Initialization
     
     init() {
@@ -53,7 +48,6 @@ final class HealthKitWorkoutService: WorkoutServiceProtocol {
         
         // Only reliable check: is HealthKit available on this device?
         guard HKHealthStore.isHealthDataAvailable() else {
-            hasAccess = false
             throw HealthKitError.notAvailable
         }
         
@@ -72,11 +66,6 @@ final class HealthKitWorkoutService: WorkoutServiceProtocol {
                 continuation.resume()
             }
         }
-        
-        // Per Apple's guidance: assume authorization completed successfully
-        // We cannot determine if user granted/denied due to HealthKit privacy protection
-        // Actual access will be verified on first fetch attempt
-        hasAccess = true
         
         // Best-effort: enable background delivery (fails silently if no access)
         enableBackgroundDelivery()

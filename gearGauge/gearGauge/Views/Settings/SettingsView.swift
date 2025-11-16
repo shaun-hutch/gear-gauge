@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct SettingsView: View {
-    // value representing userDefault
-    @State private var healthKitEnabled: Bool = false
-    // distance unit (0 = km, 1 = mi)
+    /// If the user has requested HealthKit authorization at least once
+    /// Note: This tracks if the authorization sheet was shown, NOT if access was granted
+    @State private var hasRequestedHealthKitAuth: Bool = false
+    /// Distance unit selection (0 = km, 1 = mi)
     @State private var pickerDistanceUnit: Int = 0
-    // if the user is in process of requesting HealthKit permission
+    /// If the user is in process of requesting HealthKit permission
     @State private var isRequestingHealthKit: Bool = false
-    // if the user wants automatic background fetching of workouts
+    /// If the user wants automatic background fetching of workouts
     @State private var backgroundFetchEnabled: Bool = false
-    // if the user has requested to manually import workouts
+    /// If the user has requested to manually import workouts
     @State private var isImportingWorkouts: Bool = false
     
     private let options: [String] = ["Kilometers", "Miles"]
@@ -30,7 +31,7 @@ struct SettingsView: View {
                     Section(header: Text("HealthKit")) {
                         HealthKitToggleListItem
                         HealthKitBackgroundFetchListItem
-                        if (healthKitEnabled) {
+                        if hasRequestedHealthKitAuth {
                             ImportWorkoutsListItem
                         }
                         
@@ -57,7 +58,7 @@ struct SettingsView: View {
         HStack {
             Text("HealthKit Integration")
             Spacer()
-            if healthKitEnabled {
+            if hasRequestedHealthKitAuth {
                 Image(systemName: "checkmark") 
                     .foregroundStyle(.appTint)
                     .font(.body.bold())
@@ -70,7 +71,6 @@ struct SettingsView: View {
             } else {
                 Button(action: {
                     isRequestingHealthKit = true
-                    print("requested!")
                     Task {
                         await requestHealthKitPermissions()
                         isRequestingHealthKit = false
@@ -146,7 +146,7 @@ struct SettingsView: View {
     
     
     private func loadSettings() {
-        healthKitEnabled = UserDefaultHelpers.getHealthKitAccess() ?? false
+        hasRequestedHealthKitAuth = UserDefaultsService.get(forKey: Constants.hasRequestedHealthKitAuthorization) ?? false
         pickerDistanceUnit = UserDefaultsService.get(forKey: Constants.distanceUnit) ?? 0
         backgroundFetchEnabled = UserDefaultsService.get(forKey: Constants.hasBackgroundFetchEnabled) ?? false
     }
@@ -154,22 +154,21 @@ struct SettingsView: View {
     /// Requests HealthKit authorization from the user
     /// 
     /// Note: Due to HealthKit's privacy design, we cannot determine if the user
-    /// granted or denied permission. We optimistically set hasAccess to true
-    /// after the authorization sheet is dismissed. Actual access is verified
-    /// when attempting to fetch workouts.
+    /// granted or denied permission. We only track that the authorization sheet
+    /// was shown. Actual access is verified when attempting to fetch workouts.
     private func requestHealthKitPermissions() async {
         do {
             try await healthKitWorkoutService.requestAccess()
-            // Optimistically assume authorization succeeded per Apple's guidance
-            // HealthKit won't reliably tell us if user denied access
-            healthKitEnabled = healthKitWorkoutService.hasAccess
-            UserDefaultHelpers.setHealthKitAccess(healthKitEnabled)
+            // Mark that we've shown the authorization sheet
+            // This does NOT mean access was granted, only that the flow completed
+            hasRequestedHealthKitAuth = true
+            UserDefaultsService.set(value: true, forKey: Constants.hasRequestedHealthKitAuthorization)
             print("✅ HealthKit authorization flow completed")
         } catch {
             // Only catches device capability errors, not authorization denials
             print("❌ Failed to request HealthKit permissions: \(error)")
-            healthKitEnabled = false
-            UserDefaultHelpers.setHealthKitAccess(false)
+            hasRequestedHealthKitAuth = false
+            UserDefaultsService.set(value: false, forKey: Constants.hasRequestedHealthKitAuthorization)
         }
     }
     
