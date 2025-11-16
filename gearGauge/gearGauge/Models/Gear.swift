@@ -16,8 +16,7 @@ final class Gear: BaseEntity {
     // MARK: main properties
     /// name of the gear
     var name: String
-    /// what category the gear is (stored as raw String value for SwiftData)
-    private var typeRawValue: String
+    
     /// how far the gear has gone in kilometres.
     /// Users can set this on create to manually set a distance on gear creation
     var currentDistance: Double
@@ -34,6 +33,14 @@ final class Gear: BaseEntity {
     /// gear end date (retirement date)
     var endDate: Date?
     
+    // MARK: Raw enum value handling
+    
+    /// what category the gear is (stored as raw String value for SwiftData)
+    private var typeRawValue: String
+    
+    /// Raw values of workout types (stored for SwiftData compatibility)
+    private var workoutTypeRawValues: [String]
+    
     /// The type of gear (computed from raw value)
     /// SwiftData cannot store enums, just primitive values
     var type: GearType {
@@ -45,6 +52,15 @@ final class Gear: BaseEntity {
         }
     }
     
+    /// What types of workouts this gear is for (computed from raw values)
+    var workoutTypes: [WorkoutType] {
+        get {
+            workoutTypeRawValues.compactMap { WorkoutType(rawValue: $0) }
+        }
+        set {
+            workoutTypeRawValues = newValue.map { $0.rawValue }
+        }
+    }
     
     // MARK: - Relationships
     /// Workouts associated with this gear item
@@ -62,7 +78,8 @@ final class Gear: BaseEntity {
         notes: String? = nil,
         isPrimary: Bool = false,
         isActive: Bool = true,
-        startDate: Date
+        startDate: Date,
+        workoutTypes: [WorkoutType] = []
     ) {
         self.name = name
         self.typeRawValue = type.rawValue
@@ -73,6 +90,7 @@ final class Gear: BaseEntity {
         self.isActive = isActive
         self.workouts = []
         self.startDate = startDate
+        self.workoutTypeRawValues = workoutTypes.map { $0.rawValue }
         
         // Call parent initializer with defaults
         super.init()
@@ -90,7 +108,8 @@ extension Gear {
             notes: "Great running shoes",
             isPrimary: true,
             isActive: true,
-            startDate: Date.newDateTime(year: 2025, month: 3, day: 15)
+            startDate: Date.newDateTime(year: 2025, month: 3, day: 15),
+            workoutTypes: [.outdoorRun, .indoorRun]
         )
     }
 }

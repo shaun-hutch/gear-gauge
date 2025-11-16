@@ -15,6 +15,9 @@ struct HomeView: View {
     /// Provides access to primary gear and handles loading/error states
     var gearViewModel: GearViewModel
     
+    /// flag to determine if to show the new gear sheet
+    @State private var newGear = false
+    
     var body: some View {
         Group {
             if gearViewModel.isLoading {
@@ -33,6 +36,9 @@ struct HomeView: View {
             // Fetch primary gear when view appears
             gearViewModel.fetchPrimaryGear()
         }
+        .sheet(isPresented: $newGear) {
+            EditGearView(gearViewModel: gearViewModel)
+        }
     }
     
     func errorView(error: String) -> some View {
@@ -40,6 +46,7 @@ struct HomeView: View {
             "Unable to load gear",
             systemImage: "exclamationmark.triangle",
             description: Text(error)
+            
         )
     }
     
@@ -51,7 +58,7 @@ struct HomeView: View {
             Text("Set up your first gear to start tracking.")
         } actions: {
             Button(action: {
-                print("add clicked!")
+                newGear = true
             }) {
                 HStack {
                     Image(systemName: "plus")

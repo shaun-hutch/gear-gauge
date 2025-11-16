@@ -27,7 +27,7 @@ struct SettingsView: View {
     var healthKitWorkoutService: WorkoutServiceProtocol
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 List {
                     Section(header: Text("HealthKit")) {
@@ -55,7 +55,6 @@ struct SettingsView: View {
                     VersionInfoListItem
                     
                 }
-                .scrollDisabled(true)
                 .listSectionSpacing(2)
                 
             }
@@ -119,7 +118,7 @@ struct SettingsView: View {
                             .font(.body.bold())
                     }
                 }
-                Text("In Health: Privacy → Apps → gearGauge")
+                Text("In Health: Profile → Privacy → Apps → gearGauge")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
