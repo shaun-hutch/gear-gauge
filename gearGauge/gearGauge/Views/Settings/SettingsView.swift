@@ -151,13 +151,25 @@ struct SettingsView: View {
         backgroundFetchEnabled = UserDefaultsService.get(forKey: Constants.hasBackgroundFetchEnabled) ?? false
     }
     
+    /// Requests HealthKit authorization from the user
+    /// 
+    /// Note: Due to HealthKit's privacy design, we cannot determine if the user
+    /// granted or denied permission. We optimistically set hasAccess to true
+    /// after the authorization sheet is dismissed. Actual access is verified
+    /// when attempting to fetch workouts.
     private func requestHealthKitPermissions() async {
         do {
             try await healthKitWorkoutService.requestAccess()
+            // Optimistically assume authorization succeeded per Apple's guidance
+            // HealthKit won't reliably tell us if user denied access
             healthKitEnabled = healthKitWorkoutService.hasAccess
             UserDefaultHelpers.setHealthKitAccess(healthKitEnabled)
+            print("✅ HealthKit authorization flow completed")
         } catch {
-            print("Failed to request HK permissions: \(error)")
+            // Only catches device capability errors, not authorization denials
+            print("❌ Failed to request HealthKit permissions: \(error)")
+            healthKitEnabled = false
+            UserDefaultHelpers.setHealthKitAccess(false)
         }
     }
     
