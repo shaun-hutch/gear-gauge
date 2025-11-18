@@ -46,3 +46,13 @@ extension Date {
         return Calendar.current.date(from: components) ?? Date()
     }
 }
+
+extension Double {
+    static func ConvertToKm(mileValue: Double) -> Double {
+        return mileValue * 1.60934
+    }
+    
+    static func ConvertToMi(kmValue: Double) -> Double {
+        return kmValue / 1.60934
+    }
+}

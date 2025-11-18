@@ -22,6 +22,11 @@ struct EditGearView: View {
     /// The gear being edited (nil if creating new gear)
     var existingGear: Gear?
     
+    // MARK: Private variables
+    /// Absolute limits to prevent accidental huge values (stored in the user's chosen unit)
+    private let absoluteMinDistance: Double = 0.0
+    private let absoluteMaxDistance: Double = Constants.maximumGearDistance
+    
     // MARK: - Local State
     
     /// Local editable state for the gear being created/edited
@@ -29,8 +34,8 @@ struct EditGearView: View {
     @State private var type: GearType = .shoes
     
     /// Distance values (may be in km or miles depending on user preference, always save in km)
-    @State private var currentDistance: Double = 0
-    @State private var maxDistance: Double = 0
+    @State private var currentDistance: Double = 0.0
+    @State private var maxDistance: Double = 0.0
     
     @State private var notes: String = ""
     @State private var isPrimary: Bool = false
@@ -43,11 +48,22 @@ struct EditGearView: View {
     /// Validation error message
     @State private var validationError: String?
     
+    /// Focus state used to dismiss the keyboard for the notes field
+    @FocusState private var notesFocused: Bool
+    
     // MARK: - Computed Properties
     
     /// True if creating new gear, false if editing existing
     private var isNewGear: Bool {
         existingGear == nil
+    }
+    
+    /// distance unit option from UserDefaults (0 = km, 1 = mi)
+    private var distanceUnit: Int {
+        UserDefaultsService.get(forKey: Constants.distanceUnit) ?? 0
+    }
+    private var distanceUnitSuffix: String {
+        distanceUnit == 0 ? "km" : "mi"
     }
     
     
@@ -57,6 +73,7 @@ struct EditGearView: View {
                 Section(header: Text("Details")) {
                     GearNameField
                     GearTypeField
+                    GearStartDateField
                 }
                 
                 Section(header: Text("Notes")) {
@@ -64,13 +81,13 @@ struct EditGearView: View {
                 }
                 
                 Section(header: Text("Distance")) {
-                    // TODO: Add distance input fields
-                    // TODO: Respect user's distance unit preference
+                    InitialDistanceField
+                    MaxDistanceField
                 }
                 
                 Section {
-                    Toggle("Primary Gear", isOn: $isPrimary)
-                    Toggle("Active", isOn: $isActive)
+                    PrimaryGearToggle
+                    IsActiveGearToggle
                 }
                 
                 if let error = validationError {
@@ -85,25 +102,33 @@ struct EditGearView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "xmark")
-                            .foregroundStyle(.appTint)
-                    }
+                    CancelButton
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(action: {
-                        saveGear()
-                    }) {
-                        Image(systemName: "checkmark")
-                            .foregroundStyle(.appTint)
-                    }
-                    .disabled(name.isEmpty)
+                    ConfirmButton
                 }
             }
             .onAppear {
                 loadGear()
+            }
+            .toolbar {
+                ToolbarItem(placement: .keyboard) {
+                        HStack {
+                            Button(action: {
+                                notesFocused = false
+                            }) {
+                                Image(systemName: "checkmark")
+                                    .foregroundStyle(.appTint)
+                                    .font(.body.weight(.semibold))
+                            }
+                            .tint(.appTint)
+                        }
+                        .background(.bar.opacity(0.5), in: .capsule)
+                        .glassEffect()
+                        .shadow(color: .black.opacity(0.2), radius: 20, y: 10)
+                        .padding(.bottom, 20)
+                    }
+                    .sharedBackgroundVisibility(.hidden)
             }
         }
     }
@@ -111,7 +136,6 @@ struct EditGearView: View {
     // MARK: UI edit components
     var GearNameField: some View {
         TextField("Name", text: $name)
-            .textContentType(.name)
     }
     
     var GearTypeField: some View {
@@ -124,12 +148,86 @@ struct EditGearView: View {
         .tint(.appTint)
     }
     
+    var GearStartDateField: some View {
+        DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
+            .tint(.appTint)
+        
+    }
+    
     var GearNotesField: some View {
         TextEditor(text: $notes)
             .frame(minHeight: 100)
-            .background(Color.clear)
+            .focused($notesFocused)
     }
     
+    
+    var InitialDistanceField: some View {
+        HStack {
+            Text("Initial distance")
+            Spacer()
+            HStack(spacing: 6) {
+                TextField("", value: $currentDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
+                    .keyboardType(.decimalPad)
+                    .multilineTextAlignment(.trailing)
+                    .frame(minWidth: 60, maxWidth: 120)
+                    .onChange(of: currentDistance, { _, newValue in
+                        onInitialDistanceChange(value: newValue)
+                    })
+                Text(distanceUnitSuffix)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+    
+    var MaxDistanceField: some View {
+        HStack {
+            Text("Maximum distance")
+            Spacer()
+            HStack(spacing: 6) {
+                TextField("", value: $maxDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
+                    .keyboardType(.decimalPad)
+                    .multilineTextAlignment(.trailing)
+                    .frame(minWidth: 60, maxWidth: 120)
+                    .onChange(of: maxDistance, { _, newValue in
+                        onMaxDistanceChange(value: newValue)
+                    })
+                Text(distanceUnitSuffix)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        
+    }
+    
+    
+    var PrimaryGearToggle: some View {
+        Toggle("Primary Gear", isOn: $isPrimary)
+            .tint(.appTint)
+    }
+    
+    var IsActiveGearToggle: some View {
+        Toggle("Active", isOn: $isActive)
+            .tint(.appTint)
+    }
+    
+    // MARK: Nav button actions
+    var ConfirmButton: some View {
+        Button(action: {
+            saveGear()
+        }) {
+            Image(systemName: "checkmark")
+                .foregroundStyle(.appTint)
+        }
+        .disabled(name.isEmpty)
+    }
+    
+    var CancelButton: some View {
+        Button(action: {
+            dismiss()
+        }) {
+            Image(systemName: "xmark")
+                .foregroundStyle(.appTint)
+        }
+    }
     
     // MARK: - Private Methods
     
@@ -141,8 +239,8 @@ struct EditGearView: View {
             // Edit mode - populate from existing gear
             name = gear.name
             type = gear.type
-            currentDistance = gear.currentDistance
-            maxDistance = gear.maxDistance
+            currentDistance = distanceUnit == 1 ? Double.ConvertToMi(kmValue: gear.currentDistance) : gear.currentDistance
+            maxDistance = distanceUnit == 1 ? Double.ConvertToMi(kmValue: gear.maxDistance) : gear.maxDistance
             notes = gear.notes ?? ""
             isPrimary = gear.isPrimary
             isActive = gear.isActive
@@ -153,7 +251,7 @@ struct EditGearView: View {
             name = ""
             type = .shoes
             currentDistance = 0
-            maxDistance = 1000 // Default max distance
+            maxDistance = distanceUnit == 1 ? 600 : 1000 // Default max distance (600 mi, 1000 km)
             notes = ""
             isPrimary = false
             isActive = true
@@ -183,8 +281,9 @@ struct EditGearView: View {
             // Update existing gear
             gear.name = name
             gear.type = type
-            gear.currentDistance = currentDistance
-            gear.maxDistance = maxDistance
+            gear.currentDistance = distanceUnit == 1 ? Double.ConvertToKm(mileValue: currentDistance) : currentDistance
+            gear.maxDistance = distanceUnit == 1 ? Double.ConvertToKm(mileValue: maxDistance) :
+            maxDistance
             gear.notes = notes.isEmpty ? nil : notes
             gear.isPrimary = isPrimary
             gear.isActive = isActive
@@ -217,7 +316,52 @@ struct EditGearView: View {
             }
         }
     }
+    
+    /// Recommended max distance per gear type (for UI hints, not enforced)
+    private func recommendedMaxForType(_ type: GearType) -> Double {
+        switch type {
+        case .shoes:
+            return distanceUnit == 1 ? 600 : 1000 // miles vs km
+        case .bicycle:
+            return distanceUnit == 1 ? 5000 : 8000
+        }
+    }
+    
+    /// Helper to clamp to absolute bounds
+    private func clampedDistance(_ value: Double) -> Double {
+        min(max(value, absoluteMinDistance), absoluteMaxDistance)
+    }
+    
+    private func onInitialDistanceChange(value: Double) {
+        let clamped = clampedDistance(value)
+        if clamped != value {
+            currentDistance = clamped
+        }
+        // if current exceeds max, push max up to match current
+        if currentDistance > maxDistance {
+            maxDistance = currentDistance
+        }
+    }
+    
+    private func onMaxDistanceChange(value: Double) {
+        let clamped = clampedDistance(value)
+        if clamped != value {
+            maxDistance = clamped
+        }
+        // if max is now below current, raise current to match max (or alternatively lower current)
+        if maxDistance < currentDistance {
+            currentDistance = maxDistance
+        }
+    }
+    
+    // MARK: Validation checks
+    // name not empty
+    // max distance > 0
+    // workout types selected
+    
 }
+
+// MARK: Previews
 
 #Preview("New Gear") {
     // Create a single in-memory container for the preview

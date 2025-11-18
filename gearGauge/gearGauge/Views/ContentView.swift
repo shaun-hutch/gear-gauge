@@ -12,7 +12,7 @@ struct ContentView: View {
     // MARK: - State
     
     /// Currently selected tab in the TabView
-    @State public var selectedTab: Int = 2
+    @State public var selectedTab: Int = 0
     
     // MARK: - ViewModels
     
