@@ -113,22 +113,27 @@ struct EditGearView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
-                        HStack {
-                            Button(action: {
-                                notesFocused = false
-                            }) {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            notesFocused = false
+                        }) {
+                            HStack {
                                 Image(systemName: "checkmark")
                                     .foregroundStyle(.appTint)
                                     .font(.body.weight(.semibold))
                             }
-                            .tint(.appTint)
                         }
-                        .background(.bar.opacity(0.5), in: .capsule)
-                        .glassEffect()
-                        .shadow(color: .black.opacity(0.2), radius: 20, y: 10)
-                        .padding(.bottom, 20)
+                        .buttonBorderShape(.circle)
+                        .padding(6)
+                        .tint(.appTint)
+                        .glassEffect(.regular.tint(.clear).interactive())
+                        .frame(width: 44, height: 44, alignment: .trailing)
                     }
-                    .sharedBackgroundVisibility(.hidden)
+                    .padding(.bottom, 20)
+                }
+                .sharedBackgroundVisibility(.hidden)
+                
             }
         }
     }
