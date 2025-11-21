@@ -12,36 +12,57 @@ struct GaugeView: View {
     
     @Environment(\.colorScheme) private var colorScheme
     
-    private let lineWidth: CGFloat = 50
+    // Track animation state
+    @State private var animationProgress: CGFloat = 0
+    
+    private let lineWidth: CGFloat = 40
     
     var body: some View {
-        VStack {
-            Circle()
-                .strokeBorder(lineWidth: lineWidth)
-                .overlay {
-                    VStack {
-                        Image(systemName: gear.type.displayIcon)
-                            .font(.system(size: 120))
-                            .foregroundStyle(.appTint)
-                        
-                    }
-                }
-                .overlay {
-                    ProgressGauge(maxDistance: gear.maxDistance, currentDistance: gear.currentDistance, lineWidth: lineWidth)
-                        .stroke(.appTint, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
-                }
-                .frame(width: 300, height: 300) // 150 radius
-                .foregroundStyle(.appTint.opacity(0.3))
+        ZStack {
+            ProgressGauge(maxDistance: 1, currentDistance: 1, lineWidth: lineWidth)
+                .stroke(.appTint.opacity(0.3), style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
             
+            .glassEffect()
             
+            ProgressGauge(maxDistance: gear.maxDistance, currentDistance: gear.currentDistance, lineWidth: lineWidth)
+                .trim(from: 0, to: animationProgress)
+                .stroke(.appTint, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
+       
+                    .shadow(color: .white.opacity(0.5), radius: 2, x: 0, y: -1)
+                    .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
+
+            Image(systemName: gear.type.displayIcon)
+                .font(.system(size: 100))
+                .foregroundStyle(.appTint)
+            
+                .symbolRenderingMode(.hierarchical)
+                .background(Circle()
+                    .fill(.appTint.opacity(0.3))
+                    .frame(width: 200, height: 200)
+                    .glassEffect()
+                )
         }
-        .padding()
+        .frame(width: 300, height: 300)
+        .onAppear {
+            animateProgress()
+        }
+        // if user creates a gear item
+        .onChange(of: gear) {
+            animateProgress()
+        }
+        
+    }
+    
+    private func animateProgress() {
+        withAnimation(.spring(response: 2, dampingFraction: 0.9)){
+            animationProgress = 1
+        }
     }
 }
 
 #Preview {
     var gear = Gear.SampleGear()
-    gear.currentDistance = 900
+    gear.currentDistance = 500
     
     return GaugeView(gear: gear)
 }

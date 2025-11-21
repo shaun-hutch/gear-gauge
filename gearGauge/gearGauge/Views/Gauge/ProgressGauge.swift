@@ -14,7 +14,7 @@ struct ProgressGauge: Shape {
     
     init(maxDistance: Double, currentDistance: Double, lineWidth: CGFloat) {
         self.maxDistance = maxDistance
-        self.currentDistance = currentDistance
+        self.currentDistance = currentDistance + 0.5
         self.lineWidth = lineWidth
     }
     
