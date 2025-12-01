@@ -19,38 +19,46 @@ struct GaugeView: View {
     
     var body: some View {
         ZStack {
-            ProgressGauge(maxDistance: 1, currentDistance: 1, lineWidth: lineWidth)
-                .stroke(.appTint.opacity(0.3), style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
-            
-            .glassEffect()
-            
-            ProgressGauge(maxDistance: gear.maxDistance, currentDistance: gear.currentDistance, lineWidth: lineWidth)
-                .trim(from: 0, to: animationProgress)
-                .stroke(.appTint, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
-       
-                    .shadow(color: .white.opacity(0.5), radius: 2, x: 0, y: -1)
-                    .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
-
-            Image(systemName: gear.type.displayIcon)
-                .font(.system(size: 100))
-                .foregroundStyle(.appTint)
-            
-                .symbolRenderingMode(.hierarchical)
-                .background(Circle()
-                    .fill(.appTint.opacity(0.3))
-                    .frame(width: 200, height: 200)
-                    .glassEffect()
-                )
+            baseCircle
+            progressCircle
+            gearImage
         }
         .frame(width: 300, height: 300)
         .onAppear {
             animateProgress()
         }
-        // if user creates a gear item
         .onChange(of: gear) {
             animateProgress()
         }
         
+    }
+    
+    var baseCircle: some View {
+        ProgressGauge(maxDistance: 1, currentDistance: 1, lineWidth: lineWidth)
+            .stroke(.appTint.opacity(0.3), style: StrokeStyle(lineWidth: lineWidth))
+            
+            .glassEffect()
+    }
+    
+    var progressCircle: some View {
+        ProgressGauge(maxDistance: gear.maxDistance, currentDistance: gear.currentDistance, lineWidth: lineWidth)
+            .trim(from: 0, to: animationProgress)
+            .stroke(.appTint, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
+            .shadow(color: .white.opacity(0.5), radius: 2, x: 0, y: -1)
+            .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
+    }
+    
+    var gearImage: some View {
+        Image(systemName: gear.type.displayIcon)
+            .font(.system(size: 100))
+            .foregroundStyle(.appTint)
+        
+            .symbolRenderingMode(.hierarchical)
+            .background(Circle()
+                .fill(.appTint.opacity(0.3))
+                .frame(width: 200, height: 200)
+                .glassEffect()
+            )
     }
     
     private func animateProgress() {
@@ -62,7 +70,7 @@ struct GaugeView: View {
 
 #Preview {
     var gear = Gear.SampleGear()
-    gear.currentDistance = 500
+    gear.currentDistance = 900
     
     return GaugeView(gear: gear)
 }
