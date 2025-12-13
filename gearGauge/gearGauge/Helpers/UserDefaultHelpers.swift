@@ -25,4 +25,12 @@ struct UserDefaultHelpers {
             return false
         }
     }
+    
+    /// distance unit option from UserDefaults (0 = km, 1 = mi)
+    static var distanceUnit: Int {
+        UserDefaultsService.get(forKey: Constants.distanceUnit) ?? 0
+    }
+    static var distanceUnitSuffix: String {
+        distanceUnit == 0 ? "km" : "mi"
+    }
 }

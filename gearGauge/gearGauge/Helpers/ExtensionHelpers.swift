@@ -48,11 +48,17 @@ extension Date {
 }
 
 extension Double {
-    static func ConvertToKm(mileValue: Double) -> Double {
+    static func ConvertToKm(_ mileValue: Double) -> Double {
         return mileValue * 1.60934
     }
     
-    static func ConvertToMi(kmValue: Double) -> Double {
+    static func ConvertToMi(_ kmValue: Double) -> Double {
         return kmValue / 1.60934
+    }
+}
+
+extension Color {
+    static func textTintColor(_ colorScheme: ColorScheme) -> Color {
+        return colorScheme == .dark ? .black : .white
     }
 }

@@ -62,6 +62,12 @@ final class Gear: BaseEntity {
         }
     }
     
+    // MARK: Computed fields
+    
+    var currentDistanceMiles: Double { Double.ConvertToMi(currentDistance) }
+    
+    var maxDistanceMiles: Double { Double.ConvertToMi(maxDistance) }
+    
     // MARK: - Relationships
     /// Workouts associated with this gear item
     /// When a workout is deleted, it's removed from this gear's workout list (nullify)

@@ -27,6 +27,9 @@ struct EditGearView: View {
     private let absoluteMinDistance: Double = 0.0
     private let absoluteMaxDistance: Double = Constants.maximumGearDistance
     
+    private let distanceUnit: Int = UserDefaultHelpers.distanceUnit
+    private let distanceUnitSuffix: String = UserDefaultHelpers.distanceUnitSuffix
+    
     // MARK: - Local State
     
     /// Local editable state for the gear being created/edited
@@ -57,15 +60,6 @@ struct EditGearView: View {
     private var isNewGear: Bool {
         existingGear == nil
     }
-    
-    /// distance unit option from UserDefaults (0 = km, 1 = mi)
-    private var distanceUnit: Int {
-        UserDefaultsService.get(forKey: Constants.distanceUnit) ?? 0
-    }
-    private var distanceUnitSuffix: String {
-        distanceUnit == 0 ? "km" : "mi"
-    }
-    
     
     var body: some View {
         NavigationStack {
@@ -244,8 +238,8 @@ struct EditGearView: View {
             // Edit mode - populate from existing gear
             name = gear.name
             type = gear.type
-            currentDistance = distanceUnit == 1 ? Double.ConvertToMi(kmValue: gear.currentDistance) : gear.currentDistance
-            maxDistance = distanceUnit == 1 ? Double.ConvertToMi(kmValue: gear.maxDistance) : gear.maxDistance
+            currentDistance = distanceUnit == 1 ? Double.ConvertToMi(gear.currentDistance) : gear.currentDistance
+            maxDistance = distanceUnit == 1 ? Double.ConvertToMi(gear.maxDistance) : gear.maxDistance
             notes = gear.notes ?? ""
             isPrimary = gear.isPrimary
             isActive = gear.isActive
@@ -286,8 +280,8 @@ struct EditGearView: View {
             // Update existing gear
             gear.name = name
             gear.type = type
-            gear.currentDistance = distanceUnit == 1 ? Double.ConvertToKm(mileValue: currentDistance) : currentDistance
-            gear.maxDistance = distanceUnit == 1 ? Double.ConvertToKm(mileValue: maxDistance) :
+            gear.currentDistance = distanceUnit == 1 ? Double.ConvertToKm(currentDistance) : currentDistance
+            gear.maxDistance = distanceUnit == 1 ? Double.ConvertToKm(maxDistance) :
             maxDistance
             gear.notes = notes.isEmpty ? nil : notes
             gear.isPrimary = isPrimary
@@ -380,7 +374,7 @@ struct EditGearView: View {
     // Create ViewModels with mock stores
     let gearViewModel = GearViewModel(gearStore: mockGearStore)
     
-    return EditGearView(gearViewModel: gearViewModel, existingGear: nil)
+    EditGearView(gearViewModel: gearViewModel, existingGear: nil)
         .modelContainer(container)
 }
 
