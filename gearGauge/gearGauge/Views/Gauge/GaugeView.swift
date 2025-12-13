@@ -21,7 +21,7 @@ struct GaugeView: View {
         ZStack {
             baseCircle
             progressCircle
-            gearImage
+            GearDistanceView(gear: gear)
         }
         .frame(width: 300, height: 300)
         .onAppear {
@@ -47,19 +47,7 @@ struct GaugeView: View {
             .shadow(color: .white.opacity(0.5), radius: 2, x: 0, y: -1)
             .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
     }
-    
-    var gearImage: some View {
-        Image(systemName: gear.type.displayIcon)
-            .font(.system(size: 100))
-            .foregroundStyle(.appTint)
-        
-            .symbolRenderingMode(.hierarchical)
-            .background(Circle()
-                .fill(.appTint.opacity(0.3))
-                .frame(width: 200, height: 200)
-                .glassEffect()
-            )
-    }
+
     
     private func animateProgress() {
         withAnimation(.spring(response: 2, dampingFraction: 0.9)){
