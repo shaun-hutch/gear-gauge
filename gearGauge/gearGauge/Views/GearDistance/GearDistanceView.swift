@@ -61,10 +61,12 @@ struct GearDistanceView: View {
             Text(label)
                 .foregroundStyle(.appTint)
                 .font(.system(size: 70))
+                .fontWeight(.bold)
                 .frame(alignment: .center)
             Text(suffix)
                 .foregroundStyle(.appTint)
                 .font(.system(size: 20))
+                .fontWeight(.bold)
             .frame(alignment: .center)
                 
         }

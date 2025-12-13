@@ -47,6 +47,7 @@ extension Date {
     }
 }
 
+// MARK: Double
 extension Double {
     static func ConvertToKm(_ mileValue: Double) -> Double {
         return mileValue * 1.60934
@@ -57,8 +58,18 @@ extension Double {
     }
 }
 
+// MARK: Color
 extension Color {
     static func textTintColor(_ colorScheme: ColorScheme) -> Color {
         return colorScheme == .dark ? .black : .white
+    }
+}
+
+// MARK: Font
+extension Font {
+    static func customFont(size: CGFloat) -> Font {
+        // Replace "YourFontName-Regular" with the actual filename of your font (without extension)
+        // or the PostScript name of the font.
+        return Font.custom("Michroma-Regular", size: size)
     }
 }

@@ -50,14 +50,30 @@ struct HomeView: View {
     }
     
     func mainView(mainGear: Gear) -> some View {
-        VStack {
-            gearTitle(title: mainGear.name, type: mainGear.type)
-                .padding(.bottom, 50)
-            GaugeView(gear: mainGear)
-            Spacer()
+        GeometryReader { geometry in
+            ZStack {
+                VStack(spacing: 20) {
+                    gearTitle(title: mainGear.name, type: mainGear.type)
+                    
+                    GaugeView(gear: mainGear)
+                    
+                    // element to keep GaugeView centered in VStack
+                    Rectangle()
+                        .frame(height: 50)
+                        .padding(4)
+                        .hidden()
+                }
+                // gets the height used by the TabView at the bottom, offsets by half height
+                .offset(y: -geometry.safeAreaInsets.top / 2)
+                
+                VStack {
+                    AppTitleView()
+                    Spacer()
+                }
+            }
         }
-        .padding(.top, 30)
     }
+        
     
     
     // MARK: Main Views
