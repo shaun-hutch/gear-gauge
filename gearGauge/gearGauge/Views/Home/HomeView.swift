@@ -63,8 +63,7 @@ struct HomeView: View {
                         .padding(4)
                         .hidden()
                 }
-                // gets the height used by the TabView at the bottom, offsets by half height
-                .offset(y: -geometry.safeAreaInsets.top / 2)
+                .offset(y: geometry.safeAreaInsets.bottom / 2)
                 
                 VStack {
                     AppTitleView()

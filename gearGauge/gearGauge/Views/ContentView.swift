@@ -66,6 +66,9 @@ struct ContentView: View {
     let container = SharedModelContainer.create(inMemory: true)
     let context = container.mainContext
     
+    context.insert(Gear.SampleGear())
+    try? context.save()
+    
     // Create mock stores for preview using the same context
     let mockDataStore = DataStore(modelContext: context)
     let mockGearStore = GearStore(dataStore: mockDataStore)
