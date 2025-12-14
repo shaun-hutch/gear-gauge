@@ -19,6 +19,8 @@ struct EditGearView: View {
     /// ViewModel for gear operations (loading and saving)
     var gearViewModel: GearViewModel
     
+    var workoutSyncService: WorkoutSyncService?
+    
     /// The gear being edited (nil if creating new gear)
     var existingGear: Gear?
     
@@ -255,7 +257,7 @@ struct EditGearView: View {
             isPrimary = false
             isActive = true
             startDate = Date()
-            workoutTypes = []
+            workoutTypes = [WorkoutType.outdoorRun, WorkoutType.outdoorWalk] // TODO come back later
         }
     }
     
@@ -309,6 +311,10 @@ struct EditGearView: View {
             )
             
             if gearViewModel.createGear(newGear) {
+                // run sync here
+                Task {
+                    try? await workoutSyncService?.syncWorkouts()
+                }
                 dismiss()
             } else {
                 validationError = "Failed to create gear"

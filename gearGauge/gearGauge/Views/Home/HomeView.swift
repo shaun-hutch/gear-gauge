@@ -45,6 +45,12 @@ struct HomeView: View {
         .sheet(isPresented: $newGear) {
             EditGearView(gearViewModel: gearViewModel)
         }
+        .onChange(of: newGear) { oldValue, newValue in
+            print("newGear: \(newGear)")
+            if newGear == false {
+                gearViewModel.fetchPrimaryGear()
+            }
+        }
         
         
     }

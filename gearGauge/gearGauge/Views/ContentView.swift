@@ -28,6 +28,10 @@ struct ContentView: View {
     /// Injected from app level to maintain consistent state
     var healthKitWorkoutService: WorkoutServiceProtocol
     
+    /// Service protocol for  sync calls
+    /// Injected from app level
+    var workoutSyncService: WorkoutSyncServiceProtocol
+    
     var body: some View {
         TabView(selection: $selectedTab) {
             // Home tab - filled gauge when selected, outline when not
@@ -48,7 +52,7 @@ struct ContentView: View {
             
             // Settings tab - filled gear when selected, outline when not
             Tab(value: 2) {
-                SettingsView(healthKitWorkoutService: healthKitWorkoutService)
+                SettingsView(healthKitWorkoutService: healthKitWorkoutService, workoutSyncService: workoutSyncService)
             } label: {
                 Label(.tabLabelSettings, systemImage: "gear")
             }
@@ -80,10 +84,13 @@ struct ContentView: View {
     
     let healthKitWorkoutService = HealthKitWorkoutService()
     
+    let workoutSyncService = WorkoutSyncService(workoutService: healthKitWorkoutService, workoutStore: mockWorkoutStore, gearStore: mockGearStore)
+    
     return ContentView(
         gearViewModel: gearViewModel,
         workoutViewModel: workoutViewModel,
-        healthKitWorkoutService: healthKitWorkoutService
+        healthKitWorkoutService: healthKitWorkoutService,
+        workoutSyncService: workoutSyncService
     )
     .modelContainer(container)
 }

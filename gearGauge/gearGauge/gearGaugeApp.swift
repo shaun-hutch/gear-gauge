@@ -54,22 +54,54 @@ struct gearGaugeApp: App {
         HealthKitWorkoutService()
     }
     
+    // MARK: Computed Properties
+    
+    var workoutSyncService: WorkoutSyncServiceProtocol {
+        WorkoutSyncService(
+            workoutService: healthKitWorkoutService,
+            workoutStore: workoutStore,
+            gearStore: gearStore
+        )
+    }
+    
     // MARK: - UI State
     
     @State private var showWelcomeAlert: Bool = false
-
+    
+    // Task to handle HealthKit observation
+    @State private var observerTask: Task<Void, Never>?
+    
     var body: some Scene {
         WindowGroup {
             // Pass ViewModels to ContentView for dependency injection
             ContentView(
                 gearViewModel: gearViewModel,
                 workoutViewModel: workoutViewModel,
-                healthKitWorkoutService: healthKitWorkoutService
+                healthKitWorkoutService: healthKitWorkoutService,
+                workoutSyncService: workoutSyncService
             )
             .onAppear {
                 if (UserDefaultHelpers.firstLaunch()) {
                     showWelcomeAlert = true
                 }
+                
+                // only try sync if HealthKit has been requested
+                if (UserDefaultsService.get(forKey: Constants.hasRequestedHealthKitAuthorization) ?? false) {
+                    // Perform initial sync on app launch
+                    Task {
+                        try? await workoutSyncService.syncWorkouts()
+                    }
+                    
+                    // Start observing HealthKit if background fetch is enabled
+                    if UserDefaultsService.get(forKey: Constants.hasBackgroundFetchEnabled) ?? false {
+                        observerTask = workoutSyncService.startObserving()
+                    }
+                }
+                
+            }
+            .onDisappear {
+                // Cancel observation when app goes to background
+                observerTask?.cancel()
             }
             .alert("Welcome", isPresented: $showWelcomeAlert) {
                 Button("OK") { showWelcomeAlert = false }
@@ -78,6 +110,23 @@ struct gearGaugeApp: App {
             }
         }
         .modelContainer(sharedModelContainer)
+        .backgroundTask(.appRefresh("workoutSync")) {
+            // Periodic background fetch (iOS will schedule this)
+            // Typically runs every 4-8 hours when app is backgrounded
+            print("🔄 Background refresh triggered")
+            
+            guard await UserDefaultsService.get(forKey: Constants.hasBackgroundFetchEnabled) ?? false else {
+                print("⚠️ Background fetch disabled")
+                return
+            }
+            
+            do {
+                let count = try await workoutSyncService.syncWorkouts()
+                print("✅ Background sync completed: \(count) workouts")
+            } catch {
+                print("❌ Background sync failed: \(error)")
+            }
+        }
     }
 }
-	
+

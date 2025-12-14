@@ -18,13 +18,15 @@ struct SettingsView: View {
     /// If the user wants automatic background fetching of workouts
     @State private var backgroundFetchEnabled: Bool = false
     /// If the user has requested to manually import workouts
-    @State private var isImportingWorkouts: Bool = false
+    @State private var isSyncingWorkouts: Bool = false
     /// if the user has premium status (has purchased)
     @State private var hasPremium: Bool = false
     
     private let options: [String] = ["Kilometers", "Miles"]
     
     var healthKitWorkoutService: WorkoutServiceProtocol
+    
+    var workoutSyncService: WorkoutSyncServiceProtocol
     
     var body: some View {
         NavigationStack {
@@ -133,6 +135,12 @@ struct SettingsView: View {
             .tint(.appTint)
             .onChange(of: backgroundFetchEnabled) { _, newValue in
                 UserDefaultsService.set(value: newValue, forKey: Constants.hasBackgroundFetchEnabled)
+                
+                if (newValue) {
+                    Task {
+                        workoutSyncService.startObserving()
+                    }
+                }
             }
     }
     
@@ -141,16 +149,23 @@ struct SettingsView: View {
             importWorkouts()
         }) {
             HStack (alignment: .center){
-                Image(systemName: "square.and.arrow.down")
-                    .foregroundStyle(.appTint)
-                    .font(.body.bold())
-                Text("Import Workouts")
+                if (isSyncingWorkouts) {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .tint(.appTint)
+                } else {
+                    Image(systemName: "square.and.arrow.down")
+                        .foregroundStyle(.appTint)
+                        .font(.body.bold())
+                }
+                Text(isSyncingWorkouts ? "Syncing" : "Sync Workouts")
                     .foregroundStyle(.appTint)
                     .font(.body.bold())
                 
             }
             .frame(maxWidth: .infinity, alignment: .center)
         }
+        .disabled(isSyncingWorkouts)
     }
     
     // MARK: Distance unit section item
@@ -270,7 +285,22 @@ struct SettingsView: View {
     }
     
     private func importWorkouts() {
-        print("import workouts!")
+        guard hasRequestedHealthKitAuth else { return }
+            
+        // Set syncing state to true immediately
+        isSyncingWorkouts = true
+        
+        Task {
+            do {
+                try await workoutSyncService.syncWorkouts()
+                print("✅ Workout sync completed")
+            } catch {
+                print("❌ Workout sync failed: \(error)")
+            }
+            
+            // Reset syncing state when complete
+            isSyncingWorkouts = false
+        }
     }
     
     private var appVersionString: String {

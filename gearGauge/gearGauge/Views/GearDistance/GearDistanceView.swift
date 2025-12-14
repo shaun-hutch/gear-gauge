@@ -13,6 +13,9 @@ struct GearDistanceView: View {
     @State private var isAnimating: Bool = false
     @State private var showRemaining: Bool = false // if true, the remaining distance (total - current) will be shown
     
+    @State private var distanceUnit: Int = 0
+    @State private var distanceUnitSuffix: String = "km"
+    
     var body: some View {
         ZStack {
             Circle()
@@ -44,20 +47,21 @@ struct GearDistanceView: View {
                 }
             }
         }
+        .onAppear {
+            distanceUnit = UserDefaultHelpers.distanceUnit
+            distanceUnitSuffix = UserDefaultHelpers.distanceUnitSuffix
+        }
     }
     
     func distanceLabel(_ mainGear: Gear) -> some View {
-        let unit = UserDefaultHelpers.distanceUnitSuffix
         
-        let currentDistanceValue = String(format: "%.0f", mainGear.currentDistance)
-        let remainingDistanceValue = String(format: "%.0f", mainGear.maxDistance - mainGear.currentDistance)
+        let currentDistanceValue = String(format: "%.0f", distanceUnit == 1 ? Double.ConvertToMi(mainGear.currentDistance) : mainGear.currentDistance)
+        let remainingDistanceValue = String(format: "%.0f", distanceUnit == 1 ? Double.ConvertToMi( mainGear.maxDistance - mainGear.currentDistance) : mainGear.maxDistance - mainGear.currentDistance)
                 
         let label = showRemaining ? "\(remainingDistanceValue)" : "\(currentDistanceValue)"
-        let suffix = showRemaining ? "\(unit) remaining" : "\(unit) logged"
+        let suffix = showRemaining ? "\(distanceUnitSuffix) remaining" : "\(distanceUnitSuffix) logged"
         
         return VStack {
-            
-
             Text(label)
                 .foregroundStyle(.appTint)
                 .font(.system(size: 70))

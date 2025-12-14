@@ -17,8 +17,9 @@ struct Constants {
     static let distanceUnit = "distanceUnit"
     /// key to denote if background workout fetching is enabled
     static let hasBackgroundFetchEnabled = "hasBackgroundFetchEnabled"
-    
     /// maximum gear distance
     static let maximumGearDistance: Double = 10_000.0
+    /// key to denote when the observer has last run a workout sync
+    static let lastWorkoutSyncDate = "lastWorkoutSyncDate"
 }
 

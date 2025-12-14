@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 // MARK: UserDefaultsService
 extension UserDefaultsService {
@@ -73,3 +74,20 @@ extension Font {
         return Font.custom("Michroma-Regular", size: size)
     }
 }
+
+
+#if DEBUG
+extension ModelContext {
+    /// Prints all models of a given type from the database
+    /// Useful for debugging data state
+    func debugPrint<T: PersistentModel>(_ type: T.Type) {
+        let descriptor = FetchDescriptor<T>()
+        if let results = try? fetch(descriptor) {
+            print("📊 Debug: \(T.self) count: \(results.count)")
+            for (index, item) in results.enumerated() {
+                print("  [\(index)]: \(item)")
+            }
+        }
+    }
+}
+#endif
