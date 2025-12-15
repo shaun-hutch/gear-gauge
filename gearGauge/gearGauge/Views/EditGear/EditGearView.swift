@@ -41,9 +41,9 @@ struct EditGearView: View {
     /// Distance values (may be in km or miles depending on user preference, always save in km)
     @State private var currentDistance: Double = 0.0
     @State private var maxDistance: Double = 0.0
-    
+        
     @State private var notes: String = ""
-    @State private var isPrimary: Bool = false
+    @State private var isPrimary: Bool = true
     @State private var isActive: Bool = true
     @State private var startDate: Date = Date()
     
@@ -63,6 +63,10 @@ struct EditGearView: View {
         existingGear == nil
     }
     
+    private var workoutTypesList: [WorkoutType] {
+        type == .shoes ? WorkoutType.shoeTypes : WorkoutType.bikeTypes
+    }
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -74,6 +78,10 @@ struct EditGearView: View {
                 
                 Section(header: Text("Notes")) {
                     GearNotesField
+                }
+                
+                Section(header: Text("Workout Types")) {
+                    workoutTypePicker
                 }
                 
                 Section(header: Text("Distance")) {
@@ -141,12 +149,23 @@ struct EditGearView: View {
     
     var GearTypeField: some View {
         Picker("Type", selection: $type) {
-            ForEach(GearType.allCases, id: \.self) {
-                Text($0.rawValue.capitalized)
+            ForEach(GearType.allCases, id: \.self) { gType in
+                HStack(spacing: 10) {
+                    Image(systemName: gType.displayIcon)
+                        .foregroundStyle(.appTint)
+                        .tint(.appTint)
+                    
+                    Text(gType.displayName)
+                    
+                    
+                }
+                .tag(gType)
+                
+                
             }
         }
-        .pickerStyle(.menu)
         .tint(.appTint)
+        .pickerStyle(.menu)
     }
     
     var GearStartDateField: some View {
@@ -208,6 +227,19 @@ struct EditGearView: View {
     var IsActiveGearToggle: some View {
         Toggle("Active", isOn: $isActive)
             .tint(.appTint)
+    }
+    
+    var workoutTypePicker: some View {
+        Picker("Workout Type", selection: $workoutTypes) {
+            ForEach(workoutTypesList, id: \.self) { woType in
+                HStack {
+                    Image(systemName: woType.displayIcon)
+                    Text(woType.displayName)
+                }
+                .tint(.appTint)
+            }
+        }
+        .pickerStyle(.menu)
     }
     
     // MARK: Nav button actions
@@ -358,6 +390,9 @@ struct EditGearView: View {
             currentDistance = maxDistance
         }
     }
+    
+
+    
     
     // MARK: Validation checks
     // name not empty

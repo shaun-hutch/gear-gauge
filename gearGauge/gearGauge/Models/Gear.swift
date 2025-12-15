@@ -109,7 +109,7 @@ extension Gear {
         return self.init(
             name: "Asics Gel Kayano",
             type: .shoes,
-            currentDistance: 300,
+            currentDistance: 900,
             maxDistance: 1000,
             notes: "Great running shoes",
             isPrimary: true,

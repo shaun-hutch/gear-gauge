@@ -55,11 +55,14 @@ struct GearDistanceView: View {
     
     func distanceLabel(_ mainGear: Gear) -> some View {
         
+        
+        let remainingNumber = mainGear.maxDistance - mainGear.currentDistance
+        
         let currentDistanceValue = String(format: "%.0f", distanceUnit == 1 ? Double.ConvertToMi(mainGear.currentDistance) : mainGear.currentDistance)
-        let remainingDistanceValue = String(format: "%.0f", distanceUnit == 1 ? Double.ConvertToMi( mainGear.maxDistance - mainGear.currentDistance) : mainGear.maxDistance - mainGear.currentDistance)
+        let remainingDistanceValue = String(format: "%.0f", distanceUnit == 1 ? abs(Double.ConvertToMi(remainingNumber)) : abs(remainingNumber))
                 
         let label = showRemaining ? "\(remainingDistanceValue)" : "\(currentDistanceValue)"
-        let suffix = showRemaining ? "\(distanceUnitSuffix) remaining" : "\(distanceUnitSuffix) logged"
+        let suffix = showRemaining ? "\(distanceUnitSuffix) \(remainingNumber < 0 ? "over" : "remaining")" : "\(distanceUnitSuffix) logged"
         
         return VStack {
             Text(label)

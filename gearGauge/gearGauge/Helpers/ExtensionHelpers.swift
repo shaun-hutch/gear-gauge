@@ -74,3 +74,14 @@ extension Font {
         return Font.custom("Michroma-Regular", size: size)
     }
 }
+
+// MARK: WorkoutType
+extension WorkoutType {
+    static var shoeTypes: [WorkoutType] {
+        return [.indoorRun, .outdoorRun, .indoorWalk, .outdoorWalk, .other]
+    }
+    
+    static var bikeTypes: [WorkoutType] {
+        return [.outdoorCycle, .indoorCycle, .other]
+    }
+}
