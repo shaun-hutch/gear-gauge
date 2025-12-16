@@ -6,6 +6,8 @@
 	<array>
 		<string>workoutSync</string>
 	</array>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>Gear Gauge would like to notify you when new workouts are synced from HealthKit and when gear is due for replacement.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Michroma-Regular.ttf</string>

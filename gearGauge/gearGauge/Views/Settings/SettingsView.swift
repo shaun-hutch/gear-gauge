@@ -19,6 +19,10 @@ struct SettingsView: View {
     @State private var backgroundFetchEnabled: Bool = false
     /// If the user has requested to manually import workouts
     @State private var isSyncingWorkouts: Bool = false
+    /// If the user has requested notification authorization
+    @State private var hasRequestedNotificationAuth: Bool = false
+    /// If notifications are currently enabled
+    @State private var notificationsEnabled: Bool = false
     /// if the user has premium status (has purchased)
     @State private var hasPremium: Bool = false
     
@@ -39,6 +43,14 @@ struct SettingsView: View {
                         }
                         
                     }
+                    
+                    Section(header: Text("Notifications")) {
+                        NotificationToggleListItem
+                        if hasRequestedNotificationAuth && !notificationsEnabled {
+                            NotificationOpenSettingsListItem
+                        }
+                    }
+                    
                     Section(header: Text("Workout Loading")) {
                         HealthKitBackgroundFetchListItem
                         if hasRequestedHealthKitAuth {
@@ -126,6 +138,43 @@ struct SettingsView: View {
             }
         }
         .buttonStyle(.plain) // Maintains list row appearance
+    }
+    
+    // MARK: Notification section items
+    
+    /// Toggle for requesting notification permission
+    var NotificationToggleListItem: some View {
+        Toggle(isOn: Binding(
+            get: { notificationsEnabled },
+            set: { newValue in
+                if newValue {
+                    Task {
+                        await requestNotificationPermissions()
+                    }
+                } else {
+                    // User must disable in Settings app
+                    openAppSettings()
+                }
+            }
+        )) {
+            Label("Workout Sync Alerts", systemImage: "bell.fill")
+        }
+        .tint(.appTint)
+    }
+    
+    /// Button to open iOS Settings app for notification permissions
+    var NotificationOpenSettingsListItem: some View {
+        Button(action: {
+            openAppSettings()
+        }) {
+            HStack {
+                Image(systemName: "gear")
+                    .foregroundStyle(.appTint)
+                Text("Open Settings to enable notifications")
+                    .foregroundStyle(.primary)
+            }
+        }
+        .buttonStyle(.plain)
     }
     
     // MARK: Background fetch & import
@@ -251,6 +300,14 @@ struct SettingsView: View {
         hasRequestedHealthKitAuth = UserDefaultsService.get(forKey: Constants.hasRequestedHealthKitAuthorization) ?? false
         pickerDistanceUnit = UserDefaultsService.get(forKey: Constants.distanceUnit) ?? 0
         backgroundFetchEnabled = UserDefaultsService.get(forKey: Constants.hasBackgroundFetchEnabled) ?? false
+        hasRequestedNotificationAuth = UserDefaultsService.get(
+            forKey: Constants.hasRequestedNotificationAuthorization
+        ) ?? false
+        
+        // Check current notification status
+        Task {
+            notificationsEnabled = await NotificationService.shared.checkAuthorizationStatus()
+        }
     }
     
     /// Requests HealthKit authorization from the user
@@ -281,6 +338,24 @@ struct SettingsView: View {
             UIApplication.shared.open(url)
         } else {
             print("cannot")
+        }
+    }
+    
+    /// Requests notification authorization from the user
+    private func requestNotificationPermissions() async {
+        let granted = await NotificationService.shared.requestAuthorization()
+        hasRequestedNotificationAuth = true
+        notificationsEnabled = granted
+        
+        if !granted {
+            print("⚠️ Notification permission denied - user must enable in Settings")
+        }
+    }
+    
+    /// Opens iOS Settings app to this app's page
+    private func openAppSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url)
         }
     }
     

@@ -17,6 +17,8 @@ struct Constants {
     static let distanceUnit = "distanceUnit"
     /// key to denote if background workout fetching is enabled
     static let hasBackgroundFetchEnabled = "hasBackgroundFetchEnabled"
+    /// key to denote if the user has requested notification authorization
+    static let hasRequestedNotificationAuthorization = "hasRequestedNotificationAuthorization"
     /// maximum gear distance
     static let maximumGearDistance: Double = 10_000.0
     /// key to denote when the observer has last run a workout sync

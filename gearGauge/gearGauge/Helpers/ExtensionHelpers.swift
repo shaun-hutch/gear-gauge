@@ -69,8 +69,6 @@ extension Color {
 // MARK: Font
 extension Font {
     static func customFont(size: CGFloat) -> Font {
-        // Replace "YourFontName-Regular" with the actual filename of your font (without extension)
-        // or the PostScript name of the font.
         return Font.custom("Michroma-Regular", size: size)
     }
 }

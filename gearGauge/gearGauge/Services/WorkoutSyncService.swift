@@ -74,7 +74,7 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
         print("📊 Found \(newWorkouts.count) new workouts")
         
         // Assign workouts to gear and save
-        try await assignWorkoutsToGear(newWorkouts)
+        let assignedGearNames = try await assignWorkoutsToGear(newWorkouts)
         
         // Save all new workouts in bulk
         try workoutStore.createBulk(workouts: newWorkouts)
@@ -83,14 +83,26 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
         updateLastSyncDate()
         
         print("✅ Synced \(newWorkouts.count) workouts")
+        
+        // Send notification about synced workouts
+        await NotificationService.shared.sendWorkoutSyncNotification(
+            count: newWorkouts.count,
+            gearNames: assignedGearNames
+        )
+        
         return newWorkouts.count
     }
     
     /// Assigns workouts to appropriate gear based on workout type and date
     /// Updates gear distance traveled
-    private func assignWorkoutsToGear(_ workouts: [Workout]) async throws {
+    /// - Parameter workouts: Array of workouts to assign
+    /// - Returns: Array of gear names that received workouts (for notification)
+    private func assignWorkoutsToGear(_ workouts: [Workout]) async throws -> [String] {
         // Fetch all active gear
         let allGear = try gearStore.fetchActive()
+        
+        // Track which gear received workouts for notification
+        var affectedGearNames: Set<String> = []
         
         for gear in allGear {
             // filter workouts based on type and startDate
@@ -98,16 +110,19 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
                 !workout.gear.contains(where: { $0.id == gear.id }) &&
                 gear.workoutTypes.contains(workout.workoutType) &&
                 gear.startDate <= workout.startDate &&
-                (gear.endDate == nil || gear.endDate! >= workout.endDate)
+                (gear.endDate == nil || gear.endDate! >= workout.startDate)
             }
             
             print("matching workout count: \(matchingWorkouts.count)")
         
             for wo in matchingWorkouts {
                 assignWorkoutToGear(wo, gear)
+                affectedGearNames.insert(gear.name)
             }
             
         }
+        
+        return Array(affectedGearNames).sorted()
     }
     
     /// Assigns a workout to a specific gear item and updates the gear's distance
