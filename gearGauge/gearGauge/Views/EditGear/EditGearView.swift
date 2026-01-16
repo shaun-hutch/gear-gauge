@@ -229,17 +229,101 @@ struct EditGearView: View {
             .tint(.appTint)
     }
     
+    // disclosure group is a collapsible/expan section
+
     var workoutTypePicker: some View {
-        Picker("Workout Type", selection: $workoutTypes) {
-            ForEach(workoutTypesList, id: \.self) { woType in
-                HStack {
-                    Image(systemName: woType.displayIcon)
-                    Text(woType.displayName)
+        VStack(alignment: .leading, spacing: 0) {
+            DisclosureGroup {
+                VStack(spacing: 4) {
+                    ForEach(workoutTypesList, id: \.self) { woType in
+                        if workoutTypes.contains(woType) {
+                            selectedWorkoutTypeRow(woType)
+                        } else {
+                            unselectedWorkoutTypeRow(woType)
+                        }
+                    }
                 }
-                .tint(.appTint)
+                .padding(.top, 8)
+            } label: {
+                VStack(alignment: .leading, spacing: 4) {
+                    Label("Workout Types", systemImage: "figure.run")
+                        .foregroundStyle(.primary)
+                    
+                    if !workoutTypes.isEmpty {
+                        Text(selectedWorkoutTypesText)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(2)
+                    } else {
+                        Text("No workout types selected")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
             }
+            .tint(.appTint)
         }
-        .pickerStyle(.menu)
+    }
+    
+    private var unselectedWorkoutTypes: [WorkoutType] {
+        workoutTypesList.filter { !workoutTypes.contains($0) }
+    }
+    
+    private var selectedWorkoutTypesText: String {
+        workoutTypes.map { $0.displayName }.joined(separator: ", ")
+    }
+    
+    @ViewBuilder
+    private func selectedWorkoutTypeRow(_ woType: WorkoutType) -> some View {
+        Button {
+            removeWorkoutType(woType)
+        } label: {
+            HStack {
+                Image(systemName: woType.displayIcon)
+                    .foregroundStyle(.appTint)
+                
+                Text(woType.displayName)
+                    .foregroundStyle(.primary)
+                
+                Spacer()
+                
+                Image(systemName: "checkmark.circle")
+                    .foregroundStyle(.appTint)
+                    .imageScale(.medium)
+            }
+            .padding(.vertical, 8)
+            .padding(.horizontal, 12)
+            .background(Color.appTint.opacity(0.1))
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .buttonStyle(.plain)
+    }
+    
+    @ViewBuilder
+    private func unselectedWorkoutTypeRow(_ woType: WorkoutType) -> some View {
+        Button {
+            addWorkoutType(woType)
+        } label: {
+            HStack {
+                Image(systemName: woType.displayIcon)
+                    .foregroundStyle(.secondary)
+                
+                Text(woType.displayName)
+                    .foregroundStyle(.secondary)
+                
+                Spacer()
+                
+                Image(systemName: "plus.circle")
+                    .foregroundStyle(.appTint)
+                    .imageScale(.medium)
+            }
+            .padding(.vertical, 8)
+            .padding(.horizontal, 12)
+            .background(.clear)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+
+        }
+        .buttonStyle(.plain)
     }
     
     // MARK: Nav button actions
@@ -388,6 +472,18 @@ struct EditGearView: View {
         // if max is now below current, raise current to match max (or alternatively lower current)
         if maxDistance < currentDistance {
             currentDistance = maxDistance
+        }
+    }
+    
+    private func addWorkoutType(_ type: WorkoutType) {
+        withAnimation(.easeInOut(duration: 0.2)) {
+            workoutTypes.append(type)
+        }
+    }
+    
+    private func removeWorkoutType(_ type: WorkoutType) {
+        withAnimation(.easeInOut(duration: 0.2)) {
+            workoutTypes.removeAll { $0 == type }
         }
     }
     

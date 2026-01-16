@@ -19,7 +19,7 @@ The iOS/iPadOS version will be targeting iOS 26, where the goal for Apple Watch 
 ## Coding
 The code will be done in Swift, using SwiftUI for the UI components. For data storage SwiftData will be used, and eventually use of iCloud sync will be implemented. This will allow for restore when an app is reinstalled, or when moving to a new device.
 
-When you put together any file changes, please explain what is being changed, and have it commented appropriately. Where appropriate too, provide relevant unit testing. If the change constitutes a large overreach, it may be better to break it down into smaller changes. This case may also be a candidte for a UI automation test.
+When you put together any file changes, please explain what is being changed, and have it commented appropriately (do not go crazy with comments every few lines, just put them where it is important to know, or if I ask for them specifically to explain a Swift/SwiftUI concept). Where appropriate too, provide relevant unit testing. If the change constitutes a large overreach, it may be better to break it down into smaller changes. This case may also be a candidte for a UI automation test.
 
 If I am simply asking a question on why something is like what it is, just answer the question directly without suggesting code changes, unless I ask what can I change.
 
