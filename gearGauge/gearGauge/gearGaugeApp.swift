@@ -82,7 +82,9 @@ struct gearGaugeApp: App {
             )
             .onAppear {
                 // Clear any delivered workout notifications
-                NotificationService.shared.clearWorkoutNotifications()
+                Task {
+                    await NotificationService.shared.clearWorkoutNotifications()
+                }
                 
                 if (UserDefaultHelpers.firstLaunch()) {
                     showWelcomeAlert = true

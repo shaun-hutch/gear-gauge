@@ -23,6 +23,8 @@ When you put together any file changes, please explain what is being changed, an
 
 If I am simply asking a question on why something is like what it is, just answer the question directly without suggesting code changes, unless I ask what can I change.
 
+If you are making code changes using Agent mode, please ensure the application still builds properly. Build target will be Shaun's iPhone.
+
 ### Testing
 Unit tests will be created for the data model and business logic. UI tests will be created for the main user flows.
 

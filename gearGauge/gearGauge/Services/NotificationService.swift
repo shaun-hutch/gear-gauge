@@ -7,6 +7,7 @@
 
 import UserNotifications
 import Foundation
+import UIKit
 
 /// Service responsible for managing local notifications
 /// Handles permission requests and scheduling notifications for workout syncs
@@ -89,7 +90,6 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         }
         
         content.sound = .default
-        content.badge = NSNumber(value: count)
         
         // Create trigger (deliver immediately)
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
@@ -109,35 +109,27 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
     
     /// Clears all delivered workout sync notifications
     /// Call this when user opens the app to reset badge count
-    func clearWorkoutNotifications() {
+    func clearWorkoutNotifications() async {
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        UNUserNotificationCenter.current().setBadgeCount(0)
+        try? await UNUserNotificationCenter.current().setBadgeCount(0)
         print("🧹 Cleared workout notifications")
     }
     
     // MARK: - UNUserNotificationCenterDelegate
     
     /// Called when user taps on a notification
-    /// Decrements the badge count by 1
+    /// Clears the badge count
     ///
     /// Note: `nonisolated` exempts this method from @MainActor isolation since
-    /// system delegate callbacks are invoked on background threads. Use `Task { @MainActor in }`
-    /// to explicitly switch back to main actor when needed.
+    /// system delegate callbacks are invoked on background threads.
     nonisolated func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
-        Task { @MainActor in
-            // Get current badge count
-            let currentBadge = await center.badgeCount
-            
-            // Decrement badge count (but not below 0)
-            let newBadge = max(0, currentBadge - 1)
-            center.setBadgeCount(newBadge)
-            
-            print("👆 Notification tapped - Badge count: \(currentBadge) → \(newBadge)")
-            
+        Task {
+            try? await center.setBadgeCount(0)
+            print("👆 Notification tapped - Badge cleared")
             completionHandler()
         }
     }

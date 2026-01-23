@@ -116,7 +116,11 @@ final class HealthKitWorkoutService: WorkoutServiceProtocol {
         var predicates: [NSPredicate] = []
         
         // Filter for supported workout types only
-        let workoutTypePredicate = HKQuery.predicateForWorkouts(with: .any, from: Set(supportedWorkoutTypes))
+        // Create a predicate for each workout type and combine them with OR logic
+        let workoutTypePredicates = supportedWorkoutTypes.map { workoutType in
+            HKQuery.predicateForWorkouts(with: workoutType)
+        }
+        let workoutTypePredicate = NSCompoundPredicate(orPredicateWithSubpredicates: workoutTypePredicates)
         predicates.append(workoutTypePredicate)
         
         // Optional: filter by date if provided
@@ -228,19 +232,21 @@ final class HealthKitWorkoutService: WorkoutServiceProtocol {
     private func enableBackgroundDelivery() {
         let sampleType = HKObjectType.workoutType()
         
-        healthStore.enableBackgroundDelivery(for: sampleType, frequency: .immediate) { success, error in
+        healthStore.enableBackgroundDelivery(for: sampleType, frequency: .immediate) { [weak self] success, error in
             if let error = error {
                 print("⚠️ Failed to enable HealthKit background delivery: \(error)")
             } else if success {
                 print("✅ HealthKit background delivery enabled")
             }
             
-            self.backgroundDeliveryAvailable = success
+            Task { @MainActor in
+                self?.backgroundDeliveryAvailable = success
+            }
         }
     }
     
     /// Determines if a workout was performed indoors based on HealthKit metadata
-    private func isIndoor(hkWorkout: HKWorkout) -> Bool {
+    nonisolated private func isIndoor(hkWorkout: HKWorkout) -> Bool {
         if let metadata = hkWorkout.metadata,
            let indoor = metadata[HKMetadataKeyIndoorWorkout] as? Bool {
             return indoor
