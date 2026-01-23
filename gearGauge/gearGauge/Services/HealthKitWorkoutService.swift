@@ -21,6 +21,15 @@ final class HealthKitWorkoutService: WorkoutServiceProtocol {
         HKObjectType.workoutType()
     ]
     
+    /// Workout activity types we track for gear usage
+    /// Only these workout types will be synced from HealthKit
+    private let supportedWorkoutTypes: [HKWorkoutActivityType] = [
+        .running,
+        .walking,
+        .cycling,
+        .other
+    ]
+    
     // MARK: - Public State
     
     /// Indicates if background delivery has been successfully enabled
@@ -103,15 +112,25 @@ final class HealthKitWorkoutService: WorkoutServiceProtocol {
         let sampleType = HKObjectType.workoutType()
         let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
         
+        // Build predicates for filtering
+        var predicates: [NSPredicate] = []
+        
+        // Filter for supported workout types only
+        let workoutTypePredicate = HKQuery.predicateForWorkouts(with: .any, from: Set(supportedWorkoutTypes))
+        predicates.append(workoutTypePredicate)
+        
         // Optional: filter by date if provided
-        var predicate: NSPredicate?
         if let since = since {
-            predicate = HKQuery.predicateForSamples(
+            let datePredicate = HKQuery.predicateForSamples(
                 withStart: since,
                 end: Date(),
                 options: .strictStartDate
             )
+            predicates.append(datePredicate)
         }
+        
+        // Combine predicates with AND logic
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         
         print("📊 Fetching workouts from HealthKit...")
         

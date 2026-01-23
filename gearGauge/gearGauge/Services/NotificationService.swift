@@ -11,14 +11,18 @@ import Foundation
 /// Service responsible for managing local notifications
 /// Handles permission requests and scheduling notifications for workout syncs
 @MainActor
-final class NotificationService {
+final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
     
     // MARK: - Singleton
     
     /// Shared instance for app-wide notification management
     static let shared = NotificationService()
     
-    private init() {}
+    private override init() {
+        super.init()
+        // Set self as delegate to handle notification interactions
+        UNUserNotificationCenter.current().delegate = self
+    }
     
     // MARK: - Authorization
     
@@ -63,12 +67,7 @@ final class NotificationService {
             print("⚠️ Cannot send notification - no authorization")
             return
         }
-        
-        // Don't send notification if no workouts were synced
-//        guard count > 0 else {
-//            return
-//        }
-        
+                
         // Create notification content
         let content = UNMutableNotificationContent()
         content.title = "Workouts Synced"
@@ -114,5 +113,43 @@ final class NotificationService {
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         UNUserNotificationCenter.current().setBadgeCount(0)
         print("🧹 Cleared workout notifications")
+    }
+    
+    // MARK: - UNUserNotificationCenterDelegate
+    
+    /// Called when user taps on a notification
+    /// Decrements the badge count by 1
+    ///
+    /// Note: `nonisolated` exempts this method from @MainActor isolation since
+    /// system delegate callbacks are invoked on background threads. Use `Task { @MainActor in }`
+    /// to explicitly switch back to main actor when needed.
+    nonisolated func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        Task { @MainActor in
+            // Get current badge count
+            let currentBadge = await center.badgeCount
+            
+            // Decrement badge count (but not below 0)
+            let newBadge = max(0, currentBadge - 1)
+            center.setBadgeCount(newBadge)
+            
+            print("👆 Notification tapped - Badge count: \(currentBadge) → \(newBadge)")
+            
+            completionHandler()
+        }
+    }
+    
+    /// Called when a notification arrives while app is in foreground
+    /// Suppresses notification display since user is already using the app
+    nonisolated func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        // Don't show notification when app is in foreground
+        completionHandler([])
     }
 }
