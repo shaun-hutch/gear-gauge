@@ -36,7 +36,7 @@ struct SettingsView: View {
         NavigationStack {
             VStack {
                 List {
-                    Section(header: Text("HealthKit")) {
+                    Section(header: Text(.healthKit)) {
                         HealthKitToggleListItem
                         if hasRequestedHealthKitAuth {
                             healthKitOpenSettingsListItem
@@ -44,24 +44,24 @@ struct SettingsView: View {
                         
                     }
                     
-                    Section(header: Text("Notifications")) {
+                    Section(header: Text(.notifications)) {
                         NotificationToggleListItem
                         if hasRequestedNotificationAuth && !notificationsEnabled {
                             NotificationOpenSettingsListItem
                         }
                     }
                     
-                    Section(header: Text("Workout Loading")) {
+                    Section(header: Text(.workoutLoading)) {
                         HealthKitBackgroundFetchListItem
                         if hasRequestedHealthKitAuth {
                             ImportWorkoutsListItem
                         }
                     }
                     
-                    Section(header: Text("Distance Unit")) {
+                    Section(header: Text(.distanceUnit)) {
                         DistanceDenominationListItem
                     }
-                    Section(header: Text("Premium")) {
+                    Section(header: Text(.premium)) {
                         PremiumStatusListItem
                         UpgradeRestorePurchaseListItem
                     }
@@ -75,7 +75,7 @@ struct SettingsView: View {
             .onAppear {
                 loadSettings()
             }
-            .navigationTitle("Settings")
+            .navigationTitle(.settings)
             .navigationBarTitleDisplayMode(.large)
         }
     }
@@ -95,10 +95,10 @@ struct SettingsView: View {
             }
         }) {
             HStack {
-                Text("HealthKit Integration")
+                Text(.healthKitIntegration)
                 Spacer()
                 HStack {
-                    Text(hasRequestedHealthKitAuth ? "Requested" : "Request")
+                    Text(hasRequestedHealthKitAuth ? .requested : .request)
                         .foregroundStyle(.appTint)
                     if isRequestingHealthKit {
                         ProgressView()
@@ -122,17 +122,17 @@ struct SettingsView: View {
         }) {
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
-                    Text("Open in Health")
+                    Text(.openInHealth)
                     Spacer()
                     HStack {
-                        Text("Open")
+                        Text(.open)
                             .foregroundStyle(.appTint)
                         Image(systemName: "arrow.up.right.square.fill")
                             .foregroundStyle(.appTint)
                             .font(.body.bold())
                     }
                 }
-                Text("In Health: Profile → Privacy → Apps → gearGauge")
+                Text(.inHealthProfilePrivacyAppsGearGauge)
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
@@ -157,7 +157,7 @@ struct SettingsView: View {
                 }
             }
         )) {
-            Label("Workout Sync Alerts", systemImage: "bell.fill")
+            Label(.workoutSyncAlerts, systemImage: "bell.fill")
         }
         .tint(.appTint)
     }
@@ -170,7 +170,7 @@ struct SettingsView: View {
             HStack {
                 Image(systemName: "gear")
                     .foregroundStyle(.appTint)
-                Text("Open Settings to enable notifications")
+                Text(.openSettingsToEnableNotifications)
                     .foregroundStyle(.primary)
             }
         }
@@ -180,7 +180,7 @@ struct SettingsView: View {
     // MARK: Background fetch & import
     
     var HealthKitBackgroundFetchListItem: some View {
-        Toggle("Background Fetch", isOn: $backgroundFetchEnabled)
+        Toggle(.backgroundFetch, isOn: $backgroundFetchEnabled)
             .tint(.appTint)
             .onChange(of: backgroundFetchEnabled) { _, newValue in
                 UserDefaultsService.set(value: newValue, forKey: Constants.hasBackgroundFetchEnabled)
@@ -207,7 +207,7 @@ struct SettingsView: View {
                         .foregroundStyle(.appTint)
                         .font(.body.bold())
                 }
-                Text(isSyncingWorkouts ? "Syncing" : "Sync Workouts")
+                Text(isSyncingWorkouts ? .syncing : .syncWorkouts)
                     .foregroundStyle(.appTint)
                     .font(.body.bold())
                 
@@ -236,9 +236,9 @@ struct SettingsView: View {
     
     var PremiumStatusListItem: some View {
         HStack {
-            Text("Status")
+            Text(.status)
             Spacer()
-            Text(hasPremium ? "Premium" : "Free")
+            Text(hasPremium ? .premium : .free)
                 .foregroundStyle(hasPremium ? .appTint : .primary)
                 .font(.body.bold())
         }
@@ -253,7 +253,7 @@ struct SettingsView: View {
                     Image(systemName: "purchased.circle")
                         .foregroundStyle(.appTint)
                         .font(.body.bold())
-                    Text("Restore")
+                    Text(.restore)
                         .foregroundStyle(.appTint)
                 }
             }
@@ -263,7 +263,7 @@ struct SettingsView: View {
                 print("purchase!")
             }) {
                 HStack {
-                    Text("Purchase")
+                    Text(.purchase)
                         .foregroundStyle(.appTint)
                     Image(systemName: "dollarsign.circle")
                         .foregroundStyle(.appTint)
@@ -288,7 +288,7 @@ struct SettingsView: View {
                     .font(.caption2)
                     .padding(.vertical, 4)
             }
-            Text("Created by Shaun Hutchinson")
+            Text(.createdByShaunHutchinson)
                 .font(.caption2)
         }
         .listRowBackground(Color(.clear))

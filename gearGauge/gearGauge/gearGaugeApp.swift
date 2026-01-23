@@ -108,10 +108,10 @@ struct gearGaugeApp: App {
                 // Cancel observation when app goes to background
                 observerTask?.cancel()
             }
-            .alert("Welcome", isPresented: $showWelcomeAlert) {
-                Button("OK") { showWelcomeAlert = false }
+            .alert(.welcome, isPresented: $showWelcomeAlert) {
+                Button(.ok) { showWelcomeAlert = false }
             } message: {
-                Text("Welcome to Gear Gauge!")
+                Text(.welcomeToGearGauge)
             }
         }
         .modelContainer(sharedModelContainer)

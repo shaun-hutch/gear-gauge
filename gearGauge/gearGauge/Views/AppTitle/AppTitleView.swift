@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AppTitleView : View {
     var body: some View {
-        Text("GearGauge")
+        Text(.gearGauge)
             .font(Font.customFont(size: 45))
             .foregroundStyle(.appTint)
     }

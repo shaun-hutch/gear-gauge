@@ -28,7 +28,7 @@ struct HomeView: View {
         Group {
             if gearViewModel.isLoading {
                 // Loading state
-                ProgressView("Loading gear...")
+                ProgressView(.loadingGear)
             } else if let error = gearViewModel.error {
                 errorView(error: error.localizedDescription)
             } else if let gear = gearViewModel.primaryGear {
@@ -93,7 +93,7 @@ struct HomeView: View {
     
     func errorView(error: String) -> some View {
         ContentUnavailableView(
-            "Unable to load gear",
+            String(localized: .unableToLoadGear),
             systemImage: "exclamationmark.triangle",
             description: Text(error)
             
@@ -102,17 +102,17 @@ struct HomeView: View {
     
     var emptyView: some View {
         ContentUnavailableView {
-            Label("No Primary Gear", systemImage: "figure.run")
+            Label(.noPrimaryGear, systemImage: "figure.run")
                 .tint(.appTint)
         } description: {
-            Text("Set up your first gear to start tracking.")
+            Text(.setUpYourFirstGearToStartTracking)
         } actions: {
             Button(action: {
                 newGear = true
             }) {
                 HStack {
                     Image(systemName: "plus")
-                    Text("Add Gear")
+                    Text(.addGear)
                 }
             }
         }

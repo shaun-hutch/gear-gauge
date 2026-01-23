@@ -70,21 +70,21 @@ struct EditGearView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("Details")) {
+                Section(header: Text(.details)) {
                     GearNameField
                     GearTypeField
                     GearStartDateField
                 }
                 
-                Section(header: Text("Notes")) {
+                Section(header: Text(.notes)) {
                     GearNotesField
                 }
                 
-                Section(header: Text("Workout Types")) {
+                Section(header: Text(.workoutTypes)) {
                     workoutTypePicker
                 }
                 
-                Section(header: Text("Distance")) {
+                Section(header: Text(.distance)) {
                     InitialDistanceField
                     MaxDistanceField
                 }
@@ -102,7 +102,7 @@ struct EditGearView: View {
                     }
                 }
             }
-            .navigationTitle(isNewGear ? "New Gear" : "Edit Gear")
+            .navigationTitle(isNewGear ? String(localized: .newGear) : String(localized: .editGear))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -144,11 +144,11 @@ struct EditGearView: View {
     
     // MARK: UI edit components
     var GearNameField: some View {
-        TextField("Name", text: $name)
+        TextField(.name, text: $name)
     }
     
     var GearTypeField: some View {
-        Picker("Type", selection: $type) {
+        Picker(.typeGearType, selection: $type) {
             ForEach(GearType.allCases, id: \.self) { gType in
                 HStack(spacing: 10) {
                     Image(systemName: gType.displayIcon)
@@ -169,7 +169,7 @@ struct EditGearView: View {
     }
     
     var GearStartDateField: some View {
-        DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
+        DatePicker(.startDate, selection: $startDate, displayedComponents: [.date])
             .tint(.appTint)
         
     }
@@ -183,7 +183,7 @@ struct EditGearView: View {
     
     var InitialDistanceField: some View {
         HStack {
-            Text("Initial distance")
+            Text(.initialDistance)
             Spacer()
             HStack(spacing: 6) {
                 TextField("", value: $currentDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
@@ -201,7 +201,7 @@ struct EditGearView: View {
     
     var MaxDistanceField: some View {
         HStack {
-            Text("Maximum distance")
+            Text(.maximumDistance)
             Spacer()
             HStack(spacing: 6) {
                 TextField("", value: $maxDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
@@ -220,12 +220,12 @@ struct EditGearView: View {
     
     
     var PrimaryGearToggle: some View {
-        Toggle("Primary Gear", isOn: $isPrimary)
+        Toggle(.primaryGear, isOn: $isPrimary)
             .tint(.appTint)
     }
     
     var IsActiveGearToggle: some View {
-        Toggle("Active", isOn: $isActive)
+        Toggle(.active, isOn: $isActive)
             .tint(.appTint)
     }
     
@@ -246,7 +246,7 @@ struct EditGearView: View {
                 .padding(.top, 8)
             } label: {
                 VStack(alignment: .leading, spacing: 4) {
-                    Label("Workout Types", systemImage: "figure.run")
+                    Label(.workoutTypes, systemImage: "figure.run")
                         .foregroundStyle(.primary)
                     
                     if !workoutTypes.isEmpty {
@@ -255,7 +255,7 @@ struct EditGearView: View {
                             .foregroundStyle(.secondary)
                             .lineLimit(2)
                     } else {
-                        Text("No workout types selected")
+                        Text(.noWorkoutTypesSelected)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
