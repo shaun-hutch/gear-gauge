@@ -25,6 +25,8 @@ If I am simply asking a question on why something is like what it is, just answe
 
 If you are making code changes using Agent mode, please ensure the application still builds properly. Build target will be Shaun's iPhone.
 
+When I ask for localisation changes, see the existing LocalizableString files for the structure to follow. If Xcode has generated some, update the structure to match the manual entries.
+
 ### Testing
 Unit tests will be created for the data model and business logic. UI tests will be created for the main user flows.
 
