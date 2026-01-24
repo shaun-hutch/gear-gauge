@@ -24,6 +24,9 @@ struct EditGearView: View {
     /// The gear being edited (nil if creating new gear)
     var existingGear: Gear?
     
+    /// if the page is to be loaded up in a read only view
+    var readOnly: Bool = false
+    
     // MARK: Private variables
     /// Absolute limits to prevent accidental huge values (stored in the user's chosen unit)
     private let absoluteMinDistance: Double = 0.0
@@ -55,6 +58,8 @@ struct EditGearView: View {
     
     /// Focus state used to dismiss the keyboard for the notes field
     @FocusState private var notesFocused: Bool
+    
+    @State private var isEditing: Bool = true
     
     // MARK: - Computed Properties
     
@@ -102,6 +107,7 @@ struct EditGearView: View {
                     }
                 }
             }
+            .disabled(!isEditing)
             .navigationTitle(isNewGear ? String(localized: .newGear) : String(localized: .editGear))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -109,11 +115,16 @@ struct EditGearView: View {
                     CancelButton
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    ConfirmButton
+                    if isEditing {
+                        ConfirmButton
+                    } else {
+                        EditGearButton
+                    }
                 }
             }
             .onAppear {
                 loadGear()
+                isEditing = !readOnly
             }
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
@@ -346,6 +357,15 @@ struct EditGearView: View {
         }
     }
     
+    var EditGearButton: some View {
+        Button(action: {
+            isEditing = true
+        }) {
+            Image(systemName: "pencil")
+                .foregroundStyle(.appTint)
+        }
+    }
+    
     // MARK: - Private Methods
     
     /// Load gear data into local state for editing
@@ -531,5 +551,24 @@ struct EditGearView: View {
     let gearViewModel = GearViewModel(gearStore: mockGearStore)
     
     return EditGearView(gearViewModel: gearViewModel, existingGear: sampleGear)
+        .modelContainer(container)
+}
+
+#Preview("Read Only") {
+    // Create a single in-memory container for the preview
+    let container = SharedModelContainer.create(inMemory: true)
+    let context = container.mainContext
+    
+    // Create mock stores for preview using the same context
+    let mockDataStore = DataStore(modelContext: context)
+    let mockGearStore = GearStore(dataStore: mockDataStore)
+    
+    // Create sample gear
+    let sampleGear = Gear.SampleGear()
+    
+    // Create ViewModels with mock stores
+    let gearViewModel = GearViewModel(gearStore: mockGearStore)
+    
+    return EditGearView(gearViewModel: gearViewModel, existingGear: sampleGear, readOnly: true)
         .modelContainer(container)
 }

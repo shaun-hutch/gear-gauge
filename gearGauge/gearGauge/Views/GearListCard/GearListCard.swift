@@ -43,16 +43,17 @@ struct GearListCard : View {
                 Spacer()
             }
         }
-        .padding(20)
+        .padding(12)
         .background(.appTint.opacity(0.2))
         .containerShape(.rect(cornerRadius: 20, style: .continuous))
         .glassEffect(in: .rect(cornerRadius: 20))
+        .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+        .listRowBackground(Color.clear)
+        .listRowSeparator(.hidden)
         .onAppear {
             distanceUnit = UserDefaultHelpers.distanceUnit
             distanceUnitSuffix = UserDefaultHelpers.distanceUnitSuffix
         }
-        
-        
     }
     
     var distanceLabel: String {

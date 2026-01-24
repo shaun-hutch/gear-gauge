@@ -20,11 +20,14 @@ struct GearListView: View {
         
         // create card list of gear items
         VStack {
+            AppTitleView()
             List {
                 ForEach (gearViewModel.allGear) { gear in
                     GearListCard(gear: gear)
                 }
             }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
         }
         .onAppear {
             gearViewModel.fetchAllGear()
@@ -51,5 +54,5 @@ struct GearListView: View {
     let viewModel = GearViewModel(gearStore: mockGearStore)
     
     return GearListView(gearViewModel: viewModel)
-        .modelContainer(SharedModelContainer.create(inMemory: true))
+        .modelContainer(container)
 }

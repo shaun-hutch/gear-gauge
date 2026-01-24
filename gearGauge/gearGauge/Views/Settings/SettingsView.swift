@@ -33,51 +33,49 @@ struct SettingsView: View {
     var workoutSyncService: WorkoutSyncServiceProtocol
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                List {
-                    Section(header: Text(.healthKit)) {
-                        HealthKitToggleListItem
-                        if hasRequestedHealthKitAuth {
-                            healthKitOpenSettingsListItem
-                        }
-                        
+        VStack {
+            AppTitleView()
+            List {
+                Section(header: Text(.healthKit)) {
+                    HealthKitToggleListItem
+                    if hasRequestedHealthKitAuth {
+                        healthKitOpenSettingsListItem
                     }
-                    
-                    Section(header: Text(.notifications)) {
-                        NotificationToggleListItem
-                        if hasRequestedNotificationAuth && !notificationsEnabled {
-                            NotificationOpenSettingsListItem
-                        }
-                    }
-                    
-                    Section(header: Text(.workoutLoading)) {
-                        HealthKitBackgroundFetchListItem
-                        if hasRequestedHealthKitAuth {
-                            ImportWorkoutsListItem
-                        }
-                    }
-                    
-                    Section(header: Text(.distanceUnit)) {
-                        DistanceDenominationListItem
-                    }
-                    Section(header: Text(.premium)) {
-                        PremiumStatusListItem
-                        UpgradeRestorePurchaseListItem
-                    }
-                    
-                    VersionInfoListItem
                     
                 }
-                .listSectionSpacing(2)
+                
+                Section(header: Text(.notifications)) {
+                    NotificationToggleListItem
+                    if hasRequestedNotificationAuth && !notificationsEnabled {
+                        NotificationOpenSettingsListItem
+                    }
+                }
+                
+                Section(header: Text(.workoutLoading)) {
+                    HealthKitBackgroundFetchListItem
+                    if hasRequestedHealthKitAuth {
+                        ImportWorkoutsListItem
+                    }
+                }
+                
+                Section(header: Text(.distanceUnit)) {
+                    DistanceDenominationListItem
+                }
+                Section(header: Text(.premium)) {
+                    PremiumStatusListItem
+                    UpgradeRestorePurchaseListItem
+                }
+                
+                VersionInfoListItem
                 
             }
-            .onAppear {
-                loadSettings()
-            }
-            .navigationTitle(.settings)
-            .navigationBarTitleDisplayMode(.large)
+            .listSectionSpacing(2)
+            
         }
+        .onAppear {
+            loadSettings()
+        }
+        
     }
     
     
@@ -361,7 +359,7 @@ struct SettingsView: View {
     
     private func importWorkouts() {
         guard hasRequestedHealthKitAuth else { return }
-            
+        
         // Set syncing state to true immediately
         isSyncingWorkouts = true
         
