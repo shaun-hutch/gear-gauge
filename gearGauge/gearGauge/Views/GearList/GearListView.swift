@@ -16,23 +16,82 @@ struct GearListView: View {
     /// Provides access to all gear items and handles loading/error states
     var gearViewModel: GearViewModel
     
+    // MARK: - State
+    
+    @State private var selectedGear: Gear?
+    @State private var isViewing: Bool = false
+    @State private var isCreating: Bool = false
+    @State private var gearToDelete: Gear?
+    @State private var showDeleteConfirmation = false
+    
     var body: some View {
         
         // create card list of gear items
         VStack {
             AppTitleView()
             List {
-                ForEach (gearViewModel.allGear) { gear in
+                ForEach (gearViewModel.allGear, id: \.id) { gear in
                     GearListCard(gear: gear)
+                        .onTapGesture {
+                            selectedGear = gear
+                            isViewing = true
+                        }
                 }
+                .onDelete { indexSet in
+                    if let index = indexSet.first {
+                        gearToDelete = gearViewModel.allGear[index]
+                        showDeleteConfirmation = true
+                    }
+                }
+            
             }
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
+            .background(.clear)
         }
         .onAppear {
             gearViewModel.fetchAllGear()
         }
-        // TODO: Implement gear list UI with gearViewModel
+        .sheet(isPresented: $isViewing, onDismiss: {
+            selectedGear = nil
+            gearViewModel.fetchAllGear()
+        }) {
+            EditGearView(
+                gearViewModel: gearViewModel,
+                existingGear: selectedGear,
+                readOnly: true
+            )
+        }
+        .sheet(isPresented: $isCreating, onDismiss: {
+            gearViewModel.fetchAllGear()
+        }) {
+            EditGearView(
+                gearViewModel: gearViewModel
+            )
+        }
+        .alert(
+            "Delete \(gearToDelete?.name ?? "gear")?",
+            isPresented: $showDeleteConfirmation
+        ) {
+            Button("Delete", role: .destructive) {
+                if let gear = gearToDelete {
+                    deleteGear(gear)
+                }
+            }
+            Button("Cancel", role: .cancel) {
+                gearToDelete = nil
+            }
+        } message: {
+            Text("This action cannot be undone.")
+        }
+    }
+    
+    // MARK: - Private Methods
+    
+    /// Deletes the specified gear item
+    private func deleteGear(_ gear: Gear) {
+        gearViewModel.deleteGear(gear)
+        gearToDelete = nil
     }
 }
 
