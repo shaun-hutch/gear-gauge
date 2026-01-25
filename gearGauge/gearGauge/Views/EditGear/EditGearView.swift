@@ -61,6 +61,10 @@ struct EditGearView: View {
     
     @State private var isEditing: Bool = true
     
+    /// State for primary gear confirmation
+    @State private var showPrimaryGearConfirmation: Bool = false
+    @State private var existingPrimaryGear: Gear? = nil
+    
     // MARK: - Computed Properties
     
     /// True if creating new gear, false if editing existing
@@ -195,7 +199,7 @@ struct EditGearView: View {
     var InitialDistanceField: some View {
         HStack {
             // if we came here from viewing then user clicking edit, keep this field read only at all times
-            Text(readOnly && isEditing ? "Current Distance" : .initialDistance)
+            Text((readOnly || existingGear != nil) ? "Current Distance" : .initialDistance)
             Spacer()
             HStack(spacing: 6) {
                 TextField("", value: $currentDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
@@ -235,6 +239,28 @@ struct EditGearView: View {
     var PrimaryGearToggle: some View {
         Toggle(.primaryGear, isOn: $isPrimary)
             .tint(.appTint)
+            .onChange(of: isPrimary) { oldValue, newValue in
+                // Only show confirmation if:
+                // 1. User is setting this to primary (newValue == true)
+                // 2. There is an existing primary gear
+                // 3. The existing primary gear is not the current gear being edited
+                if newValue && existingPrimaryGear != nil && existingPrimaryGear?.id != existingGear?.id {
+                    showPrimaryGearConfirmation = true
+                    isPrimary = true
+                }
+            }
+            .alert("Change Primary Gear?", isPresented: $showPrimaryGearConfirmation) {
+                Button("Cancel", role: .cancel) {
+                    isPrimary = false
+                }
+                Button("Set as Primary", role: .destructive) {
+                    isPrimary = true
+                }
+            } message: {
+                if let primaryGearName = existingPrimaryGear?.name {
+                    Text("'\(primaryGearName)' is currently set as your primary gear. Setting this gear as primary will replace it.")
+                }
+            }
     }
     
     var IsActiveGearToggle: some View {
@@ -373,6 +399,9 @@ struct EditGearView: View {
     /// Load gear data into local state for editing
     /// If existingGear is nil, uses default values for new gear
     private func loadGear() {
+        // Check for existing primary gear when loading
+        existingPrimaryGear = gearViewModel.primaryGear
+        
         // if existingGear has been populated
         if let gear = existingGear {
             // Edit mode - populate from existing gear
@@ -392,10 +421,11 @@ struct EditGearView: View {
             currentDistance = 0
             maxDistance = distanceUnit == 1 ? 600 : 1000 // Default max distance (600 mi, 1000 km)
             notes = ""
-            isPrimary = false
+            // Set isPrimary to true only if there's no existing primary gear
+            isPrimary = existingPrimaryGear == nil
             isActive = true
             startDate = Date()
-            workoutTypes = [WorkoutType.outdoorRun, WorkoutType.outdoorWalk] // TODO come back later
+            workoutTypes = []
         }
     }
     
@@ -414,6 +444,12 @@ struct EditGearView: View {
         }
         
         validationError = nil
+        
+        // If setting this gear as primary, unset the existing primary gear
+        if isPrimary, let existingPrimary = existingPrimaryGear, existingPrimary.id != existingGear?.id {
+            existingPrimary.isPrimary = false
+            _ = gearViewModel.updateGear(existingPrimary)
+        }
         
         // if there is existing gear, update that
         if let gear = existingGear {

@@ -19,7 +19,6 @@ struct GearListView: View {
     // MARK: - State
     
     @State private var selectedGear: Gear?
-    @State private var isViewing: Bool = false
     @State private var isCreating: Bool = false
     @State private var gearToDelete: Gear?
     @State private var showDeleteConfirmation = false
@@ -33,7 +32,6 @@ struct GearListView: View {
                         GearListCard(gear: gear)
                             .onTapGesture {
                                 selectedGear = gear
-                                isViewing = true
                             }
                     }
                     .onDelete { indexSet in
@@ -50,14 +48,14 @@ struct GearListView: View {
             }
             .onAppear {
                 gearViewModel.fetchAllGear()
+                gearViewModel.fetchPrimaryGear()
             }
-            .sheet(isPresented: $isViewing, onDismiss: {
-                selectedGear = nil
+            .sheet(item: $selectedGear, onDismiss: {
                 gearViewModel.fetchAllGear()
-            }) {
+            }) { gear in
                 EditGearView(
                     gearViewModel: gearViewModel,
-                    existingGear: selectedGear,
+                    existingGear: gear,
                     readOnly: true
                 )
             }
