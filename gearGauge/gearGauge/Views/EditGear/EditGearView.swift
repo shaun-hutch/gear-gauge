@@ -194,10 +194,12 @@ struct EditGearView: View {
     
     var InitialDistanceField: some View {
         HStack {
-            Text(.initialDistance)
+            // if we came here from viewing then user clicking edit, keep this field read only at all times
+            Text(readOnly && isEditing ? "Current Distance" : .initialDistance)
             Spacer()
             HStack(spacing: 6) {
                 TextField("", value: $currentDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
+                    .disabled(readOnly) // this should always be disabled
                     .keyboardType(.decimalPad)
                     .multilineTextAlignment(.trailing)
                     .frame(minWidth: 60, maxWidth: 120)

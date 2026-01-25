@@ -25,65 +25,91 @@ struct GearListView: View {
     @State private var showDeleteConfirmation = false
     
     var body: some View {
-        
-        // create card list of gear items
-        VStack {
-            AppTitleView()
-            List {
-                ForEach (gearViewModel.allGear, id: \.id) { gear in
-                    GearListCard(gear: gear)
-                        .onTapGesture {
-                            selectedGear = gear
-                            isViewing = true
+        ZStack {
+            VStack {
+                AppTitleView()
+                List {
+                    ForEach (gearViewModel.allGear, id: \.id) { gear in
+                        GearListCard(gear: gear)
+                            .onTapGesture {
+                                selectedGear = gear
+                                isViewing = true
+                            }
+                    }
+                    .onDelete { indexSet in
+                        if let index = indexSet.first {
+                            gearToDelete = gearViewModel.allGear[index]
+                            showDeleteConfirmation = true
                         }
+                    }
+                    
                 }
-                .onDelete { indexSet in
-                    if let index = indexSet.first {
-                        gearToDelete = gearViewModel.allGear[index]
-                        showDeleteConfirmation = true
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+                .background(.clear)
+            }
+            .onAppear {
+                gearViewModel.fetchAllGear()
+            }
+            .sheet(isPresented: $isViewing, onDismiss: {
+                selectedGear = nil
+                gearViewModel.fetchAllGear()
+            }) {
+                EditGearView(
+                    gearViewModel: gearViewModel,
+                    existingGear: selectedGear,
+                    readOnly: true
+                )
+            }
+            .sheet(isPresented: $isCreating, onDismiss: {
+                gearViewModel.fetchAllGear()
+            }) {
+                EditGearView(
+                    gearViewModel: gearViewModel
+                )
+            }
+            .alert(
+                "Delete \(gearToDelete?.name ?? "gear")?",
+                isPresented: $showDeleteConfirmation
+            ) {
+                Button("Delete", role: .destructive) {
+                    if let gear = gearToDelete {
+                        deleteGear(gear)
                     }
                 }
-            
-            }
-            .listStyle(.plain)
-            .scrollContentBackground(.hidden)
-            .background(.clear)
-        }
-        .onAppear {
-            gearViewModel.fetchAllGear()
-        }
-        .sheet(isPresented: $isViewing, onDismiss: {
-            selectedGear = nil
-            gearViewModel.fetchAllGear()
-        }) {
-            EditGearView(
-                gearViewModel: gearViewModel,
-                existingGear: selectedGear,
-                readOnly: true
-            )
-        }
-        .sheet(isPresented: $isCreating, onDismiss: {
-            gearViewModel.fetchAllGear()
-        }) {
-            EditGearView(
-                gearViewModel: gearViewModel
-            )
-        }
-        .alert(
-            "Delete \(gearToDelete?.name ?? "gear")?",
-            isPresented: $showDeleteConfirmation
-        ) {
-            Button("Delete", role: .destructive) {
-                if let gear = gearToDelete {
-                    deleteGear(gear)
+                Button("Cancel", role: .cancel) {
+                    gearToDelete = nil
                 }
+            } message: {
+                Text("This action cannot be undone.")
             }
-            Button("Cancel", role: .cancel) {
-                gearToDelete = nil
-            }
-        } message: {
-            Text("This action cannot be undone.")
         }
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Button(action: {
+                    isCreating = true
+                }) {
+                    HStack {
+                        Text(.addGear)
+                            .font(.default).bold()
+                            .foregroundStyle(.appTint)
+                            .padding(.leading, 16)
+                        Image(systemName: "plus")
+                            .font(.title)
+                            .foregroundStyle(.appTint)
+                            .frame(width: 56, height: 56)
+                    }
+                }
+                .buttonBorderShape(.circle)
+                .glassEffect(.regular.tint(.clear).interactive())
+                .padding(20)
+                .background(.clear)
+                
+            }
+        }
+        
     }
     
     // MARK: - Private Methods
