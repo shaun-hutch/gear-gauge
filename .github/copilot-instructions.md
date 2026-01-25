@@ -14,7 +14,7 @@ applyTo: '**'
 ## General Context
 I am creating a fitness gear tracking application in iOS, with the eventual goal of putting in a watchOS app which will use the data from the iOS app.
 
-The iOS/iPadOS version will be targeting iOS 26, where the goal for Apple Watch is watchOS 10.6.2 (the last version that supports Apple Watch SE 1st generation).
+The iOS/iPadOS version will be targeting iOS 26, where the goal for Apple Watch is watchOS 26.
 
 ## Coding
 The code will be done in Swift, using SwiftUI for the UI components. For data storage SwiftData will be used, and eventually use of iCloud sync will be implemented. This will allow for restore when an app is reinstalled, or when moving to a new device.

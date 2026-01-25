@@ -70,16 +70,16 @@ struct GearListView: View {
                 "Delete \(gearToDelete?.name ?? "gear")?",
                 isPresented: $showDeleteConfirmation
             ) {
-                Button("Delete", role: .destructive) {
+                Button(.delete, role: .destructive) {
                     if let gear = gearToDelete {
                         deleteGear(gear)
                     }
                 }
-                Button("Cancel", role: .cancel) {
+                Button(.cancel, role: .cancel) {
                     gearToDelete = nil
                 }
             } message: {
-                Text("This action cannot be undone.")
+                Text(.deleteConfirmationMessage)
             }
         }
         VStack {

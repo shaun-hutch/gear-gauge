@@ -199,7 +199,7 @@ struct EditGearView: View {
     var InitialDistanceField: some View {
         HStack {
             // if we came here from viewing then user clicking edit, keep this field read only at all times
-            Text((readOnly || existingGear != nil) ? "Current Distance" : .initialDistance)
+            Text((readOnly || existingGear != nil) ? .currentDistance : .initialDistance)
             Spacer()
             HStack(spacing: 6) {
                 TextField("", value: $currentDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
@@ -249,11 +249,11 @@ struct EditGearView: View {
                     isPrimary = true
                 }
             }
-            .alert("Change Primary Gear?", isPresented: $showPrimaryGearConfirmation) {
-                Button("Cancel", role: .cancel) {
+            .alert(.primaryGearChangeConfirmationTitle, isPresented: $showPrimaryGearConfirmation) {
+                Button(.cancel, role: .cancel) {
                     isPrimary = false
                 }
-                Button("Set as Primary", role: .destructive) {
+                Button(.setAsPrimary, role: .destructive) {
                     isPrimary = true
                 }
             } message: {
