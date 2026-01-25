@@ -70,7 +70,7 @@ struct GearListView: View {
                 "Delete \(gearToDelete?.name ?? "gear")?",
                 isPresented: $showDeleteConfirmation
             ) {
-                Button(.delete, role: .destructive) {
+                Button(.deleteButtonLabel, role: .destructive) {
                     if let gear = gearToDelete {
                         deleteGear(gear)
                     }

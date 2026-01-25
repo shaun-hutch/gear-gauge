@@ -65,6 +65,10 @@ struct EditGearView: View {
     @State private var showPrimaryGearConfirmation: Bool = false
     @State private var existingPrimaryGear: Gear? = nil
     
+    /// State for retiring gear
+    @State private var showRetireGearConfirmation: Bool = false
+    @State private var isRetiring: Bool = false
+    
     // MARK: - Computed Properties
     
     /// True if creating new gear, false if editing existing
@@ -103,6 +107,10 @@ struct EditGearView: View {
                     IsActiveGearToggle
                 }
                 
+                if readOnly && existingGear != nil {
+                    RetireGearButton
+                }
+                
                 if let error = validationError {
                     Section {
                         Text(error)
@@ -121,7 +129,7 @@ struct EditGearView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     if isEditing {
                         ConfirmButton
-                    } else {
+                    } else if existingGear?.endDate != nil {
                         EditGearButton
                     }
                 }
@@ -268,7 +276,7 @@ struct EditGearView: View {
             .tint(.appTint)
     }
     
-    // disclosure group is a collapsible/expan section
+    // disclosure group is a collapsible/expandable section
 
     var workoutTypePicker: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -301,6 +309,44 @@ struct EditGearView: View {
                 }
             }
             .tint(.appTint)
+        }
+    }
+    
+    var RetireGearButton: some View {
+        VStack {
+            Spacer()
+            Button(action: {
+                // sets retirement date to now, makes inactive, saves gear and closes sheet
+                showRetireGearConfirmation = true
+            }) {
+                HStack {
+                    Text("Retire Gear")
+                        .font(.default).bold()
+                        .foregroundStyle(.red)
+                        .padding(.leading, 16)
+                    Image(systemName: "arrow.down.to.line.alt")
+                        .font(.title)
+                        .foregroundStyle(.red)
+                        .frame(width: 56, height: 56)
+                }
+            }
+            .buttonBorderShape(.circle)
+            .glassEffect(.regular.tint(.red.opacity(0.2)).interactive())
+            .padding(20)
+            .background(.clear)
+            Spacer()
+            
+        }
+        .alert("Retire Gear", isPresented: $showRetireGearConfirmation) {
+            Button(.cancel, role: .cancel) {
+                showRetireGearConfirmation = false
+            }
+            Button("Retire", role: .destructive) {
+                isRetiring = true
+                showRetireGearConfirmation = false
+                saveGear()
+                
+            }
         }
     }
     
@@ -457,18 +503,25 @@ struct EditGearView: View {
             gear.name = name
             gear.type = type
             gear.currentDistance = distanceUnit == 1 ? Double.ConvertToKm(currentDistance) : currentDistance
-            gear.maxDistance = distanceUnit == 1 ? Double.ConvertToKm(maxDistance) :
-            maxDistance
+            gear.maxDistance = distanceUnit == 1 ? Double.ConvertToKm(maxDistance) : maxDistance
             gear.notes = notes.isEmpty ? nil : notes
             gear.isPrimary = isPrimary
             gear.isActive = isActive
             gear.startDate = startDate
             gear.workoutTypes = workoutTypes
             
+            if (isRetiring) {
+                print("Retiring gear: \(gear.id) \(gear.name)")
+                gear.endDate = Date()
+                gear.isActive = false
+                gear.isPrimary = false
+            }
+            
             if gearViewModel.updateGear(gear) {
                 dismiss()
             } else {
                 validationError = "Failed to update gear"
+                isRetiring = false
             }
         } else {
             // Create new gear
