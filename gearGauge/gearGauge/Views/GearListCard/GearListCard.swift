@@ -40,19 +40,17 @@ struct GearListCard : View {
                         if gear.endDate != nil {
                             Label("Retired", systemImage: "archivebox.fill")
                                 .font(.caption)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
+                                .padding(6)
                                 .background(.red.opacity(0.2))
                                 .foregroundStyle(.red)
-                                .cornerRadius(4)
+                                .cornerRadius(16)
                         } else if !gear.isActive {
                             Label("Inactive", systemImage: "pause.circle.fill")
                                 .font(.caption)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
+                                .padding(6)
                                 .background(.gray.opacity(0.2))
                                 .foregroundStyle(.gray)
-                                .cornerRadius(4)
+                                .cornerRadius(16)
                         }
                         
                     }
@@ -74,6 +72,13 @@ struct GearListCard : View {
                         .foregroundStyle(.appTint)
                 }
                 Spacer()
+            }
+            
+            if (gear.workouts != nil && !(gear.workouts?.isEmpty ?? false)) {
+                Divider()
+                VStack {
+                    WorkoutListView(gear: gear)
+                }
             }
         }
         .padding(12)
