@@ -320,7 +320,7 @@ struct EditGearView: View {
                 showRetireGearConfirmation = true
             }) {
                 HStack {
-                    Text("Retire Gear")
+                    Text(.retireGear)
                         .font(.default).bold()
                         .foregroundStyle(.red)
                         .padding(.leading, 16)
@@ -337,11 +337,11 @@ struct EditGearView: View {
             Spacer()
             
         }
-        .alert("Retire Gear", isPresented: $showRetireGearConfirmation) {
+        .alert(.retireGear, isPresented: $showRetireGearConfirmation) {
             Button(.cancel, role: .cancel) {
                 showRetireGearConfirmation = false
             }
-            Button("Retire", role: .destructive) {
+            Button(.retire, role: .destructive) {
                 isRetiring = true
                 showRetireGearConfirmation = false
                 saveGear()
