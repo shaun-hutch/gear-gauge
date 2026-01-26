@@ -54,7 +54,38 @@ final class GearViewModel {
         error = nil
         
         do {
-            allGear = try gearStore.fetchAll()
+            let fetchedGear = try gearStore.fetchAll()
+            
+            // Sort Strategy:
+            // 1. Primary Gear
+            // 2. Active Gear
+            // 3. Inactive Gear
+            // 4. Retired Gear (endDate != nil)
+            
+            allGear = fetchedGear.sorted { lhs, rhs in
+                // 1. Primary check
+                if lhs.isPrimary != rhs.isPrimary {
+                    return lhs.isPrimary
+                }
+                
+                // Helper to determine rank
+                func rank(_ gear: Gear) -> Int {
+                    if gear.endDate != nil { return 3 } // Retired
+                    if gear.isActive { return 1 }       // Active
+                    return 2                            // Inactive
+                }
+                
+                let lhsRank = rank(lhs)
+                let rhsRank = rank(rhs)
+                
+                if lhsRank != rhsRank {
+                    return lhsRank < rhsRank
+                }
+                
+                // Tie-breaker: Name
+                return lhs.name < rhs.name
+            }
+            
             isLoading = false
         } catch {
             self.error = error

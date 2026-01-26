@@ -45,13 +45,13 @@ struct GearListView: View {
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
                 .background(.clear)
+                .contentMargins(.bottom, 100, for: .scrollContent)
             }
             .onAppear {
-                gearViewModel.fetchAllGear()
-                gearViewModel.fetchPrimaryGear()
+                getList()
             }
             .sheet(item: $selectedGear, onDismiss: {
-                gearViewModel.fetchAllGear()
+                getList()
             }) { gear in
                 EditGearView(
                     gearViewModel: gearViewModel,
@@ -60,7 +60,7 @@ struct GearListView: View {
                 )
             }
             .sheet(isPresented: $isCreating, onDismiss: {
-                gearViewModel.fetchAllGear()
+                getList()
             }) {
                 EditGearView(
                     gearViewModel: gearViewModel
@@ -70,7 +70,7 @@ struct GearListView: View {
                 "Delete \(gearToDelete?.name ?? "gear")?",
                 isPresented: $showDeleteConfirmation
             ) {
-                Button(.delete, role: .destructive) {
+                Button(.deleteButtonLabel, role: .destructive) {
                     if let gear = gearToDelete {
                         deleteGear(gear)
                     }
@@ -81,33 +81,33 @@ struct GearListView: View {
             } message: {
                 Text(.deleteConfirmationMessage)
             }
-        }
-        VStack {
-            Spacer()
-            HStack {
+        
+            VStack {
                 Spacer()
-                Button(action: {
-                    isCreating = true
-                }) {
-                    HStack {
-                        Text(.addGear)
-                            .font(.default).bold()
-                            .foregroundStyle(.appTint)
-                            .padding(.leading, 16)
-                        Image(systemName: "plus")
-                            .font(.title)
-                            .foregroundStyle(.appTint)
-                            .frame(width: 56, height: 56)
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        isCreating = true
+                    }) {
+                        HStack {
+                            Text(.addGear)
+                                .font(.default).bold()
+                                .foregroundStyle(.appTint)
+                                .padding(.leading, 16)
+                            Image(systemName: "plus")
+                                .font(.title)
+                                .foregroundStyle(.appTint)
+                                .frame(width: 56, height: 56)
+                        }
                     }
+                    .buttonBorderShape(.circle)
+                    .glassEffect(.regular.tint(.clear).interactive())
+                    .padding(20)
+                    .background(.clear)
+                    
                 }
-                .buttonBorderShape(.circle)
-                .glassEffect(.regular.tint(.clear).interactive())
-                .padding(20)
-                .background(.clear)
-                
             }
         }
-        
     }
     
     // MARK: - Private Methods
@@ -117,6 +117,10 @@ struct GearListView: View {
         gearViewModel.deleteGear(gear)
         gearToDelete = nil
     }
+    
+    private func getList() {
+        gearViewModel.fetchAllGear()
+    }
 }
 
 #Preview {
@@ -125,8 +129,25 @@ struct GearListView: View {
     let context = container.mainContext
     
     // Create and insert sample gear directly into context
+    
+    var retiredGear = Gear.SampleGear()
+    retiredGear.isPrimary = false
+    retiredGear.isActive = false
+    retiredGear.endDate = Date()
+    
+    var nonPrimaryGear = Gear.SampleGear()
+    nonPrimaryGear.isPrimary = false
+    
+    var inactiveGear = Gear.SampleGear()
+    inactiveGear.isPrimary = false
+    inactiveGear.isActive = false
+    
     context.insert(Gear.SampleGear())
-    context.insert(Gear.SampleGear())
+    context.insert(retiredGear)
+    context.insert(nonPrimaryGear)
+    context.insert(inactiveGear)
+    
+    
     try? context.save()
     
     // Create data store and gear store with the same context

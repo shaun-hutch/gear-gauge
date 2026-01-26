@@ -129,7 +129,7 @@ struct EditGearView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     if isEditing {
                         ConfirmButton
-                    } else if existingGear?.endDate != nil {
+                    } else if existingGear?.endDate == nil {
                         EditGearButton
                     }
                 }

@@ -17,13 +17,46 @@ struct GearListCard : View {
         VStack {
             HStack {
                 VStack(alignment: .leading) {
-                    Text(gear.name)
-                        .font(.largeTitle.bold())
-                        .foregroundStyle(.appTint)
+                    HStack {
+                        Text(gear.name)
+                            .font(.largeTitle.bold())
+                            .foregroundStyle(.appTint)
+                        
+                        // Primary badge
+                        if gear.isPrimary {
+                            Image(systemName: "star.fill")
+                                .foregroundStyle(.yellow)
+                                .font(.title3)
+                        }
+                        
+                        Spacer()
+                    }
+                    HStack(spacing: 8) {
+                        Text(distanceLabel)
+                            .font(.subheadline.bold())
+                            .foregroundStyle(.appTint)
+                        
+                        // Status badges
+                        if gear.endDate != nil {
+                            Label("Retired", systemImage: "archivebox.fill")
+                                .font(.caption)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(.red.opacity(0.2))
+                                .foregroundStyle(.red)
+                                .cornerRadius(4)
+                        } else if !gear.isActive {
+                            Label("Inactive", systemImage: "pause.circle.fill")
+                                .font(.caption)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(.gray.opacity(0.2))
+                                .foregroundStyle(.gray)
+                                .cornerRadius(4)
+                        }
+                        
+                    }
                     
-                    Text(distanceLabel)
-                        .font(.subheadline.bold())
-                        .foregroundStyle(.appTint)
                 }
                 Spacer()
                 VStack {
