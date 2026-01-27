@@ -85,7 +85,8 @@ final class Gear: BaseEntity {
         isPrimary: Bool = false,
         isActive: Bool = true,
         startDate: Date,
-        workoutTypes: [WorkoutType] = []
+        workoutTypes: [WorkoutType] = [],
+        workouts: [Workout] = []
     ) {
         self.name = name
         self.typeRawValue = type.rawValue
@@ -94,7 +95,7 @@ final class Gear: BaseEntity {
         self.notes = notes
         self.isPrimary = isPrimary
         self.isActive = isActive
-        self.workouts = []
+        self.workouts = workouts
         self.startDate = startDate
         self.workoutTypeRawValues = workoutTypes.map { $0.rawValue }
         
@@ -115,7 +116,8 @@ extension Gear {
             isPrimary: true,
             isActive: true,
             startDate: Date.newDateTime(year: 2025, month: 3, day: 15),
-            workoutTypes: [.outdoorRun, .indoorRun]
+            workoutTypes: [.outdoorRun, .indoorRun],
+            workouts: Workout.SampleWorkouts()
         )
     }
 }

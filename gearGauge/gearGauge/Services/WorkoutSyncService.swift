@@ -128,6 +128,11 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
     /// Assigns a workout to a specific gear item and updates the gear's distance
     private func assignWorkoutToGear(_ workout: Workout, _ gear: Gear) {
         
+        // MARK: - Relationship Linking
+        // NOTE: This is a Many-to-Many relationship.
+        // By adding the 'gear' to the 'workout.gear' array, SwiftData AUTOMATICALLY
+        // updates the inverse relationship (gear.workouts) to include this workout.
+        // We do not need to manually do: gear.workouts.append(workout)
         workout.gear.append(gear)
         gear.currentDistance += workout.totalDistance
         gear.markAsUpdated()

@@ -11,6 +11,7 @@ import SwiftData
 struct WorkoutListView: View {
     
     var gear: Gear
+    var amountToDisplay: Int = -1
     
     private var distanceUnit: Int {
         UserDefaultHelpers.distanceUnit
@@ -19,26 +20,39 @@ struct WorkoutListView: View {
         UserDefaultHelpers.distanceUnitSuffix
     }
     
+    private var filteredWorkouts: [Workout] {
+        guard let workouts = gear.workouts else { return [] }
+        var filtered = workouts.sorted(by: { $0.endDate > $1.endDate })
+        
+        if amountToDisplay != -1 {
+            filtered = filtered.prefix(amountToDisplay).map { $0 }
+        }
+        
+        return filtered
+    }
+    
     var body: some View {
         VStack {
-            if let workouts = gear.workouts {
-                List {
-                    ForEach(workouts, id: \.self) { wo in
-                        VStack {
-                            Text(wo.workoutType.displayName)
-                                .font(.headline)
-                            Text("\(wo.totalDistance.rounded(toPlaces: 1)) \(distanceUnitSuffix)")
-                                .font(.subheadline)
-                        }
+            List {
+                ForEach(filteredWorkouts, id: \.self) { wo in
+                    VStack {
+                        Text(wo.workoutType.displayName)
+                            .font(.headline)
+                        Text("\(wo.totalDistance as NSNumber, formatter: FormatHelpers.numberFormatterNoGrouping) \(distanceUnitSuffix)")
+                            .font(.subheadline)
                     }
                 }
-                .listStyle(.plain)
-                .scrollContentBackground(.hidden)
-                .background(.clear)
-                
             }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .background(.clear)
+        }
+        .onAppear {
+            print("amount of workouts: \(gear.name) \(gear.workouts?.count ?? 0)")
         }
     }
+    
+    
 }
 
 

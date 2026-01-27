@@ -90,4 +90,20 @@ extension Workout {
         }
         return false
     }
+    
+    static func SampleWorkouts() -> [Workout] {
+        [
+            self.init(healthKitUUID: UUID(), activityType: HKWorkoutActivityType.running, totalDistance: 5.51,
+                      startDate: Date.newDateTime(year: 2025, month: 1, day: 31, hour: 12, minute: 30),
+                      endDate: Date.newDateTime(year: 2025, month: 1, day: 31, hour: 13, minute: 2), isIndoor: false),
+            
+            self.init(healthKitUUID: UUID(), activityType: HKWorkoutActivityType.running, totalDistance: 4.25,
+                      startDate: Date.newDateTime(year: 2025, month: 1, day: 29, hour: 12, minute: 30),
+                      endDate: Date.newDateTime(year: 2025, month: 1, day: 29, hour: 13, minute: 30), isIndoor: false),
+            
+            self.init(healthKitUUID: UUID(), activityType: HKWorkoutActivityType.running, totalDistance: 11.52,
+                      startDate: Date.newDateTime(year: 2025, month: 1, day: 15, hour: 12, minute: 30),
+                      endDate: Date.newDateTime(year: 2025, month: 1, day: 15, hour: 13, minute: 45), isIndoor: false),
+        ]
+    }
 }
