@@ -10,8 +10,14 @@ import SwiftUI
 struct GearListCard : View {
     var gear: Gear
     
-    @State private var distanceUnit: Int = 0
-    @State private var distanceUnitSuffix: String = "km"
+    @State private var showWorkoutHistory: Bool = false
+    
+    private var distanceUnit: Int {
+        UserDefaultHelpers.distanceUnit
+    }
+    private var distanceUnitSuffix: String {
+        UserDefaultHelpers.distanceUnitSuffix
+    }
     
     var body: some View {
         VStack {
@@ -52,9 +58,7 @@ struct GearListCard : View {
                                 .foregroundStyle(.gray)
                                 .cornerRadius(16)
                         }
-                        
                     }
-                    
                 }
                 Spacer()
                 VStack {
@@ -62,7 +66,6 @@ struct GearListCard : View {
                         .foregroundStyle(.appTint)
                         .font(.title)
                 }
-                
             }
             .padding(.bottom, 4)
             HStack {
@@ -72,13 +75,24 @@ struct GearListCard : View {
                         .foregroundStyle(.appTint)
                 }
                 Spacer()
+                Button(action: {
+                    showWorkoutHistory = true
+                }) {
+                    HStack {
+                        Image(systemName: "clock")
+                            .font(.title)
+                            .foregroundStyle(.appTint)
+                        Text("Workouts")
+                            .font(.headline)
+                            .fontWeight(.regular)
+                            .foregroundStyle(.appTint)
+                    }
+                    
+                }
             }
             
             if (gear.workouts != nil && !(gear.workouts?.isEmpty ?? false)) {
-                Divider()
-                VStack {
-                    WorkoutListView(gear: gear)
-                }
+                // button for exercise history
             }
         }
         .padding(12)
@@ -88,9 +102,9 @@ struct GearListCard : View {
         .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
         .listRowBackground(Color.clear)
         .listRowSeparator(.hidden)
-        .onAppear {
-            distanceUnit = UserDefaultHelpers.distanceUnit
-            distanceUnitSuffix = UserDefaultHelpers.distanceUnitSuffix
+        .sheet(isPresented: $showWorkoutHistory) {
+            WorkoutListView(gear: gear)
+                .presentationDetents([.medium, .large])
         }
     }
     

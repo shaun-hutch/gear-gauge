@@ -17,4 +17,14 @@ class FormatHelpers {
         f.minimumFractionDigits = 0
         return f
     }()
+    
+    // DateFormatter for Workout List Card
+    // Example: Thu 29 Jan, 9:50pm
+    static let workoutDateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "E d MMM, h:mma"
+        f.amSymbol = "am"
+        f.pmSymbol = "pm"
+        return f
+    }()
 }

@@ -10,15 +10,11 @@ import SwiftData
 
 struct WorkoutListView: View {
     
+    /// Dismiss handler for closing the sheet
+    @Environment(\.dismiss) private var dismiss
+    
     var gear: Gear
     var amountToDisplay: Int = -1
-    
-    private var distanceUnit: Int {
-        UserDefaultHelpers.distanceUnit
-    }
-    private var distanceUnitSuffix: String {
-        UserDefaultHelpers.distanceUnitSuffix
-    }
     
     private var filteredWorkouts: [Workout] {
         guard let workouts = gear.workouts else { return [] }
@@ -32,23 +28,36 @@ struct WorkoutListView: View {
     }
     
     var body: some View {
-        VStack {
-            List {
-                ForEach(filteredWorkouts, id: \.self) { wo in
-                    VStack {
-                        Text(wo.workoutType.displayName)
-                            .font(.headline)
-                        Text("\(wo.totalDistance as NSNumber, formatter: FormatHelpers.numberFormatterNoGrouping) \(distanceUnitSuffix)")
-                            .font(.subheadline)
+        NavigationStack {
+            VStack {
+                GaugeView(gear: gear)
+                    .padding(.top, 20)
+                List {
+                    ForEach(filteredWorkouts, id: \.self) { wo in
+                        WorkoutListCard(workout: wo)
                     }
                 }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+                .background(.clear)
             }
-            .listStyle(.plain)
-            .scrollContentBackground(.hidden)
-            .background(.clear)
+            .onAppear {
+                print("amount of workouts: \(gear.name) \(gear.workouts?.count ?? 0)")
+            }
         }
-        .onAppear {
-            print("amount of workouts: \(gear.name) \(gear.workouts?.count ?? 0)")
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                CancelButton
+            }
+        }
+    }
+    
+    var CancelButton: some View {
+        Button(action: {
+            dismiss()
+        }) {
+            Image(systemName: "xmark")
+                .foregroundStyle(.appTint)
         }
     }
     
