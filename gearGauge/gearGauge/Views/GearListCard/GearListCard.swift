@@ -89,6 +89,7 @@ struct GearListCard : View {
                     }
                     
                 }
+                .buttonStyle(.borderless)
             }
             
             if (gear.workouts != nil && !(gear.workouts?.isEmpty ?? false)) {
