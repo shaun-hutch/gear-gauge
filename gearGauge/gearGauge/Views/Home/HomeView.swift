@@ -75,6 +75,20 @@ struct HomeView: View {
                     AppTitleView()
                     Spacer()
                 }
+                
+                VStack {
+                    Spacer()
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Recent Workouts:")
+                            .font(.subheadline)
+                            .foregroundStyle(.appTint)
+                            .foregroundStyle(textTintColor)
+                            .padding(.horizontal, 30)
+                        
+                        WorkoutListView(gear: mainGear, amountToDisplay: 3)
+                            .frame(height: 200)
+                    }
+                }
             }
         }
     }

@@ -30,8 +30,10 @@ struct WorkoutListView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                GaugeView(gear: gear)
-                    .padding(.top, 20)
+                if amountToDisplay == -1 {
+                    GaugeView(gear: gear)
+                        .padding(.top, 20)
+                }
                 List {
                     ForEach(filteredWorkouts, id: \.self) { wo in
                         WorkoutListCard(workout: wo)
@@ -40,9 +42,6 @@ struct WorkoutListView: View {
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
                 .background(.clear)
-            }
-            .onAppear {
-                print("amount of workouts: \(gear.name) \(gear.workouts?.count ?? 0)")
             }
         }
         .toolbar {
