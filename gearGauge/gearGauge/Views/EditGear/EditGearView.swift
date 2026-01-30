@@ -210,7 +210,7 @@ struct EditGearView: View {
             Text((readOnly || existingGear != nil) ? .currentDistance : .initialDistance)
             Spacer()
             HStack(spacing: 6) {
-                TextField("", value: $currentDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
+                TextField(.emptyString, value: $currentDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
                     .disabled(readOnly) // this should always be disabled
                     .keyboardType(.decimalPad)
                     .multilineTextAlignment(.trailing)
@@ -229,7 +229,7 @@ struct EditGearView: View {
             Text(.maximumDistance)
             Spacer()
             HStack(spacing: 6) {
-                TextField("", value: $maxDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
+                TextField(.emptyString, value: $maxDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
                     .keyboardType(.decimalPad)
                     .multilineTextAlignment(.trailing)
                     .frame(minWidth: 60, maxWidth: 120)

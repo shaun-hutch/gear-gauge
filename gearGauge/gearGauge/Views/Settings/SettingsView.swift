@@ -218,7 +218,7 @@ struct SettingsView: View {
     // MARK: Distance unit section item
     
     var DistanceDenominationListItem: some View {
-        Picker("", selection: $pickerDistanceUnit) {
+        Picker(.emptyString, selection: $pickerDistanceUnit) {
             ForEach(0..<options.count, id: \.self) { index in
                 Text(options[index])
             }
