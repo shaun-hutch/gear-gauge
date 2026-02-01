@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GearDistanceView: View {
     var gear: Gear
+    var frameSize: CGFloat = 200
     
     @State private var isAnimating: Bool = false
     @State private var showRemaining: Bool = false // if true, the remaining distance (total - current) will be shown
@@ -20,7 +21,7 @@ struct GearDistanceView: View {
         ZStack {
             Circle()
                 .fill(.appTint.opacity(0.3))
-                .frame(width: 200, height: 200)
+                .frame(width: frameSize, height: frameSize)
                 .glassEffect()
                 .scaleEffect(isAnimating ? 1.05 : 1.0)
             
@@ -55,6 +56,14 @@ struct GearDistanceView: View {
     
     func distanceLabel(_ mainGear: Gear) -> some View {
         
+        #if os(watchOS)
+        let distanceFontSize: CGFloat = 20
+        let distanceLabelFontSize: CGFloat = 10
+        #else
+        let distanceFontSize: CGFloat = 70
+        let distanceLabelFontSize: CGFloat = 20
+        #endif
+        
         
         let remainingNumber = mainGear.maxDistance - mainGear.currentDistance
         
@@ -67,12 +76,12 @@ struct GearDistanceView: View {
         return VStack {
             Text(label)
                 .foregroundStyle(.appTint)
-                .font(.system(size: 70))
+                .font(.system(size: distanceFontSize))
                 .fontWeight(.bold)
                 .frame(alignment: .center)
             Text(suffix)
                 .foregroundStyle(.appTint)
-                .font(.system(size: 20))
+                .font(.system(size: distanceLabelFontSize))
                 .fontWeight(.bold)
             .frame(alignment: .center)
                 

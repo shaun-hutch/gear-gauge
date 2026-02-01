@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		28841C4B2F2D687F002566A6 /* gearGauge-watch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 28841C2B2F2D687E002566A6 /* gearGauge-watch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		286F4C832EB72F970036B27C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,15 +25,73 @@
 			remoteGlobalIDString = 286F4C722EB72F960036B27C;
 			remoteInfo = gearGauge;
 		};
+		28841C382F2D687F002566A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 286F4C6B2EB72F960036B27C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28841C2A2F2D687E002566A6;
+			remoteInfo = "gearGauge-watch Watch App";
+		};
+		28841C422F2D687F002566A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 286F4C6B2EB72F960036B27C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28841C2A2F2D687E002566A6;
+			remoteInfo = "gearGauge-watch Watch App";
+		};
+		28841C492F2D687F002566A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 286F4C6B2EB72F960036B27C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28841C2A2F2D687E002566A6;
+			remoteInfo = "gearGauge-watch Watch App";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		28841C4F2F2D687F002566A6 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				28841C4B2F2D687F002566A6 /* gearGauge-watch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		286F4C732EB72F960036B27C /* gearGauge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gearGauge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		286F4C822EB72F970036B27C /* gearGaugeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = gearGaugeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		286F4C8C2EB72F980036B27C /* gearGaugeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = gearGaugeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		28841C2B2F2D687E002566A6 /* gearGauge-watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "gearGauge-watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28841C372F2D687F002566A6 /* gearGauge-watch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "gearGauge-watch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28841C412F2D687F002566A6 /* gearGauge-watch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "gearGauge-watch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		280BB4FE2F2D8193004D3644 /* Exceptions for "gearGauge" folder in "gearGauge-watch Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Helpers/ExtensionHelpers.swift,
+				Helpers/FormatHelpers.swift,
+				Helpers/UserDefaultHelpers.swift,
+				Models/BaseEntity.swift,
+				Models/Constants.swift,
+				Models/Gear.swift,
+				Models/GearType.swift,
+				Models/Workout.swift,
+				Models/WorkoutType.swift,
+				Resources/Localizable.xcstrings,
+				Services/UserDefaultsService.swift,
+				Views/Gauge/GaugeView.swift,
+				Views/Gauge/ProgressGauge.swift,
+				Views/GearDistance/GearDistanceView.swift,
+			);
+			target = 28841C2A2F2D687E002566A6 /* gearGauge-watch Watch App */;
+		};
 		2889E1B72EC3386700EDC03B /* Exceptions for "gearGauge" folder in "gearGauge" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -44,6 +106,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				2889E1B72EC3386700EDC03B /* Exceptions for "gearGauge" folder in "gearGauge" target */,
+				280BB4FE2F2D8193004D3644 /* Exceptions for "gearGauge" folder in "gearGauge-watch Watch App" target */,
 			);
 			path = gearGauge;
 			sourceTree = "<group>";
@@ -56,6 +119,21 @@
 		286F4C8F2EB72F980036B27C /* gearGaugeUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = gearGaugeUITests;
+			sourceTree = "<group>";
+		};
+		28841C2C2F2D687E002566A6 /* gearGauge-watch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "gearGauge-watch Watch App";
+			sourceTree = "<group>";
+		};
+		28841C3A2F2D687F002566A6 /* gearGauge-watch Watch AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "gearGauge-watch Watch AppTests";
+			sourceTree = "<group>";
+		};
+		28841C442F2D687F002566A6 /* gearGauge-watch Watch AppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "gearGauge-watch Watch AppUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -82,6 +160,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		28841C282F2D687E002566A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28841C342F2D687F002566A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28841C3E2F2D687F002566A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -91,6 +190,9 @@
 				286F4C752EB72F960036B27C /* gearGauge */,
 				286F4C852EB72F970036B27C /* gearGaugeTests */,
 				286F4C8F2EB72F980036B27C /* gearGaugeUITests */,
+				28841C2C2F2D687E002566A6 /* gearGauge-watch Watch App */,
+				28841C3A2F2D687F002566A6 /* gearGauge-watch Watch AppTests */,
+				28841C442F2D687F002566A6 /* gearGauge-watch Watch AppUITests */,
 				286F4C742EB72F960036B27C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,6 +203,9 @@
 				286F4C732EB72F960036B27C /* gearGauge.app */,
 				286F4C822EB72F970036B27C /* gearGaugeTests.xctest */,
 				286F4C8C2EB72F980036B27C /* gearGaugeUITests.xctest */,
+				28841C2B2F2D687E002566A6 /* gearGauge-watch Watch App.app */,
+				28841C372F2D687F002566A6 /* gearGauge-watch Watch AppTests.xctest */,
+				28841C412F2D687F002566A6 /* gearGauge-watch Watch AppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -115,10 +220,12 @@
 				286F4C6F2EB72F960036B27C /* Sources */,
 				286F4C702EB72F960036B27C /* Frameworks */,
 				286F4C712EB72F960036B27C /* Resources */,
+				28841C4F2F2D687F002566A6 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				28841C4A2F2D687F002566A6 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				286F4C752EB72F960036B27C /* gearGauge */,
@@ -176,6 +283,74 @@
 			productReference = 286F4C8C2EB72F980036B27C /* gearGaugeUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		28841C2A2F2D687E002566A6 /* gearGauge-watch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28841C4C2F2D687F002566A6 /* Build configuration list for PBXNativeTarget "gearGauge-watch Watch App" */;
+			buildPhases = (
+				28841C272F2D687E002566A6 /* Sources */,
+				28841C282F2D687E002566A6 /* Frameworks */,
+				28841C292F2D687E002566A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				28841C2C2F2D687E002566A6 /* gearGauge-watch Watch App */,
+			);
+			name = "gearGauge-watch Watch App";
+			packageProductDependencies = (
+			);
+			productName = "gearGauge-watch Watch App";
+			productReference = 28841C2B2F2D687E002566A6 /* gearGauge-watch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		28841C362F2D687F002566A6 /* gearGauge-watch Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28841C502F2D687F002566A6 /* Build configuration list for PBXNativeTarget "gearGauge-watch Watch AppTests" */;
+			buildPhases = (
+				28841C332F2D687F002566A6 /* Sources */,
+				28841C342F2D687F002566A6 /* Frameworks */,
+				28841C352F2D687F002566A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				28841C392F2D687F002566A6 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				28841C3A2F2D687F002566A6 /* gearGauge-watch Watch AppTests */,
+			);
+			name = "gearGauge-watch Watch AppTests";
+			packageProductDependencies = (
+			);
+			productName = "gearGauge-watch Watch AppTests";
+			productReference = 28841C372F2D687F002566A6 /* gearGauge-watch Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		28841C402F2D687F002566A6 /* gearGauge-watch Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28841C532F2D687F002566A6 /* Build configuration list for PBXNativeTarget "gearGauge-watch Watch AppUITests" */;
+			buildPhases = (
+				28841C3D2F2D687F002566A6 /* Sources */,
+				28841C3E2F2D687F002566A6 /* Frameworks */,
+				28841C3F2F2D687F002566A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				28841C432F2D687F002566A6 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				28841C442F2D687F002566A6 /* gearGauge-watch Watch AppUITests */,
+			);
+			name = "gearGauge-watch Watch AppUITests";
+			packageProductDependencies = (
+			);
+			productName = "gearGauge-watch Watch AppUITests";
+			productReference = 28841C412F2D687F002566A6 /* gearGauge-watch Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -197,6 +372,17 @@
 						CreatedOnToolsVersion = 26.0;
 						TestTargetID = 286F4C722EB72F960036B27C;
 					};
+					28841C2A2F2D687E002566A6 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					28841C362F2D687F002566A6 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 28841C2A2F2D687E002566A6;
+					};
+					28841C402F2D687F002566A6 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 28841C2A2F2D687E002566A6;
+					};
 				};
 			};
 			buildConfigurationList = 286F4C6E2EB72F960036B27C /* Build configuration list for PBXProject "gearGauge" */;
@@ -217,6 +403,9 @@
 				286F4C722EB72F960036B27C /* gearGauge */,
 				286F4C812EB72F970036B27C /* gearGaugeTests */,
 				286F4C8B2EB72F980036B27C /* gearGaugeUITests */,
+				28841C2A2F2D687E002566A6 /* gearGauge-watch Watch App */,
+				28841C362F2D687F002566A6 /* gearGauge-watch Watch AppTests */,
+				28841C402F2D687F002566A6 /* gearGauge-watch Watch AppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -237,6 +426,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		286F4C8A2EB72F980036B27C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28841C292F2D687E002566A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28841C352F2D687F002566A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28841C3F2F2D687F002566A6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -267,6 +477,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		28841C272F2D687E002566A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28841C332F2D687F002566A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28841C3D2F2D687F002566A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -279,6 +510,21 @@
 			isa = PBXTargetDependency;
 			target = 286F4C722EB72F960036B27C /* gearGauge */;
 			targetProxy = 286F4C8D2EB72F980036B27C /* PBXContainerItemProxy */;
+		};
+		28841C392F2D687F002566A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 28841C2A2F2D687E002566A6 /* gearGauge-watch Watch App */;
+			targetProxy = 28841C382F2D687F002566A6 /* PBXContainerItemProxy */;
+		};
+		28841C432F2D687F002566A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 28841C2A2F2D687E002566A6 /* gearGauge-watch Watch App */;
+			targetProxy = 28841C422F2D687F002566A6 /* PBXContainerItemProxy */;
+		};
+		28841C4A2F2D687F002566A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 28841C2A2F2D687E002566A6 /* gearGauge-watch Watch App */;
+			targetProxy = 28841C492F2D687F002566A6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -418,6 +664,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = gearGauge/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = GearGauge;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app needs access to your workout data to calculate gear usage.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -455,6 +702,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = gearGauge/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = GearGauge;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app needs access to your workout data to calculate gear usage.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -564,6 +812,162 @@
 			};
 			name = Release;
 		};
+		28841C4D2F2D687F002566A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M32YV48UE6;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "gearGauge-watch";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = nz.co.hutchinson.gearGauge;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = nz.co.hutchinson.gearGauge.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		28841C4E2F2D687F002566A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M32YV48UE6;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "gearGauge-watch";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = nz.co.hutchinson.gearGauge;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = nz.co.hutchinson.gearGauge.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		28841C512F2D687F002566A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M32YV48UE6;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "nz.co.hutchinson.gearGauge-watch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/gearGauge-watch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/gearGauge-watch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		28841C522F2D687F002566A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M32YV48UE6;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "nz.co.hutchinson.gearGauge-watch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/gearGauge-watch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/gearGauge-watch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		28841C542F2D687F002566A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M32YV48UE6;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "nz.co.hutchinson.gearGauge-watch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "gearGauge-watch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		28841C552F2D687F002566A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M32YV48UE6;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "nz.co.hutchinson.gearGauge-watch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "gearGauge-watch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -599,6 +1003,33 @@
 			buildConfigurations = (
 				286F4C9D2EB72F980036B27C /* Debug */,
 				286F4C9E2EB72F980036B27C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28841C4C2F2D687F002566A6 /* Build configuration list for PBXNativeTarget "gearGauge-watch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28841C4D2F2D687F002566A6 /* Debug */,
+				28841C4E2F2D687F002566A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28841C502F2D687F002566A6 /* Build configuration list for PBXNativeTarget "gearGauge-watch Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28841C512F2D687F002566A6 /* Debug */,
+				28841C522F2D687F002566A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28841C532F2D687F002566A6 /* Build configuration list for PBXNativeTarget "gearGauge-watch Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28841C542F2D687F002566A6 /* Debug */,
+				28841C552F2D687F002566A6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
