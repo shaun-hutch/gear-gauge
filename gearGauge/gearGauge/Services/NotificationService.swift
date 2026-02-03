@@ -62,7 +62,7 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
     /// - Parameters:
     ///   - count: Number of workouts synced
     ///   - gearNames: Optional array of gear names that received workouts
-    func sendWorkoutSyncNotification(count: Int, gearNames: [String]? = nil) async {
+    func sendWorkoutSyncNotification(count: Int) async {
         // Check if we have permission
         guard await checkAuthorizationStatus() else {
             print("⚠️ Cannot send notification - no authorization")
@@ -77,16 +77,9 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         if count == 1 {
             content.body = "1 new workout has been added"
         } else if count == 0 {
-            content.body = "No new workouts have been synced" // TEST NOTIFICATION
+            content.body = "No new workouts have been synced"
         } else {
             content.body = "\(count) new workouts have been added"
-        }
-        
-        // Add gear information if provided
-        if let gearNames = gearNames, !gearNames.isEmpty {
-            let gearList = gearNames.prefix(3).joined(separator: ", ")
-            let suffix = gearNames.count > 3 ? " and \(gearNames.count - 3) more" : ""
-            content.body += " to \(gearList)\(suffix)"
         }
         
         content.sound = .default

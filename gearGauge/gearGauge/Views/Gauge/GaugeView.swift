@@ -15,15 +15,23 @@ struct GaugeView: View {
     // Track animation state
     @State private var animationProgress: CGFloat = 0
     
+    #if os(watchOS)
+    private let lineWidth: CGFloat = 30
+    private let frameSize: CGFloat = 200
+    #else
     private let lineWidth: CGFloat = 40
+    private let frameSize: CGFloat = 300
+    #endif
+    
+    
     
     var body: some View {
         ZStack {
             baseCircle
             progressCircle
-            GearDistanceView(gear: gear)
+            GearDistanceView(gear: gear, frameSize: frameSize * 0.6)
         }
-        .frame(width: 300, height: 300)
+        .frame(width: frameSize, height: frameSize)
         .onAppear {
             animateProgress()
         }

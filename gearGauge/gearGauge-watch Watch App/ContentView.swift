@@ -1,0 +1,20 @@
+//
+//  ContentView.swift
+//  gearGauge-watch Watch App
+//
+//  Created by Shaun Hutchinson on 31/01/2026.
+//
+
+import SwiftUI
+
+struct ContentView: View {
+    var body: some View {
+        VStack {
+            GaugeView(gear: Gear.SampleGear())
+        }
+    }
+}
+
+#Preview {
+    ContentView()
+}
