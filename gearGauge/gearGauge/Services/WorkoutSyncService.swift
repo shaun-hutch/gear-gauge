@@ -116,9 +116,8 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
         
             for wo in matchingWorkouts {
                 assignWorkoutToGear(wo, gear)
-                if affectedWorkouts.contains(wo) == false {
-                    affectedWorkouts.insert(wo)
-                }
+                // Rely on Set uniqueness; inserting an existing workout is a no-op
+                affectedWorkouts.insert(wo)
             }
             
         }
