@@ -95,7 +95,7 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
     /// Assigns workouts to appropriate gear based on workout type and date
     /// Updates gear distance traveled
     /// - Parameter workouts: Array of workouts to assign
-    /// - Returns: Array of gear names that received workouts (for notification)
+    /// - Returns: Array of workouts that were assigned to gear (for notification or further processing)
     private func assignWorkoutsToGear(_ workouts: [Workout]) async throws -> [Workout] {
         // Fetch all active gear
         let allGear = try gearStore.fetchActive()
