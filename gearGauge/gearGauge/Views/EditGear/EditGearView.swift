@@ -238,9 +238,15 @@ struct EditGearView: View {
                     if let parsed = Double(newValue) {
                         maxDistance = parsed
                         onMaxDistanceChange(value: parsed)
+                        // Keep text fields in sync with any clamped/adjusted numeric values
+                        maxDistanceText = String(maxDistance)
+                        currentDistanceText = String(currentDistance)
                     } else if newValue.isEmpty {
                         maxDistance = 0.0
                         onMaxDistanceChange(value: 0.0)
+                        // For an empty field, keep it visually empty but sync current distance
+                        maxDistanceText = ""
+                        currentDistanceText = String(currentDistance)
                     }
                 }
                 .focused($fieldFocused)
