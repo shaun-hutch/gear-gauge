@@ -44,6 +44,10 @@ struct EditGearView: View {
     /// Distance values (may be in km or miles depending on user preference, always save in km)
     @State private var currentDistance: Double = 0.0
     @State private var maxDistance: Double = 0.0
+    
+    /// String representations for TextField display
+    @State private var currentDistanceText: String = ""
+    @State private var maxDistanceText: String = ""
         
     @State private var notes: String = ""
     @State private var isPrimary: Bool = true
@@ -56,8 +60,8 @@ struct EditGearView: View {
     /// Validation error message
     @State private var validationError: String?
     
-    /// Focus state used to dismiss the keyboard for the notes field
-    @FocusState private var notesFocused: Bool
+    /// Shared focus state for text inputs (used to manage and dismiss the keyboard)
+    @FocusState private var fieldFocused: Bool
     
     @State private var isEditing: Bool = true
     
@@ -140,24 +144,7 @@ struct EditGearView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            notesFocused = false
-                        }) {
-                            HStack {
-                                Image(systemName: "checkmark")
-                                    .foregroundStyle(.appTint)
-                                    .font(.body.weight(.semibold))
-                            }
-                        }
-                        .buttonBorderShape(.circle)
-                        .padding(6)
-                        .tint(.appTint)
-                        .glassEffect(.regular.tint(.clear).interactive())
-                        .frame(width: 44, height: 44, alignment: .trailing)
-                    }
-                    .padding(.bottom, 20)
+                    DismissKeyboardView(fieldFocused: $fieldFocused)
                 }
                 .sharedBackgroundVisibility(.hidden)
                 
@@ -168,6 +155,7 @@ struct EditGearView: View {
     // MARK: UI edit components
     var GearNameField: some View {
         TextField(.name, text: $name)
+            .focused($fieldFocused)
     }
     
     var GearTypeField: some View {
@@ -200,7 +188,7 @@ struct EditGearView: View {
     var GearNotesField: some View {
         TextEditor(text: $notes)
             .frame(minHeight: 100)
-            .focused($notesFocused)
+            .focused($fieldFocused)
     }
     
     
@@ -210,14 +198,24 @@ struct EditGearView: View {
             Text((readOnly || existingGear != nil) ? .currentDistance : .initialDistance)
             Spacer()
             HStack(spacing: 6) {
-                TextField(.emptyString, value: $currentDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
-                    .disabled(readOnly) // this should always be disabled
-                    .keyboardType(.decimalPad)
-                    .multilineTextAlignment(.trailing)
-                    .frame(minWidth: 60, maxWidth: 120)
-                    .onChange(of: currentDistance, { _, newValue in
-                        onInitialDistanceChange(value: newValue)
-                    })
+                TextField(
+                    text: $currentDistanceText,
+                    prompt: Text("0").foregroundStyle(.tertiary)
+                ) {}
+                .disabled(readOnly) // this should always be disabled
+                .keyboardType(.numberPad)
+                .multilineTextAlignment(.trailing)
+                .frame(minWidth: 60, maxWidth: 120)
+                .onChange(of: currentDistanceText) { _, newValue in
+                    if let parsed = Double(newValue) {
+                        currentDistance = parsed
+                        onInitialDistanceChange(value: parsed)
+                    } else if newValue.isEmpty {
+                        currentDistance = 0.0
+                        onInitialDistanceChange(value: 0.0)
+                    }
+                }
+                .focused($fieldFocused)
                 Text(distanceUnitSuffix)
                     .foregroundStyle(.secondary)
             }
@@ -229,13 +227,29 @@ struct EditGearView: View {
             Text(.maximumDistance)
             Spacer()
             HStack(spacing: 6) {
-                TextField(.emptyString, value: $maxDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
-                    .keyboardType(.decimalPad)
-                    .multilineTextAlignment(.trailing)
-                    .frame(minWidth: 60, maxWidth: 120)
-                    .onChange(of: maxDistance, { _, newValue in
-                        onMaxDistanceChange(value: newValue)
-                    })
+                TextField(
+                    text: $maxDistanceText,
+                    prompt: Text("0").foregroundStyle(.tertiary)
+                ) {}
+                .keyboardType(.numberPad)
+                .multilineTextAlignment(.trailing)
+                .frame(minWidth: 60, maxWidth: 120)
+                .onChange(of: maxDistanceText) { _, newValue in
+                    if let parsed = Double(newValue) {
+                        maxDistance = parsed
+                        onMaxDistanceChange(value: parsed)
+                        // Keep text fields in sync with any clamped/adjusted numeric values
+                        maxDistanceText = String(maxDistance)
+                        currentDistanceText = String(currentDistance)
+                    } else if newValue.isEmpty {
+                        maxDistance = 0.0
+                        onMaxDistanceChange(value: 0.0)
+                        // For an empty field, keep it visually empty but sync current distance
+                        maxDistanceText = ""
+                        currentDistanceText = String(currentDistance)
+                    }
+                }
+                .focused($fieldFocused)
                 Text(distanceUnitSuffix)
                     .foregroundStyle(.secondary)
             }
@@ -455,6 +469,8 @@ struct EditGearView: View {
             type = gear.type
             currentDistance = distanceUnit == 1 ? Double.ConvertToMi(gear.currentDistance) : gear.currentDistance
             maxDistance = distanceUnit == 1 ? Double.ConvertToMi(gear.maxDistance) : gear.maxDistance
+            currentDistanceText = FormatHelpers.numberFormatterNoGrouping.string(from: NSNumber(value: currentDistance)) ?? ""
+            maxDistanceText = FormatHelpers.numberFormatterNoGrouping.string(from: NSNumber(value: maxDistance)) ?? ""
             notes = gear.notes ?? ""
             isPrimary = gear.isPrimary
             isActive = gear.isActive
@@ -466,6 +482,8 @@ struct EditGearView: View {
             type = .shoes
             currentDistance = 0
             maxDistance = distanceUnit == 1 ? 600 : 1000 // Default max distance (600 mi, 1000 km)
+            currentDistanceText = ""
+            maxDistanceText = FormatHelpers.numberFormatterNoGrouping.string(from: NSNumber(value: maxDistance)) ?? ""
             notes = ""
             // Set isPrimary to true only if there's no existing primary gear
             isPrimary = existingPrimaryGear == nil
