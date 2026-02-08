@@ -16,19 +16,16 @@ struct DismissKeyboardView: View {
             Button(action: {
                 fieldFocused = false
             }) {
-                HStack {
-                    Image(systemName: "checkmark")
-                        .foregroundStyle(.appTint)
-                        .font(.body.weight(.semibold))
-                }
+                Image(systemName: "checkmark")
+                    .foregroundStyle(.appTint)
+                    .font(.body.weight(.medium))
+                    .frame(width: 44, height: 44)
+                    .clipShape(Circle())
+                    .glassEffect(.regular.tint(.clear).interactive())
             }
-            .buttonBorderShape(.circle)
-            .padding(6)
-            .tint(.appTint)
-            .glassEffect(.regular.tint(.clear).interactive())
-            .frame(width: 44, height: 44, alignment: .trailing)
         }
         .padding(.bottom, 20)
+        .padding(.trailing, 8)
     }
 }
 
@@ -36,16 +33,25 @@ struct DismissKeyboardView: View {
 struct DismissKeyboardView_Previews: PreviewProvider {
     struct PreviewWrapper: View {
         @FocusState var focused: Bool
+        @State private var text: String = ""
         
         var body: some View {
-            DismissKeyboardView(fieldFocused: $focused)
-                .frame(width: 400, height: 100)
-                .background(Color.gray.opacity(0.2))
+            NavigationStack {
+                Form {
+                    TextField("Tap to show keyboard", text: $text)
+                        .focused($focused)
+                }
+                .toolbar {
+                    ToolbarItem(placement: .keyboard) {
+                        DismissKeyboardView(fieldFocused: $focused)
+                    }
+                    .sharedBackgroundVisibility(.hidden)
+                }
+            }
         }
     }
     
     static var previews: some View {
         PreviewWrapper()
-            .previewLayout(.sizeThatFits)
     }
 }
