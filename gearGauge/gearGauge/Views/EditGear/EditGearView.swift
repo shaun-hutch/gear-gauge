@@ -60,7 +60,7 @@ struct EditGearView: View {
     /// Validation error message
     @State private var validationError: String?
     
-    /// Focus state used to dismiss the keyboard for the notes field
+    /// Shared focus state for text inputs (used to manage and dismiss the keyboard)
     @FocusState private var fieldFocused: Bool
     
     @State private var isEditing: Bool = true
