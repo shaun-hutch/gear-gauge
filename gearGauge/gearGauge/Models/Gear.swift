@@ -85,6 +85,7 @@ final class Gear: BaseEntity {
         isPrimary: Bool = false,
         isActive: Bool = true,
         startDate: Date,
+        endDate: Date? = nil,
         workoutTypes: [WorkoutType] = [],
         workouts: [Workout] = []
     ) {
@@ -97,6 +98,7 @@ final class Gear: BaseEntity {
         self.isActive = isActive
         self.workouts = workouts
         self.startDate = startDate
+        self.endDate = endDate
         self.workoutTypeRawValues = workoutTypes.map { $0.rawValue }
         
         // Call parent initializer with defaults

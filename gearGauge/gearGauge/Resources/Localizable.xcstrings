@@ -211,6 +211,18 @@
         }
       }
     },
+    "endDate" : {
+      "comment" : "Label for the end date field in gear editing.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End Date"
+          }
+        }
+      }
+    },
     "Free" : {
       "comment" : "A label indicating that the user's subscription is free.",
       "extractionState" : "manual",
@@ -279,6 +291,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "靴"
+          }
+        }
+      }
+    },
+    "hasEndDate" : {
+      "comment" : "Toggle label to indicate if the gear has an end date.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Has End Date"
           }
         }
       }
@@ -715,8 +739,8 @@
         }
       }
     },
-    "Start Date" : {
-      "comment" : "A label for the start date of a gear.",
+    "startDate" : {
+      "comment" : "Label for the start date field in gear editing.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {

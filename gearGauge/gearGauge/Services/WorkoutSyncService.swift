@@ -65,29 +65,34 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
         // Filter out workouts we already have
         let newWorkouts = healthKitWorkouts.filter { !existingUUIDs.contains($0.healthKitUUID) }
         
-        guard !newWorkouts.isEmpty else {
-            print("✅ No new workouts to sync")
-            updateLastSyncDate()
-            return 0
+        print("📊 Found \(newWorkouts.count) new workouts from HealthKit")
+        
+        // Assign new workouts to gear and save them
+        if !newWorkouts.isEmpty {
+            let addedWorkoutCount = try await assignWorkoutsToGear(newWorkouts)
+            
+            // Save all new workouts in bulk
+            try workoutStore.createBulk(workouts: newWorkouts)
+            
+            print("✅ Synced \(newWorkouts.count) new workouts")
+            
+            // Send notification about synced workouts
+            await NotificationService.shared.sendWorkoutSyncNotification(
+                count: addedWorkoutCount.count
+            )
         }
         
-        print("📊 Found \(newWorkouts.count) new workouts")
+        // Also check for existing workouts that have no gear assigned
+        // (This handles cases where gear was added/modified after workouts were synced)
+        let unassignedWorkouts = existingWorkouts.filter { $0.gear.isEmpty }
         
-        // Assign workouts to gear and save
-        let addedWorkoutCount = try await assignWorkoutsToGear(newWorkouts)
-        
-        // Save all new workouts in bulk
-        try workoutStore.createBulk(workouts: newWorkouts)
+        if !unassignedWorkouts.isEmpty {
+            print("🔍 Found \(unassignedWorkouts.count) unassigned workouts, attempting to assign...")
+            try await assignWorkoutsToGear(unassignedWorkouts)
+        }
         
         // Update last sync date
         updateLastSyncDate()
-        
-        print("✅ Synced \(newWorkouts.count) workouts")
-        
-        // Send notification about synced workouts
-        await NotificationService.shared.sendWorkoutSyncNotification(
-            count: addedWorkoutCount.count
-        )
         
         return newWorkouts.count
     }
@@ -96,9 +101,10 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
     /// Updates gear distance traveled
     /// - Parameter workouts: Array of workouts to assign
     /// - Returns: Array of workouts that were assigned to gear (for notification or further processing)
+    @discardableResult
     private func assignWorkoutsToGear(_ workouts: [Workout]) async throws -> [Workout] {
-        // Fetch all active gear
-        let allGear = try gearStore.fetchActive()
+        // Fetch all gear (including historic gear with end dates)
+        let allGear = try gearStore.fetchAll()
         
         // Track which gear received workouts for notification
         var affectedWorkouts: Set<Workout> = []

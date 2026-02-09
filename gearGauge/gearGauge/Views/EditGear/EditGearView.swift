@@ -49,6 +49,8 @@ struct EditGearView: View {
     @State private var isPrimary: Bool = true
     @State private var isActive: Bool = true
     @State private var startDate: Date = Date()
+    @State private var hasEndDate: Bool = false
+    @State private var endDate: Date = Date()
     
     /// What workout types the gear is for
     @State private var workoutTypes: [WorkoutType] = []
@@ -87,6 +89,19 @@ struct EditGearView: View {
                     GearNameField
                     GearTypeField
                     GearStartDateField
+                    
+                    // Show end date toggle only when creating new gear
+                    if isNewGear {
+                        EndDateToggle
+                        if hasEndDate {
+                            GearEndDateField
+                        }
+                    }
+                    
+                    // In read-only mode, show end date if it exists
+                    if readOnly && existingGear?.endDate != nil {
+                        GearEndDateFieldReadOnly
+                    }
                 }
                 
                 Section(header: Text(.notes)) {
@@ -181,6 +196,34 @@ struct EditGearView: View {
         
     }
     
+    var EndDateToggle: some View {
+        Toggle(.hasEndDate, isOn: $hasEndDate)
+            .tint(.appTint)
+            .onChange(of: hasEndDate) { _, newValue in
+                if newValue {
+                    // When end date is enabled, force active and primary to false
+                    isActive = false
+                    isPrimary = false
+                }
+            }
+    }
+    
+    var GearEndDateField: some View {
+        DatePicker(.endDate, selection: $endDate, in: startDate..., displayedComponents: [.date])
+            .tint(.appTint)
+    }
+    
+    var GearEndDateFieldReadOnly: some View {
+        HStack {
+            Text(.endDate)
+            Spacer()
+            if let endDate = existingGear?.endDate {
+                Text(endDate, formatter: FormatHelpers.workoutDateFormatter)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+    
     var GearNotesField: some View {
         TextEditor(text: $notes)
             .frame(minHeight: 100)
@@ -231,6 +274,7 @@ struct EditGearView: View {
     var PrimaryGearToggle: some View {
         Toggle(.primaryGear, isOn: $isPrimary)
             .tint(.appTint)
+            .disabled(hasEndDate)
             .onChange(of: isPrimary) { oldValue, newValue in
                 // Only show confirmation if:
                 // 1. User is setting this to primary (newValue == true)
@@ -258,6 +302,7 @@ struct EditGearView: View {
     var IsActiveGearToggle: some View {
         Toggle(.active, isOn: $isActive)
             .tint(.appTint)
+            .disabled(hasEndDate)
     }
     
     // disclosure group is a collapsible/expandable section
@@ -442,6 +487,8 @@ struct EditGearView: View {
             isPrimary = gear.isPrimary
             isActive = gear.isActive
             startDate = gear.startDate
+            hasEndDate = gear.endDate != nil
+            endDate = gear.endDate ?? Date()
             workoutTypes = gear.workoutTypes
         } else {
             // New gear mode - use defaults
@@ -454,6 +501,8 @@ struct EditGearView: View {
             isPrimary = existingPrimaryGear == nil
             isActive = true
             startDate = Date()
+            hasEndDate = false
+            endDate = Date()
             workoutTypes = []
         }
     }
@@ -517,6 +566,7 @@ struct EditGearView: View {
                 isPrimary: isPrimary,
                 isActive: isActive,
                 startDate: startDate,
+                endDate: hasEndDate ? endDate : nil,
                 workoutTypes: workoutTypes
             )
             
