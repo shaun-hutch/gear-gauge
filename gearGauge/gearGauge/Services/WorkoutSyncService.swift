@@ -82,12 +82,15 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
             )
         }
         
-        // Also check for existing workouts that have no gear assigned
-        // (This handles cases where gear was added/modified after workouts were synced)
-        let unassignedWorkouts = existingWorkouts.filter { $0.gear.isEmpty }
+        // Also check for existing workouts that have no gear assigned or only deleted gear
+        // (This handles cases where gear was added/modified after workouts were synced,
+        // or when gear was deleted and workouts need to be reassigned to new gear)
+        let unassignedWorkouts = existingWorkouts.filter { workout in
+            workout.gear.isEmpty || workout.gear.allSatisfy { $0.isDeleted }
+        }
         
         if !unassignedWorkouts.isEmpty {
-            print("🔍 Found \(unassignedWorkouts.count) unassigned workouts, attempting to assign...")
+            print("🔍 Found \(unassignedWorkouts.count) unassigned/orphaned workouts, attempting to assign...")
             try await assignWorkoutsToGear(unassignedWorkouts)
         }
         
@@ -118,7 +121,12 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
                 (gear.endDate == nil || gear.endDate! >= workout.startDate)
             }
             
-            print("matching workout count: \(matchingWorkouts.count)")
+            print("📦 Gear: \(gear.name)")
+            print("   - Start: \(gear.startDate)")
+            print("   - End: \(gear.endDate?.description ?? "nil")")
+            print("   - Workout Types: \(gear.workoutTypes.map { $0.rawValue })")
+            print("   - Active: \(gear.isActive), Deleted: \(gear.isDeleted)")
+            print("   - Matching workouts: \(matchingWorkouts.count)")
         
             for wo in matchingWorkouts {
                 assignWorkoutToGear(wo, gear)

@@ -33,12 +33,14 @@ struct GearListView: View {
                             .onTapGesture {
                                 selectedGear = gear
                             }
-                    }
-                    .onDelete { indexSet in
-                        if let index = indexSet.first {
-                            gearToDelete = gearViewModel.allGear[index]
-                            showDeleteConfirmation = true
-                        }
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                Button(role: .destructive) {
+                                    gearToDelete = gear
+                                    showDeleteConfirmation = true
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                            }
                     }
                     
                 }
@@ -116,6 +118,7 @@ struct GearListView: View {
     private func deleteGear(_ gear: Gear) {
         gearViewModel.deleteGear(gear)
         gearToDelete = nil
+        getList()
     }
     
     private func getList() {
@@ -130,15 +133,15 @@ struct GearListView: View {
     
     // Create and insert sample gear directly into context
     
-    var retiredGear = Gear.SampleGear()
+    let retiredGear = Gear.SampleGear()
     retiredGear.isPrimary = false
     retiredGear.isActive = false
     retiredGear.endDate = Date()
     
-    var nonPrimaryGear = Gear.SampleGear()
+    let nonPrimaryGear = Gear.SampleGear()
     nonPrimaryGear.isPrimary = false
     
-    var inactiveGear = Gear.SampleGear()
+    let inactiveGear = Gear.SampleGear()
     inactiveGear.isPrimary = false
     inactiveGear.isActive = false
     
