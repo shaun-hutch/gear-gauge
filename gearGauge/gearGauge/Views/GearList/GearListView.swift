@@ -118,7 +118,6 @@ struct GearListView: View {
     private func deleteGear(_ gear: Gear) {
         gearViewModel.deleteGear(gear)
         gearToDelete = nil
-        getList()
     }
     
     private func getList() {
