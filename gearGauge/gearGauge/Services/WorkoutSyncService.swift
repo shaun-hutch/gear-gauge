@@ -99,13 +99,15 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
     /// - Returns: Array of workouts that were assigned to gear (for notification or further processing)
     @discardableResult
     private func assignWorkoutsToGear(_ workouts: [Workout]) async throws -> [Workout] {
-        // Fetch all gear (including historic gear with end dates)
-        let allGear = try gearStore.fetchAll()
+        // Fetch gear that should receive workout assignments:
+        // - Active gear (isActive == true)
+        // - Historic/retired gear that has an endDate set
+        let eligibleGear = try gearStore.fetchAll().filter { $0.isActive || $0.endDate != nil }
         
         // Track which gear received workouts for notification
         var affectedWorkouts: Set<Workout> = []
         
-        for gear in allGear {
+        for gear in eligibleGear {
             // Filter workouts within the gear's date range
             let matchingWorkouts = workouts.filter { workout in
                 // 1. Not already assigned to this gear
