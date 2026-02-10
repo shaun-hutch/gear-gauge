@@ -146,6 +146,7 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
     
     /// Assigns a workout to a specific gear item
     /// Distance is automatically computed from the gear's workouts, so no manual increment needed
+    /// Note: This method is @MainActor-bound, so concurrent assignments are serialized
     private func assignWorkoutToGear(_ workout: Workout, _ gear: Gear) {
         
         // MARK: - Relationship Linking

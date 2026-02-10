@@ -65,22 +65,25 @@ final class WorkoutStore: WorkoutStoreProtocol {
     }
     
     func delete(workout: Workout) throws {
-        try datastore.delete(workout)
-        // Recalculate cached distances for all associated gear after soft deletion
-        // This ensures soft-deleted workouts are excluded from the cache
-        for gear in workout.gear {
-            gear.recalculateCachedDistance()
+        // Update cached distances for all associated gear
+        // Only decrement if the workout isn't already soft-deleted
+        if !workout.isDeleted {
+            for gear in workout.gear {
+                gear.cachedTotalWorkoutDistance -= workout.totalDistance
+            }
         }
+        try datastore.delete(workout)
     }
     
     func deleteBulk(workouts: [Workout]) throws {
-        try datastore.deleteBulk(workouts)
-        // Recalculate cached distances for all associated gear after soft deletion
-        // Collect unique gear to avoid redundant recalculations
-        let affectedGear = Set(workouts.flatMap { $0.gear })
-        for gear in affectedGear {
-            gear.recalculateCachedDistance()
+        // Update cached distances for all associated gear
+        // Only decrement for workouts that aren't already soft-deleted
+        for workout in workouts where !workout.isDeleted {
+            for gear in workout.gear {
+                gear.cachedTotalWorkoutDistance -= workout.totalDistance
+            }
         }
+        try datastore.deleteBulk(workouts)
     }
 }
 

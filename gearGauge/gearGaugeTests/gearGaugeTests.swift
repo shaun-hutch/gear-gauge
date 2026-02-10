@@ -6,7 +6,6 @@
 //
 
 import Testing
-import HealthKit
 @testable import gearGauge
 
 struct gearGaugeTests {

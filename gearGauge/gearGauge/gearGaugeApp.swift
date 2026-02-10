@@ -89,7 +89,7 @@ struct gearGaugeApp: App {
                 // One-time recalculation of cached workout distances for existing data
                 // This ensures the cache is correct for data that existed before the
                 // cachedTotalWorkoutDistance field was added to the Gear model
-                if !UserDefaultsService.get(forKey: Constants.hasMigratedCachedDistances) ?? false {
+                if UserDefaultsService.get(forKey: Constants.hasMigratedCachedDistances) != true {
                     Task {
                         do {
                             try gearStore.recalculateAllCaches()
