@@ -144,7 +144,8 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
         return Array(affectedWorkouts)
     }
     
-    /// Assigns a workout to a specific gear item and updates the gear's distance
+    /// Assigns a workout to a specific gear item
+    /// Distance is automatically computed from the gear's workouts, so no manual increment needed
     private func assignWorkoutToGear(_ workout: Workout, _ gear: Gear) {
         
         // MARK: - Relationship Linking
@@ -153,7 +154,6 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
         // updates the inverse relationship (gear.workouts) to include this workout.
         // We do not need to manually do: gear.workouts.append(workout)
         workout.gear.append(gear)
-        gear.currentDistance += workout.totalDistance
         gear.markAsUpdated()
         print("📍 Assigned workout to gear: \(gear.name)")
     }

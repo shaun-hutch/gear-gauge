@@ -17,10 +17,11 @@ final class Gear: BaseEntity {
     /// name of the gear
     var name: String
     
-    /// how far the gear has gone in kilometres.
-    /// Users can set this on create to manually set a distance on gear creation
-    var currentDistance: Double
-    /// maximum distance before replacement in kilometres
+    /// The starting distance for the gear in kilometres.
+    /// This allows users to set a starting value if gear was already used before tracking began
+    var initialDistance: Double
+    
+    /// Maximum distance before replacement in kilometres
     var maxDistance: Double
     /// optional notes about the gear
     var notes: String?
@@ -64,6 +65,13 @@ final class Gear: BaseEntity {
     
     // MARK: Computed fields
     
+    /// Current distance travelled by this gear in kilometres.
+    /// Computed as initialDistance + sum of all associated workout distances
+    var currentDistance: Double {
+        let workoutDistance = workouts?.reduce(0) { $0 + $1.totalDistance } ?? 0
+        return initialDistance + workoutDistance
+    }
+    
     var currentDistanceMiles: Double { Double.ConvertToMi(currentDistance) }
     
     var maxDistanceMiles: Double { Double.ConvertToMi(maxDistance) }
@@ -79,7 +87,7 @@ final class Gear: BaseEntity {
     init(
         name: String,
         type: GearType,
-        currentDistance: Double = 0,
+        initialDistance: Double = 0,
         maxDistance: Double,
         notes: String? = nil,
         isPrimary: Bool = false,
@@ -91,7 +99,7 @@ final class Gear: BaseEntity {
     ) {
         self.name = name
         self.typeRawValue = type.rawValue
-        self.currentDistance = currentDistance
+        self.initialDistance = initialDistance
         self.maxDistance = maxDistance
         self.notes = notes
         self.isPrimary = isPrimary
@@ -112,7 +120,7 @@ extension Gear {
         return self.init(
             name: "Asics Gel Kayano",
             type: .shoes,
-            currentDistance: 900,
+            initialDistance: 900,
             maxDistance: 1000,
             notes: "Great running shoes",
             isPrimary: true,
