@@ -38,7 +38,7 @@ struct GearListView: View {
                                     gearToDelete = gear
                                     showDeleteConfirmation = true
                                 } label: {
-                                    Label("Delete", systemImage: "trash")
+                                    Label(.deleteButtonLabel, systemImage: "trash")
                                 }
                             }
                     }
