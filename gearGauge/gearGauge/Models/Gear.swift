@@ -115,9 +115,6 @@ final class Gear: BaseEntity {
         
         // Call parent initializer with defaults
         super.init()
-        
-        // Calculate initial cached distance from provided workouts
-        self.recalculateCachedDistance()
     }
     
     // MARK: - Cache Management
