@@ -82,16 +82,9 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
             )
         }
         
-        // Also check for existing workouts that have no gear assigned or only deleted gear
-        // (This handles cases where gear was added/modified after workouts were synced,
-        // or when gear was deleted and workouts need to be reassigned to new gear)
-        let unassignedWorkouts = existingWorkouts.filter { workout in
-            workout.gear.isEmpty || workout.gear.allSatisfy { $0.isDeleted }
-        }
-        
-        if !unassignedWorkouts.isEmpty {
-            print("🔍 Found \(unassignedWorkouts.count) unassigned/orphaned workouts, attempting to assign...")
-            try await assignWorkoutsToGear(unassignedWorkouts)
+        // Also check existing workouts for assignment to new/modified gear
+        if !existingWorkouts.isEmpty {
+            try await assignWorkoutsToGear(existingWorkouts)
         }
         
         // Update last sync date
@@ -113,20 +106,30 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
         var affectedWorkouts: Set<Workout> = []
         
         for gear in allGear {
-            // filter workouts based on type and startDate
+            // Filter workouts within the gear's date range
             let matchingWorkouts = workouts.filter { workout in
-                !workout.gear.contains(where: { $0.id == gear.id }) &&
-                gear.workoutTypes.contains(workout.workoutType) &&
-                gear.startDate <= workout.startDate &&
-                (gear.endDate == nil || gear.endDate! >= workout.startDate)
+                // 1. Not already assigned to this gear
+                guard !workout.gear.contains(where: { $0.id == gear.id }) else { return false }
+                
+                // 2. Workout type matches gear's supported types
+                guard gear.workoutTypes.contains(workout.workoutType) else { return false }
+                
+                // 3. Workout is within the gear's active date range
+                // Use calendar comparison to handle timezone differences
+                let calendar = Calendar.current
+                
+                // Compare dates at day level
+                let isAfterStart = calendar.compare(workout.startDate, to: gear.startDate, toGranularity: .day) != .orderedAscending
+                
+                let isBeforeEnd: Bool
+                if let endDate = gear.endDate {
+                    isBeforeEnd = calendar.compare(workout.startDate, to: endDate, toGranularity: .day) != .orderedDescending
+                } else {
+                    isBeforeEnd = true
+                }
+                
+                return isAfterStart && isBeforeEnd
             }
-            
-            print("📦 Gear: \(gear.name)")
-            print("   - Start: \(gear.startDate)")
-            print("   - End: \(gear.endDate?.description ?? "nil")")
-            print("   - Workout Types: \(gear.workoutTypes.map { $0.rawValue })")
-            print("   - Active: \(gear.isActive), Deleted: \(gear.isDeleted)")
-            print("   - Matching workouts: \(matchingWorkouts.count)")
         
             for wo in matchingWorkouts {
                 assignWorkoutToGear(wo, gear)
