@@ -235,7 +235,7 @@ struct EditGearView: View {
         HStack {
             // Initial distance is always shown and editable for new gear,
             // but read-only when editing existing gear (as it's the starting point)
-            Text(existingGear != nil ? .initialDistance : .initialDistance)
+            Text(.initialDistance)
             Spacer()
             HStack(spacing: 6) {
                 TextField(.emptyString, value: $initialDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
