@@ -42,7 +42,7 @@ struct EditGearView: View {
     @State private var type: GearType = .shoes
     
     /// Distance values (may be in km or miles depending on user preference, always save in km)
-    @State private var currentDistance: Double = 0.0
+    @State private var initialDistance: Double = 0.0
     @State private var maxDistance: Double = 0.0
     
     @State private var notes: String = ""
@@ -233,16 +233,17 @@ struct EditGearView: View {
     
     var InitialDistanceField: some View {
         HStack {
-            // if we came here from viewing then user clicking edit, keep this field read only at all times
-            Text((readOnly || existingGear != nil) ? .currentDistance : .initialDistance)
+            // Initial distance is always shown and editable for new gear,
+            // but read-only when editing existing gear (as it's the starting point)
+            Text(existingGear != nil ? .initialDistance : .initialDistance)
             Spacer()
             HStack(spacing: 6) {
-                TextField(.emptyString, value: $currentDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
-                    .disabled(readOnly) // this should always be disabled
+                TextField(.emptyString, value: $initialDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
+                    .disabled(readOnly || existingGear != nil) // disable when viewing or editing existing gear
                     .keyboardType(.numberPad)
                     .multilineTextAlignment(.trailing)
                     .frame(minWidth: 60, maxWidth: 120)
-                    .onChange(of: currentDistance) { _, newValue in
+                    .onChange(of: initialDistance) { _, newValue in
                         onInitialDistanceChange(value: newValue)
                     }
                     .focused($fieldFocused)
@@ -481,7 +482,7 @@ struct EditGearView: View {
             // Edit mode - populate from existing gear
             name = gear.name
             type = gear.type
-            currentDistance = distanceUnit == 1 ? Double.ConvertToMi(gear.currentDistance) : gear.currentDistance
+            initialDistance = distanceUnit == 1 ? Double.ConvertToMi(gear.initialDistance) : gear.initialDistance
             maxDistance = distanceUnit == 1 ? Double.ConvertToMi(gear.maxDistance) : gear.maxDistance
             notes = gear.notes ?? ""
             isPrimary = gear.isPrimary
@@ -494,7 +495,7 @@ struct EditGearView: View {
             // New gear mode - use defaults
             name = ""
             type = .shoes
-            currentDistance = 0
+            initialDistance = 0
             maxDistance = distanceUnit == 1 ? 600 : 1000 // Default max distance (600 mi, 1000 km)
             notes = ""
             // Set isPrimary to true only if there's no existing primary gear
@@ -534,7 +535,7 @@ struct EditGearView: View {
             // Update existing gear
             gear.name = name
             gear.type = type
-            gear.currentDistance = distanceUnit == 1 ? Double.ConvertToKm(currentDistance) : currentDistance
+            gear.initialDistance = distanceUnit == 1 ? Double.ConvertToKm(initialDistance) : initialDistance
             gear.maxDistance = distanceUnit == 1 ? Double.ConvertToKm(maxDistance) : maxDistance
             gear.notes = notes.isEmpty ? nil : notes
             gear.isPrimary = isPrimary
@@ -560,7 +561,7 @@ struct EditGearView: View {
             let newGear = Gear(
                 name: name,
                 type: type,
-                currentDistance: currentDistance,
+                initialDistance: initialDistance,
                 maxDistance: maxDistance,
                 notes: notes.isEmpty ? nil : notes,
                 isPrimary: isPrimary,
@@ -600,11 +601,11 @@ struct EditGearView: View {
     private func onInitialDistanceChange(value: Double) {
         let clamped = clampedDistance(value)
         if clamped != value {
-            currentDistance = clamped
+            initialDistance = clamped
         }
-        // if current exceeds max, push max up to match current
-        if currentDistance > maxDistance {
-            maxDistance = currentDistance
+        // if initial distance exceeds max, push max up to match
+        if initialDistance > maxDistance {
+            maxDistance = initialDistance
         }
     }
     
@@ -613,9 +614,9 @@ struct EditGearView: View {
         if clamped != value {
             maxDistance = clamped
         }
-        // if max is now below current, raise current to match max (or alternatively lower current)
-        if maxDistance < currentDistance {
-            currentDistance = maxDistance
+        // if max is now below initial, raise initial to match max (or alternatively lower initial)
+        if maxDistance < initialDistance {
+            initialDistance = maxDistance
         }
     }
     
