@@ -88,5 +88,15 @@ final class GearStore: GearStoreProtocol {
         try datastore.delete(gear)
     }
     
+    /// Recalculates cached workout distances for all gear items.
+    /// This is useful for fixing up data after a migration or if caches get out of sync.
+    func recalculateAllCaches() throws {
+        let allGear = try fetchAll()
+        for gear in allGear {
+            gear.recalculateCachedDistance()
+        }
+        // Save all changes
+        try datastore.modelContext.save()
+    }
     
 }

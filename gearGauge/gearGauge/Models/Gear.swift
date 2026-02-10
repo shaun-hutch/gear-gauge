@@ -21,6 +21,10 @@ final class Gear: BaseEntity {
     /// This allows users to set a starting value if gear was already used before tracking began
     var initialDistance: Double
     
+    /// Cached total distance from all associated workouts in kilometres.
+    /// This is denormalized for performance - updated when workouts are linked/unlinked.
+    var cachedTotalWorkoutDistance: Double
+    
     /// Maximum distance before replacement in kilometres
     var maxDistance: Double
     /// optional notes about the gear
@@ -66,10 +70,9 @@ final class Gear: BaseEntity {
     // MARK: Computed fields
     
     /// Current distance travelled by this gear in kilometres.
-    /// Computed as initialDistance + sum of all associated workout distances
+    /// Computed as initialDistance + cached workout distances for O(1) access.
     var currentDistance: Double {
-        let workoutDistance = workouts?.reduce(0) { $0 + $1.totalDistance } ?? 0
-        return initialDistance + workoutDistance
+        return initialDistance + cachedTotalWorkoutDistance
     }
     
     var currentDistanceMiles: Double { Double.ConvertToMi(currentDistance) }
@@ -100,6 +103,7 @@ final class Gear: BaseEntity {
         self.name = name
         self.typeRawValue = type.rawValue
         self.initialDistance = initialDistance
+        self.cachedTotalWorkoutDistance = 0 // Initialize to 0, will be recalculated
         self.maxDistance = maxDistance
         self.notes = notes
         self.isPrimary = isPrimary
@@ -111,6 +115,18 @@ final class Gear: BaseEntity {
         
         // Call parent initializer with defaults
         super.init()
+        
+        // Calculate initial cached distance from provided workouts
+        self.recalculateCachedDistance()
+    }
+    
+    // MARK: - Cache Management
+    
+    /// Recalculates and updates the cached total workout distance.
+    /// This should be called when workouts are added, removed, or modified.
+    /// Only counts workouts that are not soft-deleted.
+    func recalculateCachedDistance() {
+        cachedTotalWorkoutDistance = workouts?.filter { !$0.isDeleted }.reduce(0) { $0 + $1.totalDistance } ?? 0
     }
     
 }

@@ -23,5 +23,7 @@ struct Constants {
     static let maximumGearDistance: Double = 10_000.0
     /// key to denote when the observer has last run a workout sync
     static let lastWorkoutSyncDate = "lastWorkoutSyncDate"
+    /// key to denote if cached workout distances have been migrated/recalculated
+    static let hasMigratedCachedDistances = "hasMigratedCachedDistances"
 }
 

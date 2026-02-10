@@ -65,10 +65,20 @@ final class WorkoutStore: WorkoutStoreProtocol {
     }
     
     func delete(workout: Workout) throws {
+        // Update cached distances for all associated gear before deletion
+        for gear in workout.gear {
+            gear.cachedTotalWorkoutDistance -= workout.totalDistance
+        }
         try datastore.delete(workout)
     }
     
     func deleteBulk(workouts: [Workout]) throws {
+        // Update cached distances for all associated gear before deletion
+        for workout in workouts {
+            for gear in workout.gear {
+                gear.cachedTotalWorkoutDistance -= workout.totalDistance
+            }
+        }
         try datastore.deleteBulk(workouts)
     }
 }
