@@ -43,6 +43,7 @@ protocol GearStoreProtocol {
 final class GearStore: GearStoreProtocol {
     private let datastore: DataStoreProtocol
     
+    private let notDeletedPredicate: Predicate<Gear>
     private let activePredicate: Predicate<Gear>
     private let primaryPredicate: Predicate<Gear>
     
@@ -50,17 +51,21 @@ final class GearStore: GearStoreProtocol {
         self.datastore = dataStore
         
         // Initialize predicates in the init
+        self.notDeletedPredicate = #Predicate<Gear> { gear in
+            gear.isDeleted == false
+        }
+        
         self.activePredicate = #Predicate<Gear> { gear in
-            gear.isActive == true
+            gear.isActive == true && gear.isDeleted == false
         }
         
         self.primaryPredicate = #Predicate<Gear> { gear in
-            gear.isPrimary == true
+            gear.isPrimary == true && gear.isDeleted == false
         }
     }
     
     func fetchAll() throws -> [Gear] {
-        try datastore.fetch(Gear.self, predicate: nil, sortDescriptors: [])
+        try datastore.fetch(Gear.self, predicate: notDeletedPredicate, sortDescriptors: [])
     }
     
     func fetchActive() throws -> [Gear] {

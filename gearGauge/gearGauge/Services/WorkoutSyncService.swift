@@ -65,29 +65,30 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
         // Filter out workouts we already have
         let newWorkouts = healthKitWorkouts.filter { !existingUUIDs.contains($0.healthKitUUID) }
         
-        guard !newWorkouts.isEmpty else {
-            print("✅ No new workouts to sync")
-            updateLastSyncDate()
-            return 0
+        print("📊 Found \(newWorkouts.count) new workouts from HealthKit")
+        
+        // Assign new workouts to gear and save them
+        if !newWorkouts.isEmpty {
+            let addedWorkoutCount = try await assignWorkoutsToGear(newWorkouts)
+            
+            // Save all new workouts in bulk
+            try workoutStore.createBulk(workouts: newWorkouts)
+            
+            print("✅ Synced \(newWorkouts.count) new workouts")
+            
+            // Send notification about synced workouts
+            await NotificationService.shared.sendWorkoutSyncNotification(
+                count: addedWorkoutCount.count
+            )
         }
         
-        print("📊 Found \(newWorkouts.count) new workouts")
-        
-        // Assign workouts to gear and save
-        let addedWorkoutCount = try await assignWorkoutsToGear(newWorkouts)
-        
-        // Save all new workouts in bulk
-        try workoutStore.createBulk(workouts: newWorkouts)
+        // Also check existing workouts for assignment to new/modified gear
+        if !existingWorkouts.isEmpty {
+            try await assignWorkoutsToGear(existingWorkouts)
+        }
         
         // Update last sync date
         updateLastSyncDate()
-        
-        print("✅ Synced \(newWorkouts.count) workouts")
-        
-        // Send notification about synced workouts
-        await NotificationService.shared.sendWorkoutSyncNotification(
-            count: addedWorkoutCount.count
-        )
         
         return newWorkouts.count
     }
@@ -96,23 +97,41 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
     /// Updates gear distance traveled
     /// - Parameter workouts: Array of workouts to assign
     /// - Returns: Array of workouts that were assigned to gear (for notification or further processing)
+    @discardableResult
     private func assignWorkoutsToGear(_ workouts: [Workout]) async throws -> [Workout] {
-        // Fetch all active gear
-        let allGear = try gearStore.fetchActive()
+        // Fetch gear that should receive workout assignments:
+        // - Active gear (isActive == true)
+        // - Historic/retired gear that has an endDate set
+        let eligibleGear = try gearStore.fetchAll().filter { $0.isActive || $0.endDate != nil }
         
         // Track which gear received workouts for notification
         var affectedWorkouts: Set<Workout> = []
         
-        for gear in allGear {
-            // filter workouts based on type and startDate
+        for gear in eligibleGear {
+            // Filter workouts within the gear's date range
             let matchingWorkouts = workouts.filter { workout in
-                !workout.gear.contains(where: { $0.id == gear.id }) &&
-                gear.workoutTypes.contains(workout.workoutType) &&
-                gear.startDate <= workout.startDate &&
-                (gear.endDate == nil || gear.endDate! >= workout.startDate)
+                // 1. Not already assigned to this gear
+                guard !workout.gear.contains(where: { $0.id == gear.id }) else { return false }
+                
+                // 2. Workout type matches gear's supported types
+                guard gear.workoutTypes.contains(workout.workoutType) else { return false }
+                
+                // 3. Workout is within the gear's active date range
+                // Use calendar comparison to handle timezone differences
+                let calendar = Calendar.current
+                
+                // Compare dates at day level
+                let isAfterStart = calendar.compare(workout.startDate, to: gear.startDate, toGranularity: .day) != .orderedAscending
+                
+                let isBeforeEnd: Bool
+                if let endDate = gear.endDate {
+                    isBeforeEnd = calendar.compare(workout.startDate, to: endDate, toGranularity: .day) != .orderedDescending
+                } else {
+                    isBeforeEnd = true
+                }
+                
+                return isAfterStart && isBeforeEnd
             }
-            
-            print("matching workout count: \(matchingWorkouts.count)")
         
             for wo in matchingWorkouts {
                 assignWorkoutToGear(wo, gear)

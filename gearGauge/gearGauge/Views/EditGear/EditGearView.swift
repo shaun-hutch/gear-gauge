@@ -45,14 +45,12 @@ struct EditGearView: View {
     @State private var currentDistance: Double = 0.0
     @State private var maxDistance: Double = 0.0
     
-    /// String representations for TextField display
-    @State private var currentDistanceText: String = ""
-    @State private var maxDistanceText: String = ""
-        
     @State private var notes: String = ""
     @State private var isPrimary: Bool = true
     @State private var isActive: Bool = true
     @State private var startDate: Date = Date()
+    @State private var hasEndDate: Bool = false
+    @State private var endDate: Date = Date()
     
     /// What workout types the gear is for
     @State private var workoutTypes: [WorkoutType] = []
@@ -91,6 +89,19 @@ struct EditGearView: View {
                     GearNameField
                     GearTypeField
                     GearStartDateField
+                    
+                    // Show end date toggle only when creating new gear
+                    if isNewGear {
+                        EndDateToggle
+                        if hasEndDate {
+                            GearEndDateField
+                        }
+                    }
+                    
+                    // In read-only mode, show end date if it exists
+                    if readOnly && existingGear?.endDate != nil {
+                        GearEndDateFieldReadOnly
+                    }
                 }
                 
                 Section(header: Text(.notes)) {
@@ -185,6 +196,34 @@ struct EditGearView: View {
         
     }
     
+    var EndDateToggle: some View {
+        Toggle(.hasEndDate, isOn: $hasEndDate)
+            .tint(.appTint)
+            .onChange(of: hasEndDate) { _, newValue in
+                if newValue {
+                    // When end date is enabled, force active and primary to false
+                    isActive = false
+                    isPrimary = false
+                }
+            }
+    }
+    
+    var GearEndDateField: some View {
+        DatePicker(.endDate, selection: $endDate, in: startDate..., displayedComponents: [.date])
+            .tint(.appTint)
+    }
+    
+    var GearEndDateFieldReadOnly: some View {
+        HStack {
+            Text(.endDate)
+            Spacer()
+            if let endDate = existingGear?.endDate {
+                Text(endDate, formatter: FormatHelpers.workoutDateFormatter)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+    
     var GearNotesField: some View {
         TextEditor(text: $notes)
             .frame(minHeight: 100)
@@ -198,24 +237,15 @@ struct EditGearView: View {
             Text((readOnly || existingGear != nil) ? .currentDistance : .initialDistance)
             Spacer()
             HStack(spacing: 6) {
-                TextField(
-                    text: $currentDistanceText,
-                    prompt: Text("0").foregroundStyle(.tertiary)
-                ) {}
-                .disabled(readOnly) // this should always be disabled
-                .keyboardType(.numberPad)
-                .multilineTextAlignment(.trailing)
-                .frame(minWidth: 60, maxWidth: 120)
-                .onChange(of: currentDistanceText) { _, newValue in
-                    if let parsed = Double(newValue) {
-                        currentDistance = parsed
-                        onInitialDistanceChange(value: parsed)
-                    } else if newValue.isEmpty {
-                        currentDistance = 0.0
-                        onInitialDistanceChange(value: 0.0)
+                TextField(.emptyString, value: $currentDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
+                    .disabled(readOnly) // this should always be disabled
+                    .keyboardType(.numberPad)
+                    .multilineTextAlignment(.trailing)
+                    .frame(minWidth: 60, maxWidth: 120)
+                    .onChange(of: currentDistance) { _, newValue in
+                        onInitialDistanceChange(value: newValue)
                     }
-                }
-                .focused($fieldFocused)
+                    .focused($fieldFocused)
                 Text(distanceUnitSuffix)
                     .foregroundStyle(.secondary)
             }
@@ -227,40 +257,24 @@ struct EditGearView: View {
             Text(.maximumDistance)
             Spacer()
             HStack(spacing: 6) {
-                TextField(
-                    text: $maxDistanceText,
-                    prompt: Text("0").foregroundStyle(.tertiary)
-                ) {}
-                .keyboardType(.numberPad)
-                .multilineTextAlignment(.trailing)
-                .frame(minWidth: 60, maxWidth: 120)
-                .onChange(of: maxDistanceText) { _, newValue in
-                    if let parsed = Double(newValue) {
-                        maxDistance = parsed
-                        onMaxDistanceChange(value: parsed)
-                        // Keep text fields in sync with any clamped/adjusted numeric values
-                        maxDistanceText = String(maxDistance)
-                        currentDistanceText = String(currentDistance)
-                    } else if newValue.isEmpty {
-                        maxDistance = 0.0
-                        onMaxDistanceChange(value: 0.0)
-                        // For an empty field, keep it visually empty but sync current distance
-                        maxDistanceText = ""
-                        currentDistanceText = String(currentDistance)
+                TextField(.emptyString, value: $maxDistance, formatter: FormatHelpers.numberFormatterNoGrouping)
+                    .keyboardType(.numberPad)
+                    .multilineTextAlignment(.trailing)
+                    .frame(minWidth: 60, maxWidth: 120)
+                    .onChange(of: maxDistance) { _, newValue in
+                        onMaxDistanceChange(value: newValue)
                     }
-                }
-                .focused($fieldFocused)
+                    .focused($fieldFocused)
                 Text(distanceUnitSuffix)
                     .foregroundStyle(.secondary)
             }
         }
-        
     }
-    
     
     var PrimaryGearToggle: some View {
         Toggle(.primaryGear, isOn: $isPrimary)
             .tint(.appTint)
+            .disabled(hasEndDate)
             .onChange(of: isPrimary) { oldValue, newValue in
                 // Only show confirmation if:
                 // 1. User is setting this to primary (newValue == true)
@@ -288,10 +302,11 @@ struct EditGearView: View {
     var IsActiveGearToggle: some View {
         Toggle(.active, isOn: $isActive)
             .tint(.appTint)
+            .disabled(hasEndDate)
     }
     
     // disclosure group is a collapsible/expandable section
-
+    
     var workoutTypePicker: some View {
         VStack(alignment: .leading, spacing: 0) {
             DisclosureGroup {
@@ -420,7 +435,6 @@ struct EditGearView: View {
             .padding(.horizontal, 12)
             .background(.clear)
             .clipShape(RoundedRectangle(cornerRadius: 8))
-
         }
         .buttonStyle(.plain)
     }
@@ -469,12 +483,12 @@ struct EditGearView: View {
             type = gear.type
             currentDistance = distanceUnit == 1 ? Double.ConvertToMi(gear.currentDistance) : gear.currentDistance
             maxDistance = distanceUnit == 1 ? Double.ConvertToMi(gear.maxDistance) : gear.maxDistance
-            currentDistanceText = FormatHelpers.numberFormatterNoGrouping.string(from: NSNumber(value: currentDistance)) ?? ""
-            maxDistanceText = FormatHelpers.numberFormatterNoGrouping.string(from: NSNumber(value: maxDistance)) ?? ""
             notes = gear.notes ?? ""
             isPrimary = gear.isPrimary
             isActive = gear.isActive
             startDate = gear.startDate
+            hasEndDate = gear.endDate != nil
+            endDate = gear.endDate ?? Date()
             workoutTypes = gear.workoutTypes
         } else {
             // New gear mode - use defaults
@@ -482,13 +496,13 @@ struct EditGearView: View {
             type = .shoes
             currentDistance = 0
             maxDistance = distanceUnit == 1 ? 600 : 1000 // Default max distance (600 mi, 1000 km)
-            currentDistanceText = ""
-            maxDistanceText = FormatHelpers.numberFormatterNoGrouping.string(from: NSNumber(value: maxDistance)) ?? ""
             notes = ""
             // Set isPrimary to true only if there's no existing primary gear
             isPrimary = existingPrimaryGear == nil
             isActive = true
             startDate = Date()
+            hasEndDate = false
+            endDate = Date()
             workoutTypes = []
         }
     }
@@ -552,6 +566,7 @@ struct EditGearView: View {
                 isPrimary: isPrimary,
                 isActive: isActive,
                 startDate: startDate,
+                endDate: hasEndDate ? endDate : nil,
                 workoutTypes: workoutTypes
             )
             
@@ -616,7 +631,7 @@ struct EditGearView: View {
         }
     }
     
-
+    
     
     
     // MARK: Validation checks
