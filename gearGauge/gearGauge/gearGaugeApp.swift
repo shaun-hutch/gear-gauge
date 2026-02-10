@@ -86,7 +86,7 @@ struct gearGaugeApp: App {
                 // cachedTotalWorkoutDistance field was added to the Gear model
                 // This runs synchronously when the root view appears, which is early enough
                 // since the model container is initialized before the view hierarchy is built
-                if UserDefaultsService.get(forKey: Constants.hasMigratedCachedDistances) != true {
+                if (UserDefaultsService.get(forKey: Constants.hasMigratedCachedDistances) ?? false) == false {
                     do {
                         try gearStore.recalculateAllCaches()
                         UserDefaultsService.set(value: true, forKey: Constants.hasMigratedCachedDistances)

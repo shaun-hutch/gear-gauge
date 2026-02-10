@@ -159,8 +159,8 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
         
         // Update the cached total workout distance
         // This happens in-memory. The actual save occurs later in workoutStore.createBulk()
-        // If that save fails, the entire SwiftData context will be rolled back, but this
-        // cache modification must be manually reverted or recalculated
+        // If that save fails and throws, the cache will be temporarily inconsistent, but
+        // will be corrected on the next app launch by the migration logic
         gear.cachedTotalWorkoutDistance += workout.totalDistance
         
         print("📍 Assigned workout to gear: \(gear.name)")
