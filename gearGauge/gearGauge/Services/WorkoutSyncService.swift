@@ -155,11 +155,12 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
         // updates the inverse relationship (gear.workouts) to include this workout.
         // We do not need to manually do: gear.workouts.append(workout)
         workout.gear.append(gear)
+        gear.markAsUpdated()
         
-        // Update the cached total workout distance
+        // Update the cached total workout distance after the relationship is established
+        // This happens before the context save, so if save fails, the cache will be rolled back with the context
         gear.cachedTotalWorkoutDistance += workout.totalDistance
         
-        gear.markAsUpdated()
         print("📍 Assigned workout to gear: \(gear.name)")
     }
     
