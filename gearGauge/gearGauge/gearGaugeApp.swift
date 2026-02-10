@@ -81,24 +81,23 @@ struct gearGaugeApp: App {
                 workoutSyncService: workoutSyncService
             )
             .onAppear {
-                // Clear any delivered workout notifications
-                Task {
-                    await NotificationService.shared.clearWorkoutNotifications()
-                }
-                
                 // One-time recalculation of cached workout distances for existing data
                 // This ensures the cache is correct for data that existed before the
                 // cachedTotalWorkoutDistance field was added to the Gear model
+                // This must run synchronously before any other operations to prevent race conditions
                 if UserDefaultsService.get(forKey: Constants.hasMigratedCachedDistances) != true {
-                    Task {
-                        do {
-                            try gearStore.recalculateAllCaches()
-                            UserDefaultsService.set(value: true, forKey: Constants.hasMigratedCachedDistances)
-                            print("✅ Successfully recalculated cached workout distances")
-                        } catch {
-                            print("❌ Failed to recalculate cached workout distances: \(error)")
-                        }
+                    do {
+                        try gearStore.recalculateAllCaches()
+                        UserDefaultsService.set(value: true, forKey: Constants.hasMigratedCachedDistances)
+                        print("✅ Successfully recalculated cached workout distances")
+                    } catch {
+                        print("❌ Failed to recalculate cached workout distances: \(error)")
                     }
+                }
+                
+                // Clear any delivered workout notifications
+                Task {
+                    await NotificationService.shared.clearWorkoutNotifications()
                 }
                 
                 if (UserDefaultHelpers.firstLaunch()) {
