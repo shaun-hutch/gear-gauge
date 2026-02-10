@@ -27,6 +27,8 @@ If you are making code changes using Agent mode, please ensure the application s
 
 When I ask for localisation changes, see the existing LocalizableString files for the structure to follow. If Xcode has generated some, update the structure to match the manual entries.
 
+If I suggest a change, or some potential fix, do not always agree that it is the best solution. Challenge the suggestion and if applicable, provide alternatives.
+
 ### Testing
 Unit tests will be created for the data model and business logic. UI tests will be created for the main user flows.
 

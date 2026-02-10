@@ -176,14 +176,9 @@ struct EditGearView: View {
                     Image(systemName: gType.displayIcon)
                         .foregroundStyle(.appTint)
                         .tint(.appTint)
-                    
                     Text(gType.displayName)
-                    
-                    
                 }
                 .tag(gType)
-                
-                
             }
         }
         .tint(.appTint)
@@ -309,37 +304,29 @@ struct EditGearView: View {
     // disclosure group is a collapsible/expandable section
     
     var workoutTypePicker: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            DisclosureGroup {
-                VStack(spacing: 4) {
-                    ForEach(workoutTypesList, id: \.self) { woType in
-                        if workoutTypes.contains(woType) {
-                            selectedWorkoutTypeRow(woType)
-                        } else {
-                            unselectedWorkoutTypeRow(woType)
-                        }
-                    }
-                }
-                .padding(.top, 8)
-            } label: {
-                VStack(alignment: .leading, spacing: 4) {
-                    Label(.workoutTypes, systemImage: "figure.run")
-                        .foregroundStyle(.primary)
-                    
-                    if !workoutTypes.isEmpty {
-                        Text(selectedWorkoutTypesText)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(2)
+        DisclosureGroup {
+            VStack(spacing: 4) {
+                ForEach(workoutTypesList, id: \.self) { woType in
+                    if workoutTypes.contains(woType) {
+                        selectedWorkoutTypeRow(woType)
                     } else {
-                        Text(.noWorkoutTypesSelected)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                        unselectedWorkoutTypeRow(woType)
                     }
                 }
             }
-            .tint(.appTint)
+            .padding(.top, 8)
+        } label: {
+            VStack(alignment: .leading, spacing: 4) {
+                Label(.workoutTypes, systemImage: "figure.run")
+                    .foregroundStyle(.primary)
+                
+                Text(workoutTypes.isEmpty ? String(localized: .noWorkoutTypesSelected) : selectedWorkoutTypesText)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+            }
         }
+        .tint(.appTint)
     }
     
     var RetireGearButton: some View {
@@ -410,6 +397,7 @@ struct EditGearView: View {
             .padding(.horizontal, 12)
             .background(Color.appTint.opacity(0.1))
             .clipShape(RoundedRectangle(cornerRadius: 8))
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
     }
@@ -436,6 +424,7 @@ struct EditGearView: View {
             .padding(.horizontal, 12)
             .background(.clear)
             .clipShape(RoundedRectangle(cornerRadius: 8))
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
     }
