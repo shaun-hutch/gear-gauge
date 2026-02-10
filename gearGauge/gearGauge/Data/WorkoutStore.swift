@@ -65,33 +65,30 @@ final class WorkoutStore: WorkoutStoreProtocol {
     }
     
     func delete(workout: Workout) throws {
-        // Check if already deleted before performing the operation
-        let wasAlreadyDeleted = workout.isDeleted
+        // Capture affected gear before deletion
+        let affectedGear = workout.gear
         
         // Perform the delete operation
         try datastore.delete(workout)
         
-        // Update cached distances only after successful deletion
-        // Only decrement if the workout wasn't already soft-deleted
-        if !wasAlreadyDeleted {
-            for gear in workout.gear {
-                gear.cachedTotalWorkoutDistance -= workout.totalDistance
-            }
+        // Recalculate cached distances for affected gear after successful deletion
+        // This ensures accuracy even if relationships aren't immediately cleared
+        for gear in affectedGear {
+            gear.recalculateCachedDistance()
         }
     }
     
     func deleteBulk(workouts: [Workout]) throws {
-        // Track which workouts weren't already deleted
-        let workoutsToDecrement = workouts.filter { !$0.isDeleted }
+        // Capture all unique affected gear before deletion
+        let affectedGear = Set(workouts.flatMap { $0.gear })
         
         // Perform the bulk delete operation
         try datastore.deleteBulk(workouts)
         
-        // Update cached distances only after successful deletion
-        for workout in workoutsToDecrement {
-            for gear in workout.gear {
-                gear.cachedTotalWorkoutDistance -= workout.totalDistance
-            }
+        // Recalculate cached distances for all affected gear after successful deletion
+        // This ensures accuracy and handles edge cases like duplicate gear assignments
+        for gear in affectedGear {
+            gear.recalculateCachedDistance()
         }
     }
 }

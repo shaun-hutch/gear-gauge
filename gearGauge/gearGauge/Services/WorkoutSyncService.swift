@@ -157,8 +157,10 @@ final class WorkoutSyncService : WorkoutSyncServiceProtocol {
         workout.gear.append(gear)
         gear.markAsUpdated()
         
-        // Update the cached total workout distance after the relationship is established
-        // This happens before the context save, so if save fails, the cache will be rolled back with the context
+        // Update the cached total workout distance
+        // This happens in-memory. The actual save occurs later in workoutStore.createBulk()
+        // If that save fails, the entire SwiftData context will be rolled back, but this
+        // cache modification must be manually reverted or recalculated
         gear.cachedTotalWorkoutDistance += workout.totalDistance
         
         print("📍 Assigned workout to gear: \(gear.name)")
