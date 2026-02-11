@@ -53,7 +53,12 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
     /// - Returns: True if notifications are authorized, false otherwise
     func checkAuthorizationStatus() async -> Bool {
         let settings = await UNUserNotificationCenter.current().notificationSettings()
-        return settings.authorizationStatus == .authorized
+        let isAuthorized = settings.authorizationStatus == .authorized
+        
+        // Cache the result in UserDefaults for immediate access on next load
+        UserDefaultsService.set(value: isAuthorized, forKey: Constants.notificationsEnabled)
+        
+        return isAuthorized
     }
     
     // MARK: - Workout Sync Notifications

@@ -19,6 +19,8 @@ struct Constants {
     static let hasBackgroundFetchEnabled = "hasBackgroundFetchEnabled"
     /// key to denote if the user has requested notification authorization
     static let hasRequestedNotificationAuthorization = "hasRequestedNotificationAuthorization"
+    /// key to denote if notifications are currently enabled (cached status)
+    static let notificationsEnabled = "notificationsEnabled"
     /// maximum gear distance
     static let maximumGearDistance: Double = 10_000.0
     /// key to denote when the observer has last run a workout sync
