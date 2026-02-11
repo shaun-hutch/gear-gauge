@@ -302,7 +302,10 @@ struct SettingsView: View {
             forKey: Constants.hasRequestedNotificationAuthorization
         ) ?? false
         
-        // Check current notification status
+        // Load cached notification status immediately to prevent toggle flicker
+        notificationsEnabled = UserDefaultsService.get(forKey: Constants.notificationsEnabled) ?? false
+        
+        // Then update with actual current status in background
         Task {
             notificationsEnabled = await NotificationService.shared.checkAuthorizationStatus()
         }
@@ -344,6 +347,9 @@ struct SettingsView: View {
         let granted = await NotificationService.shared.requestAuthorization()
         hasRequestedNotificationAuth = true
         notificationsEnabled = granted
+        
+        // Cache the status for immediate access on next load
+        UserDefaultsService.set(value: granted, forKey: Constants.notificationsEnabled)
         
         if !granted {
             print("⚠️ Notification permission denied - user must enable in Settings")
