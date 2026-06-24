@@ -122,9 +122,7 @@ struct EditGearView: View {
                     IsActiveGearToggle
                 }
                 
-                if readOnly && existingGear != nil {
-                    RetireGearButton
-                }
+                
                 
                 if let error = validationError {
                     Section {
@@ -146,6 +144,11 @@ struct EditGearView: View {
                         ConfirmButton
                     } else if existingGear?.endDate == nil {
                         EditGearButton
+                    }
+                }
+                if readOnly && existingGear != nil {
+                    ToolbarItem(placement: .bottomBar) {
+                        RetireGearButton
                     }
                 }
             }
@@ -338,19 +341,11 @@ struct EditGearView: View {
             }) {
                 HStack {
                     Text(.retireGear)
-                        .font(.default).bold()
                         .foregroundStyle(.red)
-                        .padding(.leading, 16)
-                    Image(systemName: "arrow.down.to.line.alt")
-                        .font(.title)
+                    Image(systemName: "shippingbox")
                         .foregroundStyle(.red)
-                        .frame(width: 56, height: 56)
                 }
             }
-            .buttonBorderShape(.circle)
-            .glassEffect(.regular.tint(.red.opacity(0.2)).interactive())
-            .padding(20)
-            .background(.clear)
             Spacer()
             
         }
