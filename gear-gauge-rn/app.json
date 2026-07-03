@@ -46,6 +46,7 @@
       "reactCompiler": true
     },
     "extra": {
+      "storybookEnabled": null,
       "router": {},
       "eas": {
         "projectId": "b217b8e1-2ddd-45ae-bc24-59aa8f5cecb5"
