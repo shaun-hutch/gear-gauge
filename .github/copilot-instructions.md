@@ -10,6 +10,8 @@ applyTo: '**'
 - SwiftData
 - HealthKit
 - In-App Purchases
+- **React Native (Expo)**
+- **Storybook**
 
 ## General Context
 I am creating a fitness gear tracking application in iOS, with the eventual goal of putting in a watchOS app which will use the data from the iOS app.
@@ -64,3 +66,35 @@ The app will just be localised in English (NZ) - but this keeps the door open fo
 In order to make money off of this app, I will implement a paywall using Apple's in-app purchase system. The app will have a free tier with basic functionality, and a premium tier that unlocks additional features. The free tier will allow for just a single gear item to be tracked, while premium will allow for multiple.
 
 As for the pricing, I will set a one off purchase price for premium access. I feel for such a simple app, a subscription model would be overkill and deter potential users. The purchase price I believe should be $4.99 NZD.
+
+## React Native (Expo)
+
+The `gear-gauge-rn/` directory contains a parallel React Native implementation of the app using Expo SDK 57, React 19, and React Native 0.86. This is built with Expo Router for navigation and targets iOS as the primary platform.
+
+### Component Development with Storybook
+
+Components should be developed in isolation using **Storybook**. Each reusable UI component must have corresponding `.stories.tsx` files that demonstrate:
+
+- The component's default/resting state
+- All meaningful variants (e.g., loading, empty, error, disabled)
+- Edge cases (e.g., long text, missing optional props)
+
+Storybook stories act as living documentation and a visual regression safety net. When making changes to a component, ensure its stories still render correctly and add new stories for any new states or variants introduced.
+
+### Component Structure
+
+Components live under `src/components/` and follow a co-located file pattern:
+
+```
+src/components/
+├── Button/
+│   ├── Button.tsx
+│   ├── Button.stories.tsx
+│   └── Button.test.tsx
+```
+
+- Use TypeScript strictly — all props must have explicit types defined via an interface
+- Prefer functional components with hooks
+- Use React Native's `StyleSheet.create()` for static styles; avoid inline styles for performance
+- Expo Router's `Link` component for navigation; avoid inline `onPress` navigation
+- If running any terminal commands, ensure you are in the `gear-gauge-rn/` directory and use the detected package manager (npm, npx) for consistency.
