@@ -1,9 +1,11 @@
-import { Text, View, StyleSheet } from "react-native";
+import { AppText } from "@/components/AppText/AppText";
+import { globalStyles } from "@/styles/globalStyles";
+import { View, StyleSheet } from "react-native";
 
 export default function Index() {
   return (
     <View style={styles.container}>
-      <Text>Edit src/app/index.tsx to edit this screen.</Text>
+      <AppText style={globalStyles.headlineMedium}>Edit src/app/index.tsx to edit this screen.</AppText>
     </View>
   );
 }
