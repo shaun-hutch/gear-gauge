@@ -1,0 +1,1912 @@
+<!-- Home - Primary Gear (Green) -->
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>gearGauge | Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-tertiary-fixed-variant": "#003ea8",
+                "secondary-container": "#e2e2e5",
+                "surface-container-high": "#e6eadb",
+                "primary-fixed": "#aaf76f",
+                "on-tertiary-container": "#fefcff",
+                "outline-variant": "#c1cab4",
+                "surface-bright": "#f7fbec",
+                "on-primary-container": "#f9ffec",
+                "tertiary-container": "#316bf3",
+                "surface": "#f7fbec",
+                "on-secondary-fixed-variant": "#454749",
+                "on-background": "#181d14",
+                "secondary-fixed-dim": "#c6c6c9",
+                "on-surface": "#181d14",
+                "background": "#f7fbec",
+                "primary": "#336800",
+                "secondary-fixed": "#e2e2e5",
+                "surface-container-lowest": "#ffffff",
+                "surface-container": "#ebf0e1",
+                "on-primary-fixed": "#0b2000",
+                "on-surface-variant": "#414939",
+                "on-secondary": "#ffffff",
+                "on-primary": "#ffffff",
+                "tertiary": "#0051d5",
+                "on-tertiary-fixed": "#00174b",
+                "on-error": "#ffffff",
+                "inverse-primary": "#8fda56",
+                "inverse-surface": "#2d3228",
+                "error": "#ba1a1a",
+                "on-error-container": "#93000a",
+                "on-tertiary": "#ffffff",
+                "primary-container": "#418400",
+                "on-primary-fixed-variant": "#265100",
+                "surface-variant": "#e0e4d5",
+                "on-secondary-container": "#636467",
+                "tertiary-fixed-dim": "#b4c5ff",
+                "surface-container-low": "#f1f5e6",
+                "surface-tint": "#346b00",
+                "secondary": "#5d5e61",
+                "on-secondary-fixed": "#1a1c1e",
+                "surface-container-highest": "#e0e4d5",
+                "inverse-on-surface": "#eef3e3",
+                "primary-fixed-dim": "#8fda56",
+                "outline": "#717a67",
+                "surface-dim": "#d7dccd",
+                "tertiary-fixed": "#dbe1ff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "margin-mobile": "16px",
+                "unit": "4px",
+                "stack-md": "16px",
+                "stack-lg": "32px",
+                "stack-sm": "8px",
+                "gutter": "16px",
+                "margin-desktop": "32px",
+                "xs": "8px",
+                "sm": "12px",
+                "md": "16px",
+                "lg": "24px",
+                "xl": "32px",
+                "margin": "20px",
+                "base": "4px"
+        },
+        "fontFamily": {
+                "display-lg-mobile": ["Lexend"],
+                "headline-lg": ["Lexend"],
+                "label-sm": ["JetBrains Mono"],
+                "body-lg": ["Inter"],
+                "headline-lg-mobile": ["Lexend"],
+                "label-md": ["JetBrains Mono"],
+                "display-lg": ["Lexend"],
+                "body-md": ["Inter"],
+                "headline-md": ["Lexend"],
+                "display-metrics": ["Lexend"],
+                "label-status": ["Inter"],
+                "body-sm": ["Inter"],
+                "label-caps": ["JetBrains Mono"]
+        },
+        "fontSize": {
+                "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "display-metrics": ["44px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "label-status": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                "body-sm": ["15px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+        }
+    },
+    },
+  }
+</script>
+<style>
+        body { -webkit-tap-highlight-color: transparent; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 0.5px solid rgba(0, 0, 0, 0.08);
+        }
+        .gauge-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+        }
+        .gauge-svg {
+            transform: rotate(-90deg);
+        }
+        .gauge-background {
+            fill: none;
+            stroke-width: 12;
+        }
+        .gauge-progress {
+            fill: none;
+            stroke-width: 12;
+            stroke-linecap: round;
+            transition: stroke-dasharray 1s ease-out;
+        }
+        .ios-scroll-hide::-webkit-scrollbar { display: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased ios-scroll-hide">
+<!-- Top AppBar -->
+<header class="sticky top-0 z-50 flex justify-between items-center w-full px-margin py-sm max-w-[600px] mx-auto bg-background/80 backdrop-blur-md border-b border-black/5">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden border border-primary/10">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGmEULqHRk_KLt_MBQkKwKPs1twDegkUhwhcQWsZM7WrH52vw19XUwhAXbIRTn4mULN2d4f-U5zJJqbl6Pq5yxgnIc-XuxIkxprMrsuhNI4tdWFkPti-ySXevC-iuLhc2uiM5-7Ty8ibGdsI4IQFjM_rhgBaI8ff0G4LX-_k4TZ29iuV6gWTJR6bf4YmfimATH-4LSN20_FUMIFQ2LeYpgr3OCYOBUNzQg0ozmgSKZw4jKLYBocmc7keii0c1ioz7Fei6QUkWb4meY">
+</div>
+<span class="text-headline-md font-bold text-primary">gearGauge</span>
+</div>
+<button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity active:scale-95 duration-150" style="font-size: 28px;">add_circle</button>
+</header>
+<main class="max-w-[600px] mx-auto px-margin pt-lg pb-32">
+<!-- Primary Gear Section -->
+<section class="flex flex-col items-center mb-xl">
+<div class="text-center mb-md">
+<span class="text-label-caps text-on-surface-variant tracking-widest">ACTIVE GEAR</span>
+<h2 class="text-headline-lg-mobile mt-base">Brooks Ghost 15</h2>
+</div>
+<!-- Main Circular Gauge -->
+<div class="gauge-container mb-lg">
+<svg class="gauge-svg w-full h-full" viewBox="0 0 100 100">
+<circle class="gauge-background" cx="50" cy="50" r="44" stroke="#e0e4d5"></circle>
+<circle class="gauge-progress" cx="50" cy="50" r="44" stroke="#599F20" stroke-dasharray="177.8 276.4" style="stroke-dasharray: 179.699, 276.46;"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-display-metrics text-primary">65%</span>
+<span class="text-label-status text-on-surface-variant uppercase">Life Used</span>
+</div>
+</div>
+<!-- Distance Metrics Card -->
+<div class="glass-card w-full rounded-xl p-md flex justify-between items-center shadow-sm">
+<div class="flex flex-col">
+<span class="text-label-status text-on-surface-variant">Distance Traveled</span>
+<div class="flex items-baseline gap-xs">
+<span class="text-headline-lg-mobile">325</span>
+<span class="text-body-sm text-on-surface-variant">/ 500 km</span>
+</div>
+</div>
+<div class="h-12 w-px bg-outline-variant/30"></div>
+<div class="flex flex-col items-end">
+<span class="text-label-status text-on-surface-variant">Remaining</span>
+<span class="text-headline-md text-secondary">175 km</span>
+</div>
+</div>
+</section>
+<!-- Quick Stats Bento Grid -->
+<section class="grid grid-cols-2 gap-md mb-xl">
+<div class="glass-card rounded-xl p-md">
+<span class="material-symbols-outlined text-primary mb-xs" style="font-variation-settings: 'FILL' 1;">speed</span>
+<p class="text-label-status text-on-surface-variant">Avg. Pace</p>
+<p class="text-headline-md">5:24 /km</p>
+</div>
+<div class="glass-card rounded-xl p-md">
+<span class="material-symbols-outlined text-primary mb-xs" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<p class="text-label-status text-on-surface-variant">Active Days</p>
+<p class="text-headline-md">12 streak</p>
+</div>
+</section>
+<!-- Recent Workouts -->
+<section>
+<div class="flex justify-between items-center mb-md">
+<h3 class="text-headline-md">Recent Workouts</h3>
+<button class="text-primary text-label-status font-medium hover:underline">See All</button>
+</div>
+<div class="space-y-sm">
+<!-- Activity Item 1 -->
+<div class="glass-card flex items-center p-sm rounded-xl hover:opacity-90 transition-opacity cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary mr-md">
+<span class="material-symbols-outlined">directions_run</span>
+</div>
+<div class="flex-1">
+<p class="text-body-md font-bold">Morning Tempo Run</p>
+<p class="text-body-sm text-on-surface-variant">Yesterday • 8.4 km</p>
+</div>
+<div class="text-right">
+<p class="text-label-status font-bold text-primary">+1.2%</p>
+<p class="text-label-caps text-[10px] text-on-surface-variant">GEAR WEAR</p>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="glass-card flex items-center p-sm rounded-xl hover:opacity-90 transition-opacity cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary mr-md">
+<span class="material-symbols-outlined">directions_walk</span>
+</div>
+<div class="flex-1">
+<p class="text-body-md font-bold">Evening Recovery Walk</p>
+<p class="text-body-sm text-on-surface-variant">2 days ago • 3.2 km</p>
+</div>
+<div class="text-right">
+<p class="text-label-status font-bold text-primary">+0.4%</p>
+<p class="text-label-caps text-[10px] text-on-surface-variant">GEAR WEAR</p>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="glass-card flex items-center p-sm rounded-xl hover:opacity-90 transition-opacity cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary mr-md">
+<span class="material-symbols-outlined">directions_run</span>
+</div>
+<div class="flex-1">
+<p class="text-body-md font-bold">Long Sunday Run</p>
+<p class="text-body-sm text-on-surface-variant">3 days ago • 15.0 km</p>
+</div>
+<div class="text-right">
+<p class="text-label-status font-bold text-primary">+2.1%</p>
+<p class="text-label-caps text-[10px] text-on-surface-variant">GEAR WEAR</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Dynamic Tip Card -->
+<div class="mt-xl p-lg rounded-xl bg-primary-container text-on-primary-container flex gap-md items-start shadow-md">
+<span class="material-symbols-outlined text-3xl">info</span>
+<div>
+<p class="font-bold text-body-md mb-xs">Pro Tip</p>
+<p class="text-body-sm opacity-90">You've logged 45km this week. Rotating your shoes every 48 hours can extend their midsole life by up to 15%.</p>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter pb-8 pt-2 bg-surface/80 backdrop-blur-lg border-t border-black/5">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center text-primary font-semibold scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-label-status">Home</span>
+</a>
+<!-- Gear -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:bg-surface-variant/20 rounded-xl px-xs py-base transition-all" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="text-label-status">Gear</span>
+</a>
+<!-- History -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:bg-surface-variant/20 rounded-xl px-xs py-base transition-all" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="text-label-status">History</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:bg-surface-variant/20 rounded-xl px-xs py-base transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-status">Settings</span>
+</a>
+</nav>
+<script>
+        // Simple entry animation for the gauge
+        document.addEventListener('DOMContentLoaded', () => {
+            const circle = document.querySelector('.gauge-progress');
+            const targetPercent = 65;
+            const radius = 44;
+            const circumference = 2 * Math.PI * radius;
+            
+            // Set initial dasharray to 0
+            circle.style.strokeDasharray = `0 ${circumference}`;
+            
+            // Animate to target
+            setTimeout(() => {
+                const offset = (targetPercent / 100) * circumference;
+                circle.style.strokeDasharray = `${offset} ${circumference}`;
+            }, 100);
+        });
+
+        // Hover/Active micro-interactions for list items
+        const cards = document.querySelectorAll('.glass-card');
+        cards.forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.transform = 'scale(0.98)';
+                card.style.transition = 'transform 0.1s ease';
+            });
+            card.addEventListener('touchend', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>
+
+<!-- My Gear List (Green) -->
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>gearGauge | Gear List</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@600&amp;display=swap" rel="stylesheet">
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-tertiary-fixed-variant": "#003ea8",
+                "secondary-container": "#e2e2e5",
+                "surface-container-high": "#e6eadb",
+                "primary-fixed": "#aaf76f",
+                "on-tertiary-container": "#fefcff",
+                "outline-variant": "#c1cab4",
+                "surface-bright": "#f7fbec",
+                "on-primary-container": "#f9ffec",
+                "tertiary-container": "#316bf3",
+                "surface": "#f7fbec",
+                "on-secondary-fixed-variant": "#454749",
+                "on-background": "#181d14",
+                "secondary-fixed-dim": "#c6c6c9",
+                "error-container": "#ffdad6",
+                "on-surface": "#181d14",
+                "background": "#f7fbec",
+                "primary": "#336800",
+                "secondary-fixed": "#e2e2e5",
+                "surface-container-lowest": "#ffffff",
+                "surface-container": "#ebf0e1",
+                "on-primary-fixed": "#0b2000",
+                "on-surface-variant": "#414939",
+                "on-secondary": "#ffffff",
+                "on-primary": "#ffffff",
+                "tertiary": "#0051d5",
+                "on-tertiary-fixed": "#00174b",
+                "on-error": "#ffffff",
+                "inverse-primary": "#8fda56",
+                "inverse-surface": "#2d3228",
+                "error": "#ba1a1a",
+                "on-error-container": "#93000a",
+                "on-tertiary": "#ffffff",
+                "primary-container": "#418400",
+                "on-primary-fixed-variant": "#265100",
+                "surface-variant": "#e0e4d5",
+                "on-secondary-container": "#636467",
+                "tertiary-fixed-dim": "#b4c5ff",
+                "surface-container-low": "#f1f5e6",
+                "surface-tint": "#346b00",
+                "secondary": "#5d5e61",
+                "on-secondary-fixed": "#1a1c1e",
+                "surface-container-highest": "#e0e4d5",
+                "inverse-on-surface": "#eef3e3",
+                "primary-fixed-dim": "#8fda56",
+                "outline": "#717a67",
+                "surface-dim": "#d7dccd",
+                "tertiary-fixed": "#dbe1ff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "margin-mobile": "16px",
+                "unit": "4px",
+                "stack-md": "16px",
+                "stack-lg": "32px",
+                "stack-sm": "8px",
+                "gutter": "16px",
+                "margin-desktop": "32px",
+                "margin": "20px",
+                "sm": "12px",
+                "xs": "8px",
+                "md": "16px",
+                "lg": "24px",
+                "xl": "32px",
+                "base": "4px"
+        },
+        "fontFamily": {
+                "display-lg-mobile": ["Lexend"],
+                "headline-lg": ["Lexend"],
+                "label-sm": ["JetBrains Mono"],
+                "body-lg": ["Inter"],
+                "headline-lg-mobile": ["Lexend"],
+                "label-md": ["JetBrains Mono"],
+                "display-lg": ["Lexend"],
+                "body-md": ["Inter"],
+                "headline-md": ["Lexend"],
+                "label-caps": ["JetBrains Mono"],
+                "label-status": ["Inter"],
+                "body-sm": ["Inter"]
+        },
+        "fontSize": {
+                "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "label-status": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                "body-sm": ["15px", {"lineHeight": "20px", "fontWeight": "400"}]
+        }
+      },
+    },
+  }
+</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 flex justify-between items-center w-full px-margin py-sm max-w-[600px] mx-auto bg-background/80 backdrop-blur-md border-b border-black/10 transition-all duration-300">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden border border-primary/10">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSySB3j7Ecsp7zGoHgC5x6mbbmHYAoQSs316cTEB5HAJLjMDMZsDEPUOQKKF7r1yNkf-xQH_nDR0Bq4xQgel-v9F8bpkaYFONNpzlJjJT2hCm4LXxrCMC43Aljs_P0Oop26dhJufJo8_urxEhSO8VN0SPufabVRWkFH2Ax2ouyRemfq432irB8XyV7nFOQzSWH6LxOqmt7N3N0-r1z5goAYH45idkhPic4SvnQa6pAxqkHNEyPamIMokxnTVgEvHcQ_dprG_My6-GW">
+</div>
+<h1 class="text-headline-md font-bold text-primary">gearGauge</h1>
+</div>
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-150 text-primary">
+<span class="material-symbols-outlined text-[28px]" data-icon="add_circle">add_circle</span>
+</button>
+</header>
+<main class="max-w-[600px] mx-auto px-margin pt-lg">
+<!-- Dashboard Header -->
+<section class="mb-lg">
+<h2 class="text-headline-lg-mobile text-on-surface mb-xs">Your Gear</h2>
+<p class="text-body-sm text-on-surface-variant">Manage and track the lifecycle of your performance equipment.</p>
+</section>
+<!-- Quick Stats Bento Grid -->
+<div class="grid grid-cols-2 gap-md mb-xl">
+<div class="bg-primary-container text-on-primary-container p-md rounded-xl shadow-sm">
+<span class="text-label-caps opacity-80 uppercase">Total Items</span>
+<p class="text-headline-lg mt-base">12</p>
+</div>
+<div class="bg-surface-container-highest p-md rounded-xl border border-black/5">
+<span class="text-label-caps text-on-surface-variant uppercase">Maintenance Due</span>
+<p class="text-headline-lg mt-base text-error">3</p>
+</div>
+</div>
+<!-- Gear Action: Add Gear -->
+<button class="w-full flex items-center justify-center gap-sm bg-surface-container-low border-2 border-dashed border-outline-variant py-lg rounded-xl mb-lg text-primary font-semibold hover:bg-surface-container transition-colors active:scale-98">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="text-body-md">Register New Equipment</span>
+</button>
+<!-- Gear List -->
+<div class="space-y-md">
+<!-- Gear Item: Road Bike (Primary) -->
+<div class="glass-card border border-black/5 p-md rounded-xl shadow-sm flex items-center gap-md group">
+<!-- Circular Gauge -->
+<div class="relative w-16 h-16 flex-shrink-0">
+<svg class="w-full h-full">
+<circle class="text-primary/15" cx="32" cy="32" fill="transparent" r="26" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-primary progress-ring__circle" cx="32" cy="32" fill="transparent" r="26" stroke="currentColor" stroke-dasharray="163.36" stroke-dashoffset="32.67" stroke-linecap="round" stroke-width="6"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="directions_bike">directions_bike</span>
+</div>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex items-center gap-xs">
+<h3 class="text-body-md font-semibold truncate">Specialized Tarmac SL7</h3>
+<span class="material-symbols-outlined text-tertiary text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-label-status text-on-surface-variant">2,450 / 5,000 km</p>
+<div class="mt-base">
+<span class="inline-flex items-center px-xs py-[2px] rounded-full bg-primary-container/20 text-primary-container text-[10px] font-bold uppercase tracking-wider">
+                            Excellent Health
+                        </span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant opacity-40 group-hover:opacity-100 transition-opacity" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Gear Item: Trail Shoes -->
+<div class="glass-card border border-black/5 p-md rounded-xl shadow-sm flex items-center gap-md group">
+<div class="relative w-16 h-16 flex-shrink-0">
+<svg class="w-full h-full">
+<circle class="text-tertiary/15" cx="32" cy="32" fill="transparent" r="26" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-tertiary progress-ring__circle" cx="32" cy="32" fill="transparent" r="26" stroke="currentColor" stroke-dasharray="163.36" stroke-dashoffset="114.35" stroke-linecap="round" stroke-width="6"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="hiking">hiking</span>
+</div>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex items-center gap-xs">
+<h3 class="text-body-md font-semibold truncate">Hoka Speedgoat 5</h3>
+</div>
+<p class="text-label-status text-on-surface-variant">420 / 600 km</p>
+<div class="mt-base">
+<span class="inline-flex items-center px-xs py-[2px] rounded-full bg-tertiary-container/10 text-tertiary-container text-[10px] font-bold uppercase tracking-wider">
+                            Moderate Wear
+                        </span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant opacity-40" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Gear Item: Walking Sneakers -->
+<div class="glass-card border border-black/5 p-md rounded-xl shadow-sm flex items-center gap-md group">
+<div class="relative w-16 h-16 flex-shrink-0">
+<svg class="w-full h-full">
+<circle class="text-error/15" cx="32" cy="32" fill="transparent" r="26" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-error progress-ring__circle" cx="32" cy="32" fill="transparent" r="26" stroke="currentColor" stroke-dasharray="163.36" stroke-dashoffset="8.16" stroke-linecap="round" stroke-width="6"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-error" data-icon="directions_walk">directions_walk</span>
+</div>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex items-center gap-xs">
+<h3 class="text-body-md font-semibold truncate">Nike Air Pegasus</h3>
+</div>
+<p class="text-label-status text-on-surface-variant">780 / 800 km</p>
+<div class="mt-base">
+<span class="inline-flex items-center px-xs py-[2px] rounded-full bg-error-container text-on-error-container text-[10px] font-bold uppercase tracking-wider">
+                            Critical: Replace
+                        </span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant opacity-40" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Gear Item: Gravel Tires -->
+<div class="glass-card border border-black/5 p-md rounded-xl shadow-sm flex items-center gap-md group">
+<div class="relative w-16 h-16 flex-shrink-0">
+<svg class="w-full h-full">
+<circle class="text-primary/15" cx="32" cy="32" fill="transparent" r="26" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-primary progress-ring__circle" cx="32" cy="32" fill="transparent" r="26" stroke="currentColor" stroke-dasharray="163.36" stroke-dashoffset="130.68" stroke-linecap="round" stroke-width="6"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="tire_repair">tire_repair</span>
+</div>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex items-center gap-xs">
+<h3 class="text-body-md font-semibold truncate">Pirelli Cinturato Gravel</h3>
+</div>
+<p class="text-label-status text-on-surface-variant">800 / 4,000 km</p>
+<div class="mt-base">
+<span class="inline-flex items-center px-xs py-[2px] rounded-full bg-primary-container/20 text-primary-container text-[10px] font-bold uppercase tracking-wider">
+                            Optimal
+                        </span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant opacity-40" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Insight Card -->
+<div class="mt-xl bg-surface-container-high rounded-2xl p-lg overflow-hidden relative">
+<div class="relative z-10">
+<h4 class="text-headline-md mb-xs">Efficiency Tip</h4>
+<p class="text-body-sm text-on-surface-variant max-w-[70%]">Rotating your running shoes can increase their lifespan by up to 20% by allowing the foam to decompress.</p>
+</div>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-[120px] text-primary/5 rotate-12" data-icon="info">info</span>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter pb-8 pt-2 bg-surface/80 backdrop-blur-lg border-t border-black/10">
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:bg-surface-variant/20 rounded-xl transition-all p-2" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-label-status">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-semibold hover:bg-surface-variant/20 rounded-xl transition-all scale-95 p-2" href="#">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+<span class="text-label-status">Gear</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:bg-surface-variant/20 rounded-xl transition-all p-2" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-label-status">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:bg-surface-variant/20 rounded-xl transition-all p-2" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-status">Settings</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for gear cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.classList.add('scale-[0.98]');
+            });
+            card.addEventListener('touchend', () => {
+                card.classList.remove('scale-[0.98]');
+            });
+        });
+
+        // Simple scroll observer for TopAppBar transparency
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-md', 'bg-background/95');
+                header.classList.remove('bg-background/80');
+            } else {
+                header.classList.remove('shadow-md', 'bg-background/95');
+                header.classList.add('bg-background/80');
+            }
+        });
+    </script>
+</body></html>
+
+<!-- Workout History (Green) -->
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Workout History - gearGauge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@600&amp;family=Lexend:wght@400;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-tertiary-fixed-variant": "#003ea8",
+                "secondary-container": "#e2e2e5",
+                "surface-container-high": "#e6eadb",
+                "primary-fixed": "#aaf76f",
+                "on-tertiary-container": "#fefcff",
+                "outline-variant": "#c1cab4",
+                "surface-bright": "#f7fbec",
+                "on-primary-container": "#f9ffec",
+                "tertiary-container": "#316bf3",
+                "surface": "#f7fbec",
+                "on-secondary-fixed-variant": "#454749",
+                "on-background": "#181d14",
+                "secondary-fixed-dim": "#c6c6c9",
+                "error-container": "#ffdad6",
+                "on-surface": "#181d14",
+                "background": "#f7fbec",
+                "primary": "#336800",
+                "secondary-fixed": "#e2e2e5",
+                "surface-container-lowest": "#ffffff",
+                "surface-container": "#ebf0e1",
+                "on-primary-fixed": "#0b2000",
+                "on-surface-variant": "#414939",
+                "on-secondary": "#ffffff",
+                "on-primary": "#ffffff",
+                "tertiary": "#0051d5",
+                "on-tertiary-fixed": "#00174b",
+                "on-error": "#ffffff",
+                "inverse-primary": "#8fda56",
+                "inverse-surface": "#2d3228",
+                "error": "#ba1a1a",
+                "on-error-container": "#93000a",
+                "on-tertiary": "#ffffff",
+                "primary-container": "#418400",
+                "on-primary-fixed-variant": "#265100",
+                "surface-variant": "#e0e4d5",
+                "on-secondary-container": "#636467",
+                "tertiary-fixed-dim": "#b4c5ff",
+                "surface-container-low": "#f1f5e6",
+                "surface-tint": "#346b00",
+                "secondary": "#5d5e61",
+                "on-secondary-fixed": "#1a1c1e",
+                "surface-container-highest": "#e0e4d5",
+                "inverse-on-surface": "#eef3e3",
+                "primary-fixed-dim": "#8fda56",
+                "outline": "#717a67",
+                "surface-dim": "#d7dccd",
+                "tertiary-fixed": "#dbe1ff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "margin-mobile": "16px",
+                "unit": "4px",
+                "stack-md": "16px",
+                "stack-lg": "32px",
+                "stack-sm": "8px",
+                "gutter": "16px",
+                "margin-desktop": "32px",
+                "margin": "20px"
+        },
+        "fontFamily": {
+                "display-lg-mobile": ["Lexend"],
+                "headline-lg": ["Lexend"],
+                "label-sm": ["JetBrains Mono"],
+                "body-lg": ["Inter"],
+                "headline-lg-mobile": ["Lexend"],
+                "label-md": ["JetBrains Mono"],
+                "display-lg": ["Lexend"],
+                "body-md": ["Inter"],
+                "headline-md": ["Lexend"],
+                "display-metrics": ["Lexend"],
+                "label-status": ["Inter"],
+                "label-caps": ["JetBrains Mono"]
+        },
+        "fontSize": {
+                "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "display-metrics": ["44px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "label-status": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+        }
+      },
+    },
+  }
+</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(.33); opacity: 0.8; }
+            80%, 100% { opacity: 0; }
+        }
+        .sync-pulse::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: inherit;
+            border-radius: 50%;
+            animation: pulse-ring 1.25s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-32">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 flex justify-between items-center w-full px-margin py-stack-sm max-w-[600px] mx-auto bg-background/80 backdrop-blur-md border-b border-outline-variant/30">
+<div class="flex items-center gap-stack-sm">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden border border-outline-variant">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB35Yjzd66vFoGLs7Aa5P-jab0KDgvPOJFR7UYAhirQ3cyk9Iz5yUa6_ifLI3fIJxm6FZ9Gvmp3ym9QLLkDeIJuQ9YfP-8YoVTMxTU_JWJrHBMalWfNPhVdTtWFeKYdrmjops55hgZi5bP1yWYuNEX1XmAGsmVT0stM34UMgfBrY56lF1egsdfWavLExAi1b7-ej0LPtf41jX-lumE_XVnUBU6BsyzHXjdZzCKJttZRJXxT3BmwAZ-D1GwI4t7bhGtPTtTDrA3IReRU">
+</div>
+<span class="text-headline-md font-headline-md font-bold text-primary">gearGauge</span>
+</div>
+<div class="flex items-center gap-stack-sm">
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined text-primary">add_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="max-w-[600px] mx-auto px-margin pt-stack-md">
+<!-- Sync Status Indicator -->
+<div class="mb-stack-lg bg-surface-container-low rounded-xl px-stack-md py-stack-sm flex items-center justify-between border border-outline-variant/10">
+<div class="flex items-center gap-stack-sm">
+<div class="relative w-2.5 h-2.5">
+<div class="absolute inset-0 bg-primary rounded-full"></div>
+</div>
+<span class="text-label-status font-label-status text-on-surface-variant">All workouts synced</span>
+</div>
+<span class="text-[10px] font-label-caps uppercase text-primary font-bold">Live</span>
+</div>
+<!-- Section: Activity Summary -->
+<section class="mb-stack-lg">
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile mb-stack-md text-on-surface">Workout History</h2>
+<!-- Filter Chips -->
+<div class="flex gap-unit overflow-x-auto pb-unit no-scrollbar mb-stack-md">
+<button class="px-stack-md py-1.5 bg-primary text-on-primary rounded-full text-label-status font-label-status whitespace-nowrap">All Activities</button>
+<button class="px-stack-md py-1.5 bg-surface-variant text-on-surface-variant rounded-full text-label-status font-label-status whitespace-nowrap">Running</button>
+<button class="px-stack-md py-1.5 bg-surface-variant text-on-surface-variant rounded-full text-label-status font-label-status whitespace-nowrap">Cycling</button>
+<button class="px-stack-md py-1.5 bg-surface-variant text-on-surface-variant rounded-full text-label-status font-label-status whitespace-nowrap">Walking</button>
+</div>
+<!-- List of Workouts -->
+<div class="space-y-stack-md">
+<!-- Entry 1: Running -->
+<div class="bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant/10 shadow-sm active:scale-[0.98] transition-transform">
+<div class="flex items-start justify-between mb-stack-sm">
+<div class="flex items-center gap-stack-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">directions_run</span>
+</div>
+<div>
+<h3 class="text-body-md font-bold text-on-surface">Morning Run</h3>
+<p class="text-label-status text-on-surface-variant">Today, 7:12 AM</p>
+</div>
+</div>
+<div class="bg-secondary-container px-stack-sm py-0.5 rounded-full">
+<span class="text-[11px] font-label-caps text-on-secondary-container font-bold">SYNCED</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-stack-sm mb-stack-md">
+<div class="bg-surface-container-low p-stack-sm rounded-lg">
+<p class="text-[10px] font-label-caps text-on-surface-variant mb-1">DISTANCE</p>
+<p class="text-headline-md font-headline-md text-primary">8.42 <span class="text-label-status">km</span></p>
+</div>
+<div class="bg-surface-container-low p-stack-sm rounded-lg">
+<p class="text-[10px] font-label-caps text-on-surface-variant mb-1">DURATION</p>
+<p class="text-headline-md font-headline-md text-primary">42:15</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-stack-sm border-t border-outline-variant/30">
+<div class="flex items-center gap-unit">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">inventory_2</span>
+<span class="text-label-status text-on-surface-variant">Nike Air Zoom Pegasus 39</span>
+</div>
+<span class="material-symbols-outlined text-outline text-sm">chevron_right</span>
+</div>
+</div>
+<!-- Entry 2: Cycling -->
+<div class="bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant/10 shadow-sm active:scale-[0.98] transition-transform">
+<div class="flex items-start justify-between mb-stack-sm">
+<div class="flex items-center gap-stack-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">directions_bike</span>
+</div>
+<div>
+<h3 class="text-body-md font-bold text-on-surface">Evening Ride</h3>
+<p class="text-label-status text-on-surface-variant">Yesterday, 5:45 PM</p>
+</div>
+</div>
+<div class="bg-secondary-container px-stack-sm py-0.5 rounded-full">
+<span class="text-[11px] font-label-caps text-on-secondary-container font-bold">SYNCED</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-stack-sm mb-stack-md">
+<div class="bg-surface-container-low p-stack-sm rounded-lg">
+<p class="text-[10px] font-label-caps text-on-surface-variant mb-1">DISTANCE</p>
+<p class="text-headline-md font-headline-md text-primary">24.5 <span class="text-label-status">km</span></p>
+</div>
+<div class="bg-surface-container-low p-stack-sm rounded-lg">
+<p class="text-[10px] font-label-caps text-on-surface-variant mb-1">DURATION</p>
+<p class="text-headline-md font-headline-md text-primary">1:12:04</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-stack-sm border-t border-outline-variant/30">
+<div class="flex items-center gap-unit">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">inventory_2</span>
+<span class="text-label-status text-on-surface-variant">Specialized Allez E5</span>
+</div>
+<span class="material-symbols-outlined text-outline text-sm">chevron_right</span>
+</div>
+</div>
+<!-- Entry 3: Walking -->
+<div class="bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant/10 shadow-sm active:scale-[0.98] transition-transform">
+<div class="flex items-start justify-between mb-stack-sm">
+<div class="flex items-center gap-stack-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">directions_walk</span>
+</div>
+<div>
+<h3 class="text-body-md font-bold text-on-surface">Lunch Walk</h3>
+<p class="text-label-status text-on-surface-variant">Oct 24, 12:30 PM</p>
+</div>
+</div>
+<div class="bg-secondary-container px-stack-sm py-0.5 rounded-full">
+<span class="text-[11px] font-label-caps text-on-secondary-container font-bold">SYNCED</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-stack-sm mb-stack-md">
+<div class="bg-surface-container-low p-stack-sm rounded-lg">
+<p class="text-[10px] font-label-caps text-on-surface-variant mb-1">DISTANCE</p>
+<p class="text-headline-md font-headline-md text-primary">2.1 <span class="text-label-status">km</span></p>
+</div>
+<div class="bg-surface-container-low p-stack-sm rounded-lg">
+<p class="text-[10px] font-label-caps text-on-surface-variant mb-1">DURATION</p>
+<p class="text-headline-md font-headline-md text-primary">25:10</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-stack-sm border-t border-outline-variant/30">
+<div class="flex items-center gap-unit">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">inventory_2</span>
+<span class="text-label-status text-on-surface-variant">Hoka Bondi 8</span>
+</div>
+<span class="material-symbols-outlined text-outline text-sm">chevron_right</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid: Analytics Preview -->
+<section class="mb-xl">
+<h2 class="text-headline-md font-headline-md mb-stack-md text-on-surface">Monthly Insights</h2>
+<div class="grid grid-cols-2 gap-stack-md">
+<div class="col-span-2 bg-primary rounded-2xl p-stack-lg text-on-primary relative overflow-hidden h-40 flex flex-col justify-end">
+<div class="relative z-10">
+<p class="text-label-caps text-on-primary/70 mb-1">TOTAL GEAR USAGE</p>
+<p class="text-display-metrics font-display-metrics">142.8 <span class="text-headline-md">km</span></p>
+<p class="text-body-sm opacity-90 mt-1">12% more than last month</p>
+</div>
+</div>
+<div class="bg-surface-container-high rounded-2xl p-stack-md border border-outline-variant/10">
+<p class="text-label-caps text-on-surface-variant mb-2">MOST USED</p>
+<div class="flex flex-col items-center py-stack-sm">
+<div class="w-16 h-16 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-sm mb-2">
+<span class="material-symbols-outlined text-primary text-3xl">directions_run</span>
+</div>
+<p class="text-body-md font-bold">Running</p>
+<p class="text-label-status text-on-surface-variant">45h total</p>
+</div>
+</div>
+<div class="bg-surface-container-high rounded-2xl p-stack-md border border-outline-variant/10">
+<p class="text-label-caps text-on-surface-variant mb-2">HEALTH STATUS</p>
+<div class="flex flex-col items-center py-stack-sm">
+<div class="relative w-16 h-16 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-primary/10" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-primary" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-dasharray="176" stroke-dashoffset="35" stroke-width="6"></circle>
+</svg>
+<span class="absolute text-label-status font-bold text-primary">82%</span>
+</div>
+<p class="text-body-md font-bold mt-2">Optimal</p>
+<p class="text-label-status text-on-surface-variant text-center leading-tight">Gear Lifecycle</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter pb-8 pt-2 bg-surface/80 dark:bg-surface-container-lowest/80 backdrop-blur-lg border-t border-outline-variant/30">
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:bg-surface-variant/20 rounded-xl px-4 py-1" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-status font-label-status">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:bg-surface-variant/20 rounded-xl px-4 py-1" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="text-label-status font-label-status">Gear</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-semibold scale-90 transition-transform duration-200 rounded-xl px-4 py-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history</span>
+<span class="text-label-status font-label-status">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:bg-surface-variant/20 rounded-xl px-4 py-1" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-status font-label-status">Settings</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for workout cards
+        document.querySelectorAll('.active\\:scale-\\[0\\.98\\]').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('touchend', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simulate a "Sync Finished" state after some time
+        setTimeout(() => {
+            const syncStatus = document.querySelector('.bg-primary.rounded-full.absolute');
+            const syncText = document.querySelector('.text-on-surface-variant');
+            if (syncStatus && syncText) {
+                syncStatus.classList.remove('sync-pulse');
+                syncText.innerText = 'All workouts synced';
+            }
+        }, 5000);
+    </script>
+</body></html>
+
+<!-- Select Gear Type (Green) -->
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>gearGauge - Select Gear Type</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Lexend:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-tertiary-fixed-variant": "#003ea8",
+                "secondary-container": "#e2e2e5",
+                "surface-container-high": "#e6eadb",
+                "primary-fixed": "#aaf76f",
+                "on-tertiary-container": "#fefcff",
+                "outline-variant": "#c1cab4",
+                "surface-bright": "#f7fbec",
+                "on-primary-container": "#f9ffec",
+                "tertiary-container": "#316bf3",
+                "surface": "#f7fbec",
+                "on-secondary-fixed-variant": "#454749",
+                "on-background": "#181d14",
+                "secondary-fixed-dim": "#c6c6c9",
+                "error-container": "#ffdad6",
+                "on-surface": "#181d14",
+                "background": "#f7fbec",
+                "primary": "#336800",
+                "secondary-fixed": "#e2e2e5",
+                "surface-container-lowest": "#ffffff",
+                "surface-container": "#ebf0e1",
+                "on-primary-fixed": "#0b2000",
+                "on-surface-variant": "#414939",
+                "on-secondary": "#ffffff",
+                "on-primary": "#ffffff",
+                "tertiary": "#0051d5",
+                "on-tertiary-fixed": "#00174b",
+                "on-error": "#ffffff",
+                "inverse-primary": "#8fda56",
+                "inverse-surface": "#2d3228",
+                "error": "#ba1a1a",
+                "on-error-container": "#93000a",
+                "on-tertiary": "#ffffff",
+                "primary-container": "#418400",
+                "on-primary-fixed-variant": "#265100",
+                "surface-variant": "#e0e4d5",
+                "on-secondary-container": "#636467",
+                "tertiary-fixed-dim": "#b4c5ff",
+                "surface-container-low": "#f1f5e6",
+                "surface-tint": "#346b00",
+                "secondary": "#5d5e61",
+                "on-secondary-fixed": "#1a1c1e",
+                "surface-container-highest": "#e0e4d5",
+                "inverse-on-surface": "#eef3e3",
+                "primary-fixed-dim": "#8fda56",
+                "outline": "#717a67",
+                "surface-dim": "#d7dccd",
+                "tertiary-fixed": "#dbe1ff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "margin-mobile": "16px",
+                "unit": "4px",
+                "stack-md": "16px",
+                "stack-lg": "32px",
+                "stack-sm": "8px",
+                "gutter": "16px",
+                "margin-desktop": "32px"
+        },
+        "fontFamily": {
+                "display-lg-mobile": ["Lexend"],
+                "headline-lg": ["Lexend"],
+                "label-sm": ["JetBrains Mono"],
+                "body-lg": ["Inter"],
+                "headline-lg-mobile": ["Lexend"],
+                "label-md": ["JetBrains Mono"],
+                "display-lg": ["Lexend"],
+                "body-md": ["Inter"],
+                "headline-md": ["Lexend"]
+        },
+        "fontSize": {
+                "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+        }
+      },
+    },
+  }
+</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .squircle {
+            border-radius: 24px;
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .gear-card {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease;
+        }
+        .gear-card:active {
+            transform: scale(0.96);
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md flex flex-col">
+<!-- Top Navigation -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 ios-blur border-b border-black/5 px-margin-mobile h-14 flex items-center justify-between">
+<button class="flex items-center justify-center p-2 -ml-2 text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-on-surface">gearGauge</span>
+<button class="font-label-md text-label-md text-primary font-semibold active:opacity-60 transition-opacity">
+            Cancel
+        </button>
+</header>
+<!-- Content Canvas -->
+<main class="flex-grow pt-24 pb-12 px-margin-mobile max-w-[600px] mx-auto w-full">
+<!-- Headline Section -->
+<div class="mb-stack-lg">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mb-unit">
+                What are we tracking?
+            </h1>
+<p class="text-on-surface-variant font-body-md">
+                Select the type of gear you'd like to register. We'll help you track its mileage and lifecycle.
+            </p>
+</div>
+<!-- Bento-style Gear Category Grid -->
+<div class="grid grid-cols-2 gap-stack-md">
+<!-- Category: Running Shoes -->
+<button class="gear-card flex flex-col items-start p-stack-md bg-surface-container-low border border-outline-variant/30 rounded-xl hover:bg-surface-container-high text-left group">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary-container mb-stack-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="directions_run">directions_run</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface block">Running Shoes</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-1">Road &amp; Track</span>
+</button>
+<!-- Category: Road Bike -->
+<button class="gear-card flex flex-col items-start p-stack-md bg-surface-container-low border border-outline-variant/30 rounded-xl hover:bg-surface-container-high text-left group">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary-container mb-stack-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="directions_bike">directions_bike</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface block">Road Bike</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-1">Tarmac Speed</span>
+</button>
+<!-- Category: Mountain Bike -->
+<button class="gear-card flex flex-col items-start p-stack-md bg-surface-container-low border border-outline-variant/30 rounded-xl hover:bg-surface-container-high text-left group">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary-container mb-stack-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="terrain">terrain</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface block">Mountain Bike</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-1">Hardtail &amp; Full-Sus</span>
+</button>
+<!-- Category: Walking Shoes -->
+<button class="gear-card flex flex-col items-start p-stack-md bg-surface-container-low border border-outline-variant/30 rounded-xl hover:bg-surface-container-high text-left group">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary-container mb-stack-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="directions_walk">directions_walk</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface block">Walking Shoes</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-1">Everyday Comfort</span>
+</button>
+<!-- Category: Trail Shoes -->
+<button class="gear-card flex flex-col items-start p-stack-md bg-surface-container-low border border-outline-variant/30 rounded-xl hover:bg-surface-container-high text-left group">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary-container mb-stack-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="forest">forest</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface block">Trail Shoes</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-1">Off-road Running</span>
+</button>
+<!-- Category: Gravel Bike -->
+<button class="gear-card flex flex-col items-start p-stack-md bg-surface-container-low border border-outline-variant/30 rounded-xl hover:bg-surface-container-high text-left group">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary-container mb-stack-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface block">Gravel Bike</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-1">Adventure Cycling</span>
+</button>
+</div>
+<!-- Secondary Information / Help Section -->
+<div class="mt-stack-lg p-stack-md bg-primary-fixed/30 rounded-xl flex items-start gap-stack-md">
+<span class="material-symbols-outlined text-primary" data-icon="info">info</span>
+<div>
+<p class="font-label-md text-label-md text-on-primary-fixed mb-1 uppercase tracking-wider">Why categorise?</p>
+<p class="font-body-md text-body-md text-on-primary-fixed-variant">
+                    Gear types allow us to set specific maintenance alerts. For example, bike chains need checking every 1,500km, while running shoes often expire after 800km.
+                </p>
+</div>
+</div>
+</main>
+<!-- Footer Action -->
+<footer class="fixed bottom-0 w-full p-margin-mobile bg-surface/80 ios-blur border-t border-black/5 md:hidden">
+<button class="w-full py-4 bg-primary text-on-primary font-headline-md text-headline-md rounded-xl active:scale-95 transition-transform shadow-lg shadow-primary/20">
+            Next Step
+        </button>
+</footer>
+<!-- Image for Visual Flourish -->
+<div class="hidden lg:block fixed right-0 top-0 h-full w-1/3 overflow-hidden">
+<img alt="Athlete gear background" class="h-full w-full object-cover grayscale-[20%] opacity-80" data-alt="A high-end, professionally photographed pair of premium road running shoes and a sleek carbon fiber bike frame resting against a minimalist, textured light gray concrete wall. The scene is bathed in bright, soft, natural daylight with long, subtle shadows creating a sense of early morning readiness. The aesthetic is clean and high-performance, featuring a color palette of electric blue accents, muted grays, and crisp whites that align with a modern iOS utility application. The mood is inspiring, organized, and technical, emphasizing the gear as precision instruments for an active lifestyle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNkTd-ZcgBsMlyHOYvSEoVc8qe7ES6P_3NPZ9p1L0tCHsNve8LWavuxrvwQIeLcNz7Wgb2Yi6VQH-iuMo0ibgymj7IXOPz9QQyXZMLJXgQ24bdpu98_FUYhSOL5xqCwdviYEf813OPKBKcZpF9-2iA9b2iKD8tJqNYT_50qPQaQxrFprBqGHbLT4O7pCZsns7SisiXMhU2QrIfNq1yu7PRaGFa_89YOSHfLXow15FmBjM-TsmS40_cYfzMfaFA4p9tbh9YwKfC-AHN">
+</div>
+<script>
+        // Micro-interaction: Toggle selection state visually (UX Prototype)
+        document.querySelectorAll('.gear-card').forEach(card => {
+            card.addEventListener('click', () => {
+                // Clear others
+                document.querySelectorAll('.gear-card').forEach(c => {
+                    c.classList.remove('ring-2', 'ring-primary', 'bg-primary-container/10');
+                    c.classList.add('bg-surface-container-low');
+                });
+                // Highlight active
+                card.classList.add('ring-2', 'ring-primary', 'bg-primary-container/10');
+                card.classList.remove('bg-surface-container-low');
+            });
+        });
+    </script>
+</body></html>
+
+<!-- Settings (Green) -->
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>gearGauge - Settings</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;family=Lexend:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-tertiary-fixed-variant": "#003ea8",
+                "secondary-container": "#e2e2e5",
+                "surface-container-high": "#e6eadb",
+                "primary-fixed": "#aaf76f",
+                "on-tertiary-container": "#fefcff",
+                "outline-variant": "#c1cab4",
+                "surface-bright": "#f7fbec",
+                "on-primary-container": "#f9ffec",
+                "tertiary-container": "#316bf3",
+                "surface": "#f7fbec",
+                "on-secondary-fixed-variant": "#454749",
+                "on-background": "#181d14",
+                "secondary-fixed-dim": "#c6c6c9",
+                "error-container": "#ffdad6",
+                "on-surface": "#181d14",
+                "background": "#f7fbec",
+                "primary": "#336800",
+                "secondary-fixed": "#e2e2e5",
+                "surface-container-lowest": "#ffffff",
+                "surface-container": "#ebf0e1",
+                "on-primary-fixed": "#0b2000",
+                "on-surface-variant": "#414939",
+                "on-secondary": "#ffffff",
+                "on-primary": "#ffffff",
+                "tertiary": "#0051d5",
+                "on-tertiary-fixed": "#00174b",
+                "on-error": "#ffffff",
+                "inverse-primary": "#8fda56",
+                "inverse-surface": "#2d3228",
+                "error": "#ba1a1a",
+                "on-error-container": "#93000a",
+                "on-tertiary": "#ffffff",
+                "primary-container": "#418400",
+                "on-primary-fixed-variant": "#265100",
+                "surface-variant": "#e0e4d5",
+                "on-secondary-container": "#636467",
+                "tertiary-fixed-dim": "#b4c5ff",
+                "surface-container-low": "#f1f5e6",
+                "surface-tint": "#346b00",
+                "secondary": "#5d5e61",
+                "on-secondary-fixed": "#1a1c1e",
+                "surface-container-highest": "#e0e4d5",
+                "inverse-on-surface": "#eef3e3",
+                "primary-fixed-dim": "#8fda56",
+                "outline": "#717a67",
+                "surface-dim": "#d7dccd",
+                "tertiary-fixed": "#dbe1ff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "margin-mobile": "16px",
+                "unit": "4px",
+                "stack-md": "16px",
+                "stack-lg": "32px",
+                "stack-sm": "8px",
+                "gutter": "16px",
+                "margin-desktop": "32px"
+        },
+        "fontFamily": {
+                "display-lg-mobile": [
+                        "Lexend"
+                ],
+                "headline-lg": [
+                        "Lexend"
+                ],
+                "label-sm": [
+                        "JetBrains Mono"
+                ],
+                "body-lg": [
+                        "Inter"
+                ],
+                "headline-lg-mobile": [
+                        "Lexend"
+                ],
+                "label-md": [
+                        "JetBrains Mono"
+                ],
+                "display-lg": [
+                        "Lexend"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "headline-md": [
+                        "Lexend"
+                ]
+        },
+        "fontSize": {
+                "display-lg-mobile": [
+                        "36px",
+                        {
+                                "lineHeight": "44px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.08em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .ios-toggle {
+            position: relative;
+            display: inline-block;
+            width: 51px;
+            height: 31px;
+        }
+        .ios-toggle input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #c1cab4;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 27px; width: 27px;
+            left: 2px; bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        input:checked + .slider { background-color: #336800; }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Glassmorphism utility */
+        .glass-ios {
+            background: rgba(247, 251, 236, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background font-body-md text-on-surface selection:bg-primary-fixed antialiased">
+<!-- Top AppBar -->
+<header class="sticky top-0 z-50 flex justify-between items-center w-full px-margin-mobile py-unit max-w-[600px] mx-auto bg-background/80 backdrop-blur-md border-b border-outline-variant/30">
+<div class="flex items-center gap-stack-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">gearGauge</h1>
+</div>
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined text-primary" data-icon="add_circle">add_circle</span>
+</button>
+</header>
+<main class="max-w-[600px] mx-auto px-margin-mobile pb-32 pt-stack-lg">
+<!-- Header Section -->
+<div class="mb-stack-lg">
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface">Settings</h2>
+<p class="text-body-md text-on-surface-variant mt-unit">Manage your gear and app preferences.</p>
+</div>
+<!-- Premium CTA Card (Bento Style) -->
+<section class="mb-stack-lg">
+<div class="relative overflow-hidden rounded-xl bg-primary-container p-stack-lg text-on-primary-container shadow-lg flex flex-col gap-stack-md">
+<div class="z-10">
+<span class="inline-block px-stack-sm py-[2px] bg-white/20 rounded-full text-label-sm font-label-sm mb-stack-sm uppercase">PRO FEATURE</span>
+<h3 class="text-headline-md font-headline-md mb-stack-sm">Unlock Unlimited Gear</h3>
+<p class="text-body-md opacity-90 leading-relaxed max-w-[280px]">Get detailed wear-and-tear analytics, push notifications for replacements, and multi-device sync.</p>
+</div>
+<div class="z-10 flex items-center justify-between mt-stack-sm">
+<span class="font-headline-md text-headline-md">$4.99 <span class="text-sm font-normal opacity-80">NZD</span></span>
+<button class="bg-surface-container-lowest text-primary font-bold px-stack-lg py-stack-sm rounded-xl hover:bg-opacity-90 transition-all active:scale-95">
+                        Upgrade Now
+                    </button>
+</div>
+<!-- Abstract Visual Accent -->
+<div class="absolute -right-8 -top-8 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+<div class="absolute right-4 bottom-4 opacity-20 transform rotate-12">
+<span class="material-symbols-outlined text-[100px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+</div>
+</section>
+<!-- Grouped Settings List: Integration -->
+<section class="mb-stack-lg">
+<h4 class="text-label-md font-label-md text-on-surface-variant px-unit mb-unit uppercase">INTEGRATIONS</h4>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/30">
+<div class="flex items-center justify-between px-stack-md py-stack-sm border-b border-outline-variant/20">
+<div class="flex items-center gap-stack-md">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<span class="text-body-md font-medium">Apple Health</span>
+</div>
+<label class="ios-toggle">
+<input checked="" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<div class="px-stack-md py-stack-sm flex items-center justify-between bg-surface-container-low/30">
+<p class="text-label-md text-on-surface-variant italic">Synchronizing 4 gear types automatically.</p>
+</div>
+</div>
+</section>
+<!-- Grouped Settings List: Notifications -->
+<section class="mb-stack-lg">
+<h4 class="text-label-md font-label-md text-on-surface-variant px-unit mb-unit uppercase">NOTIFICATIONS</h4>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/30">
+<div class="flex items-center justify-between px-stack-md py-stack-sm border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-stack-md">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[20px]">notifications_active</span>
+</div>
+<span class="text-body-md font-medium">Push Alerts</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant/40">chevron_right</span>
+</div>
+<div class="flex items-center justify-between px-stack-md py-stack-sm border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-stack-md">
+<div class="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[20px]">history</span>
+</div>
+<span class="text-body-md font-medium">Weekly Digest</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant/40">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Grouped Settings List: Info -->
+<section class="mb-stack-lg">
+<h4 class="text-label-md font-label-md text-on-surface-variant px-unit mb-unit uppercase">APP INFORMATION</h4>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/30">
+<div class="flex items-center justify-between px-stack-md py-stack-sm border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-stack-md">
+<div class="w-8 h-8 rounded-lg bg-on-surface-variant/10 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">info</span>
+</div>
+<span class="text-body-md font-medium">About gearGauge</span>
+</div>
+<span class="text-label-sm text-on-surface-variant">v2.4.1</span>
+</div>
+<div class="flex items-center justify-between px-stack-md py-stack-sm border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-stack-md">
+<div class="w-8 h-8 rounded-lg bg-on-surface-variant/10 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">policy</span>
+</div>
+<span class="text-body-md font-medium">Privacy Policy</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant/40">open_in_new</span>
+</div>
+<div class="flex items-center justify-between px-stack-md py-stack-sm hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-stack-md">
+<div class="w-8 h-8 rounded-lg bg-on-surface-variant/10 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">help</span>
+</div>
+<span class="text-body-md font-medium">Support Center</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant/40">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Danger Zone -->
+<section class="mb-stack-lg">
+<button class="w-full bg-error-container/20 border border-error/10 text-error font-semibold px-stack-md py-stack-sm rounded-xl active:scale-95 transition-all text-body-md">
+                Reset All Gear Data
+            </button>
+<p class="text-center text-label-sm text-on-surface-variant/60 mt-stack-md">Made with precision for athletes.</p>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter pb-8 pt-2 bg-surface/80 backdrop-blur-lg border-t border-outline-variant/30">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:bg-surface-variant/20 rounded-xl px-unit py-unit transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-label-sm font-label-sm">Home</span>
+</a>
+<!-- Gear -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:bg-surface-variant/20 rounded-xl px-unit py-unit transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+<span class="text-label-sm font-label-sm">Gear</span>
+</a>
+<!-- History -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 hover:bg-surface-variant/20 rounded-xl px-unit py-unit transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-label-sm font-label-sm">History</span>
+</a>
+<!-- Settings (ACTIVE) -->
+<a class="flex flex-col items-center justify-center text-primary font-semibold scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="text-label-sm font-label-sm">Settings</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for toggle feedback
+        const toggles = document.querySelectorAll('.ios-toggle input');
+        toggles.forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                if(this.checked) {
+                    console.log('Permission granted');
+                } else {
+                    console.log('Permission revoked');
+                }
+            });
+        });
+
+        // Sticky header opacity on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-sm');
+            } else {
+                header.classList.remove('shadow-sm');
+            }
+        });
+    </script>
+</body></html>
+
+<!-- Sync with HealthKit Onboarding (Green) -->
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Sync with HealthKit - gearGauge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Lexend:wght@600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#003ea8",
+                    "secondary-container": "#e2e2e5",
+                    "surface-container-high": "#e6eadb",
+                    "primary-fixed": "#aaf76f",
+                    "on-tertiary-container": "#fefcff",
+                    "outline-variant": "#c1cab4",
+                    "surface-bright": "#f7fbec",
+                    "on-primary-container": "#f9ffec",
+                    "tertiary-container": "#316bf3",
+                    "surface": "#f7fbec",
+                    "on-secondary-fixed-variant": "#454749",
+                    "on-background": "#181d14",
+                    "secondary-fixed-dim": "#c6c6c9",
+                    "error-container": "#ffdad6",
+                    "on-surface": "#181d14",
+                    "background": "#f7fbec",
+                    "primary": "#336800",
+                    "secondary-fixed": "#e2e2e5",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#ebf0e1",
+                    "on-primary-fixed": "#0b2000",
+                    "on-surface-variant": "#414939",
+                    "on-secondary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#0051d5",
+                    "on-tertiary-fixed": "#00174b",
+                    "on-error": "#ffffff",
+                    "inverse-primary": "#8fda56",
+                    "inverse-surface": "#2d3228",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#418400",
+                    "on-primary-fixed-variant": "#265100",
+                    "surface-variant": "#e0e4d5",
+                    "on-secondary-container": "#636467",
+                    "tertiary-fixed-dim": "#b4c5ff",
+                    "surface-container-low": "#f1f5e6",
+                    "surface-tint": "#346b00",
+                    "secondary": "#5d5e61",
+                    "on-secondary-fixed": "#1a1c1e",
+                    "surface-container-highest": "#e0e4d5",
+                    "inverse-on-surface": "#eef3e3",
+                    "primary-fixed-dim": "#8fda56",
+                    "outline": "#717a67",
+                    "surface-dim": "#d7dccd",
+                    "tertiary-fixed": "#dbe1ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "unit": "4px",
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "stack-sm": "8px",
+                    "gutter": "16px",
+                    "margin-desktop": "32px"
+            },
+            "fontFamily": {
+                    "display-lg-mobile": ["Lexend"],
+                    "headline-lg": ["Lexend"],
+                    "label-sm": ["JetBrains Mono"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Lexend"],
+                    "label-md": ["JetBrains Mono"],
+                    "display-lg": ["Lexend"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Lexend"]
+            },
+            "fontSize": {
+                    "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 0.5px solid rgba(0, 0, 0, 0.08);
+        }
+        .pulse-soft {
+            animation: pulse-soft 3s infinite ease-in-out;
+        }
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.95; }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col items-center justify-between">
+<!-- Top Navigation -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 flex items-center justify-between px-margin-mobile h-14">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-bold text-primary">gearGauge</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPSX6iv9f0RQE-oriXnMMSxee9UogSYJEeSO5Fvq6ZquZ8ZtOCa0oVCkNwpXVO38u24Al_cC_MflGWgDWOXQYJ52kiUER1T2FtkXaMcJiTjm9CfQds6IdTizXNmJAYATjpJ-JxZBi7t9GvF7IjkaIU-i2eNJuHbnL19GSeAdMcM65OymsVyr9eiRXQugu-g6inyjq3I2A2eZ5SK2IrWr4HsL7JKugc4BvB1U5owrZCbsZbrpIyluC-beqcVSBG4oOA2q0mgMEGplyI">
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-[600px] px-margin-mobile pt-24 pb-12 flex flex-col items-center text-center">
+<!-- Hero Illustration -->
+<div class="relative w-48 h-48 mb-stack-lg flex items-center justify-center">
+<!-- Background Decorative Rings -->
+<div class="absolute inset-0 rounded-full border-2 border-primary/10 animate-[spin_10s_linear_infinite]"></div>
+<div class="absolute inset-4 rounded-full border-2 border-secondary/10 animate-[spin_15s_linear_infinite_reverse]"></div>
+<!-- Main Icon Container -->
+<div class="relative z-10 w-32 h-32 bg-primary-container rounded-full flex items-center justify-center shadow-lg shadow-primary/20 pulse-soft">
+<span class="material-symbols-outlined text-on-primary text-[64px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<!-- Floating Elements -->
+<div class="absolute -top-2 -right-2 w-12 h-12 bg-surface-container-lowest rounded-full shadow-md flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-2xl">sync</span>
+</div>
+</div>
+<!-- Headline & Subhead -->
+<section class="mb-stack-lg">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-stack-sm px-4">Sync Your Performance</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[320px] mx-auto">
+                Connect Apple Health to automatically track your gear usage and health metrics in one place.
+            </p>
+</section>
+<!-- Benefits List (Bento-lite Layout) -->
+<div class="w-full grid grid-cols-1 gap-stack-md mb-stack-lg">
+<!-- Benefit 1 -->
+<div class="glass-card p-stack-md rounded-xl flex items-start gap-stack-md text-left transition-transform active:scale-[0.98]">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[17px] text-on-surface mb-1">Auto-Sync Workouts</h3>
+<p class="font-body-md text-[14px] leading-relaxed text-on-surface-variant">Your runs, rides, and walks sync instantly. No manual entry required.</p>
+</div>
+</div>
+<!-- Benefit 2 -->
+<div class="glass-card p-stack-md rounded-xl flex items-start gap-stack-md text-left transition-transform active:scale-[0.98]">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">straighten</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[17px] text-on-surface mb-1">Precise Mileage Tracking</h3>
+<p class="font-body-md text-[14px] leading-relaxed text-on-surface-variant">Know exactly when to retire your gear based on actual distance covered.</p>
+</div>
+</div>
+<!-- Benefit 3 -->
+<div class="glass-card p-stack-md rounded-xl flex items-start gap-stack-md text-left transition-transform active:scale-[0.98]">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">insights</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[17px] text-on-surface mb-1">Deep Health Insights</h3>
+<p class="font-body-md text-[14px] leading-relaxed text-on-surface-variant">Analyze how your equipment choice impacts your heart rate and pace.</p>
+</div>
+</div>
+</div>
+<!-- Call to Action Section -->
+<div class="w-full mt-auto flex flex-col gap-stack-md">
+<button class="w-full h-14 bg-primary text-on-primary font-headline-md text-headline-md rounded-xl shadow-lg shadow-primary/20 active:scale-95 transition-all flex items-center justify-center gap-2" onclick="handleConnect()">
+<span>Connect Apple Health</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<div class="flex items-center justify-center gap-stack-lg">
+<button class="font-label-md text-label-md text-outline hover:text-on-surface-variant transition-colors uppercase tracking-widest" onclick="handleSkip()">
+                    Skip for now
+                </button>
+<button class="font-label-md text-label-md text-primary hover:underline transition-all" onclick="handleLearnMore()">
+                    Learn more
+                </button>
+</div>
+</div>
+</main>
+<!-- Visual Polish: Decorative Backdrop Image -->
+<div class="fixed inset-0 -z-10 opacity-20 pointer-events-none">
+<img class="w-full h-full object-cover grayscale brightness-75" data-alt="A moody, high-contrast overhead shot of athletic gear including high-performance running shoes, a fitness tracker, and a water bottle laid out on a clean minimalist concrete floor. The lighting is dramatic and directional, creating soft shadows that emphasize the technical textures of the gear. The overall aesthetic is focused and professional, matching the gearGauge brand's data-driven utility theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGicSw_4-79Lmpye0AedHz3xVQdR9_h9RTc9XyPoGWcdQ_osUIp7248H3LHWphfBn8u6NDb46lu8XU_jWHvL9XFXGfORcMTPkubUlqAMBH9KWlZLoNnR9bej4waHwwuD3bvTTz6O9V2ER4tM4YAEfO89gRopxuwMLxNjTvfu0h17UVpmOFLZ_bmId8LJILwU58IyI7tg3AavdGObN8HWerF9VBYgUWOZPUyMInpD0NWoNTLYSrS4pFFFJ0sqFP2lFJ22xDgkyU2tAl">
+</div>
+<!-- Feedback Toasts Container -->
+<div class="fixed bottom-margin-mobile left-margin-mobile right-margin-mobile z-[100] flex flex-col gap-2 pointer-events-none" id="toast-container"></div>
+<script>
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'glass-card px-stack-lg py-stack-sm rounded-full shadow-xl flex items-center justify-center transform translate-y-12 opacity-0 transition-all duration-300 pointer-events-auto border-primary/20';
+            toast.innerHTML = `<span class="font-label-md text-label-md text-on-surface">${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            // Animate In
+            setTimeout(() => {
+                toast.classList.remove('translate-y-12', 'opacity-0');
+            }, 10);
+            
+            // Animate Out
+            setTimeout(() => {
+                toast.classList.add('translate-y-12', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function handleConnect() {
+            showToast("Opening Apple Health Settings...");
+        }
+
+        function handleSkip() {
+            showToast("Continuing without sync...");
+        }
+
+        function handleLearnMore() {
+            showToast("Privacy: We only read workout distance.");
+        }
+    </script>
+</body></html>
