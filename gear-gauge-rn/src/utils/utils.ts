@@ -1,5 +1,5 @@
 /** Converts a hex colour (e.g. "#F9FFEC" or "#FFF") to an rgba string at the given opacity. */
-export function hexToRgba(hex: string, opacity: number): string {
+export function hexToRgba(hex: string, opacity: number = 1): string {
   let h = hex.replace("#", "");
   if (h.length === 3) {
     h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
