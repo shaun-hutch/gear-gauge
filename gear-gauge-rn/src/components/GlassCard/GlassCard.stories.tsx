@@ -6,6 +6,7 @@ import { View } from "react-native";
 
 
 export default {
+  title: "Components/GlassCard",
   component: GlassCard,
 };
 

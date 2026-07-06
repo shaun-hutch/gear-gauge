@@ -2,8 +2,8 @@ import { AppText } from "./AppText";
 import { globalStyles } from "@/styles/globalStyles";
 
 export default {
-  title: "AppText",
-  component: AppText,
+  title: "Components/AppText",
+  component: AppText
 };
 
 /** Default — renders with the Inter body font automatically. */
