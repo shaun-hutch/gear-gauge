@@ -201,12 +201,18 @@ export const globalStyles = StyleSheet.create({
 
   // ─── Status Chips ────────────────────────────────────────────────────────
 
-  /** Small rounded label for status indicators (e.g. "GPS Locked"). */
+  /** Pill-shaped label for status indicators (e.g. "EXCELLENT HEALTH").
+   *  Uses a fixed minWidth so all variants appear the same width. */
   statusChip: {
-    borderRadius: radii.sm,
-    paddingHorizontal: spacing.xs,
+    borderRadius: radii.full,
+    minWidth: 180,
+    alignSelf: "center",
+    paddingHorizontal: spacing.sm,
     paddingVertical: spacing.unit,
-    ...typography.styles.labelSmall,
+    marginVertical: spacing.unit,
+    marginRight: spacing.unit,
+    marginLeft: spacing.unit,
+    alignItems: "center",
   },
 
   statusChipSuccess: {
@@ -217,6 +223,16 @@ export const globalStyles = StyleSheet.create({
   statusChipError: {
     backgroundColor: colors.errorSurface,
     color: colors.error,
+  },
+
+  statusChipWarning: {
+    backgroundColor: colors.warningSurface,
+    color: colors.warning,
+  },
+
+  statusChipInfo: {
+    backgroundColor: colors.infoSurface,
+    color: colors.info,
   },
 
   // ─── Images ──────────────────────────────────────────────────────────────

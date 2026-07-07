@@ -138,6 +138,8 @@ export const colors = {
   errorOnContainer: palette.redOnContainer,
   warning: "#FFC107",
   warningSurface: "#FFF9E6",
+  info: "#17A2B8",
+  infoSurface: "#E6F4F7",
 
   // Misc
   white: palette.white,
