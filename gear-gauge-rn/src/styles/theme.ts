@@ -294,7 +294,7 @@ export const elevation = {
     backgroundColor: colors.surfaceContainerHighest,
     shadowColor: palette.black,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.20,
+    shadowOpacity: 0.10,
     shadowRadius: 2,
     elevation: 2,
   },

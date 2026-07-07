@@ -12,7 +12,7 @@ export enum Status {
 export const StatusLabels = {
   [Status.Success]: "EXCELLENT HEALTH",
   [Status.Error]: "CRITICAL: REPLACE",
-  [Status.Warning]: "MODERATE",
+  [Status.Warning]: "MODERATE WEAR",
   [Status.Info]: "OPTIMAL",
 };
 
