@@ -11,41 +11,22 @@ struct GearDistanceView: View {
     var gear: Gear
     var frameSize: CGFloat = 200
     
-    @State private var isAnimating: Bool = false
     @State private var showRemaining: Bool = false // if true, the remaining distance (total - current) will be shown
     
     @State private var distanceUnit: Int = 0
     @State private var distanceUnitSuffix: String = "km"
     
     var body: some View {
-        ZStack {
-            Circle()
-                .fill(.appTint.opacity(0.3))
-                .frame(width: frameSize, height: frameSize)
-                .glassEffect()
-                .scaleEffect(isAnimating ? 1.05 : 1.0)
-            
-            VStack {
-                distanceLabel(gear)
-            }
-            .rotation3DEffect(
-                .degrees(showRemaining ? 360 : 0),
-                axis: (x: 0, y: 1, z: 0)
-            )
+        VStack {
+            distanceLabel(gear)
         }
+        .rotation3DEffect(
+            .degrees(showRemaining ? 360 : 0),
+            axis: (x: 0, y: 1, z: 0)
+        )
         .onTapGesture {
             withAnimation(.spring(response: 0.2, dampingFraction: 0.9)) {
                 showRemaining.toggle()
-            }
-            
-            // Pulse effect
-            withAnimation(.easeOut(duration: 0.2)) {
-                isAnimating = true
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                withAnimation(.easeIn(duration: 0.2)) {
-                    isAnimating = false
-                }
             }
         }
         .onAppear {
