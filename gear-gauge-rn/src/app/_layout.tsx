@@ -1,5 +1,6 @@
 import Constants from "expo-constants";
 import { Stack } from "expo-router";
+import { NativeTabs } from "expo-router/unstable-native-tabs";
 import { View } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -12,6 +13,7 @@ import {
 } from "@expo-google-fonts/lexend";
 import { Inter_400Regular } from "@expo-google-fonts/inter";
 import { JetBrainsMono_500Medium } from "@expo-google-fonts/jetbrains-mono";
+import { colors } from "@/styles/theme";
 
 // Keep splash screen visible while fonts load
 SplashScreen.preventAutoHideAsync();
@@ -57,7 +59,16 @@ export default function RootLayout() {
 
   return (
     <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-      <Stack />
+      <NativeTabs labelStyle={{ color: colors.primary }} tintColor={colors.primary}>
+        <NativeTabs.Trigger name="index">
+            <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
+            <NativeTabs.Trigger.Icon sf="house.fill" md="home" />
+        </NativeTabs.Trigger>
+        <NativeTabs.Trigger name="settings">
+            <NativeTabs.Trigger.Label>Settings</NativeTabs.Trigger.Label>
+            <NativeTabs.Trigger.Icon sf="gear" md="settings" />
+        </NativeTabs.Trigger>
+      </NativeTabs>
     </View>
   );
 }
