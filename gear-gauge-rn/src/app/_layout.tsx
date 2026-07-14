@@ -57,12 +57,51 @@ export default function RootLayout() {
     );
   }
 
+  const tabLabelStyle = {
+    default: { color: colors.secondary },
+    selected: { color: colors.primary },
+  };
+
+  const tabIconStyle = {
+    default: colors.secondary,
+    selected: colors.primary,
+  };
+
+
+  const icons = {
+    home: {
+      default: "house",
+      selected: "house.fill",
+    },
+    gear: {
+      default: "shoe",
+      selected: "shoe.fill",
+    },
+    history: {
+      default: "clock",
+      selected: "clock.fill",
+    },
+    settings: {
+      default: "gearshape",
+      selected: "gearshape.fill",
+    },
+  }
+  
+
   return (
     <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-      <NativeTabs labelStyle={{ color: colors.primary }} tintColor={colors.primary}>
+      <NativeTabs labelStyle={tabLabelStyle} iconColor={tabIconStyle}>
         <NativeTabs.Trigger name="index">
             <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon sf="house.fill" md="home" />
+            <NativeTabs.Trigger.Icon sf={icons.home} md="home" />
+        </NativeTabs.Trigger>
+        <NativeTabs.Trigger name="gear">
+            <NativeTabs.Trigger.Label>Gear</NativeTabs.Trigger.Label>
+            <NativeTabs.Trigger.Icon sf="shoe" md="repeat" />
+        </NativeTabs.Trigger>
+        <NativeTabs.Trigger name="history">
+            <NativeTabs.Trigger.Label>History</NativeTabs.Trigger.Label>
+            <NativeTabs.Trigger.Icon sf="clock" md="history" />
         </NativeTabs.Trigger>
         <NativeTabs.Trigger name="settings">
             <NativeTabs.Trigger.Label>Settings</NativeTabs.Trigger.Label>
