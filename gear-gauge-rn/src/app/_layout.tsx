@@ -85,7 +85,7 @@ export default function RootLayout() {
       default: "gearshape",
       selected: "gearshape.fill",
     },
-  }
+  } as const;
   
 
   return (
@@ -97,15 +97,15 @@ export default function RootLayout() {
         </NativeTabs.Trigger>
         <NativeTabs.Trigger name="gear">
             <NativeTabs.Trigger.Label>Gear</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon sf="shoe" md="repeat" />
+            <NativeTabs.Trigger.Icon sf={icons.gear} md="repeat" />
         </NativeTabs.Trigger>
         <NativeTabs.Trigger name="history">
             <NativeTabs.Trigger.Label>History</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon sf="clock" md="history" />
+            <NativeTabs.Trigger.Icon sf={icons.history} md="history" />
         </NativeTabs.Trigger>
         <NativeTabs.Trigger name="settings">
             <NativeTabs.Trigger.Label>Settings</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon sf="gear" md="settings" />
+            <NativeTabs.Trigger.Icon sf={icons.settings} md="settings" />
         </NativeTabs.Trigger>
       </NativeTabs>
     </View>
