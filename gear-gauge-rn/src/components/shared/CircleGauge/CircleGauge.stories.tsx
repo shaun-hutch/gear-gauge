@@ -56,7 +56,8 @@ export const WithChildren = () => (
       maxValue={100}
       size={200}
       strokeWidth={20}
-      color={colors.primary}>
+      color={colors.primary}
+      animated>
       <AppText style={{ fontSize: 24, fontWeight: "bold", color: colors.textPrimary }}>75% used</AppText>
     </CircleGauge>
     <CircleGauge

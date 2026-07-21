@@ -15,3 +15,6 @@ export function AppText({ style, ...props }: TextProps) {
     />
   );
 }
+
+
+export default AppText;

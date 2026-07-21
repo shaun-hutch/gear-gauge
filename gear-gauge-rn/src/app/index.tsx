@@ -1,4 +1,4 @@
-import { AppText } from "@/components/AppText/AppText";
+import { AppText } from "@/components/shared";
 import { globalStyles } from "@/styles/globalStyles";
 import { View, StyleSheet } from "react-native";
 
