@@ -22,6 +22,8 @@ interface CircleGaugeProps {
   strokeWidth: number;
   /** The color of the gauge stroke. */
   color?: string;
+  /** Optional background ring colour — defaults to theme secondaryLight. Pass `"transparent"` to hide. */
+  trackColor?: string;
   /** Content to render inside the center of the gauge. */
   children?: ReactNode;
   /** When true, animates the gauge fill from empty to the current value on mount/change. */
@@ -35,6 +37,7 @@ export function CircleGauge({
   size,
   strokeWidth,
   color,
+  trackColor = colors.secondaryLight,
   value = 100,
   maxValue = 100,
   children,
@@ -86,6 +89,19 @@ export function CircleGauge({
             <FeDropShadow dx={0} dy={2} stdDeviation={2} floodColor={colors.black} floodOpacity={0.7} />
           </Filter>
         </Defs>
+        {/* Background track — a full ring behind the progress arc */}
+        {trackColor !== "transparent" && (
+          <Circle
+            cx={center}
+            cy={center}
+            r={radius}
+            stroke={trackColor}
+            fill="none"
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            transform={`rotate(-90 ${center} ${center})`}
+          />
+        )}
         {animated ? (
           <AnimatedCircle animatedProps={animatedProps} {...circleProps} />
         ) : (
