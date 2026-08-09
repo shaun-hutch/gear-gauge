@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "gear-gauge-rn",
+    "slug": "gear-gauge-rn",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "geargaugern",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.shaun-hutch.gear-gauge-rn"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-splash-screen",
+      "expo-font",
+      "expo-image",
+      "expo-status-bar",
+      "expo-web-browser"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "storybookEnabled": null,
+      "router": {},
+      "eas": {
+        "projectId": "b217b8e1-2ddd-45ae-bc24-59aa8f5cecb5"
+      }
+    }
+  }
+}
