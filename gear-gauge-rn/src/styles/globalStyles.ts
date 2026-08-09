@@ -8,8 +8,10 @@
 
 import { StyleSheet } from "react-native";
 import { colors, spacing, radii, typography, elevation } from "./theme";
+import { typographyStyles } from "./typography";
 
-export const globalStyles = StyleSheet.create({
+/** Flat, non-typography styles — merged with `typographyStyles` below. */
+const globalStylesBase = StyleSheet.create({
   // ─── Layout ──────────────────────────────────────────────────────────────
 
   /** Fills the parent and centres children (ideal for screen wrappers). */
@@ -66,50 +68,6 @@ export const globalStyles = StyleSheet.create({
     ...elevation.overlay,
     borderRadius: radii.lg,
     padding: spacing.sm,
-  },
-
-  // ─── Typography ──────────────────────────────────────────────────────────
-
-  displayLarge: {
-    ...typography.styles.displayLarge,
-    color: colors.textPrimary,
-  },
-
-  headlineLarge: {
-    ...typography.styles.headlineLarge,
-    color: colors.textPrimary,
-  },
-
-  headlineMedium: {
-    ...typography.styles.headlineMedium,
-    color: colors.textPrimary,
-  },
-
-  bodyLarge: {
-    ...typography.styles.bodyLarge,
-    color: colors.textPrimary,
-  },
-
-  body: {
-    ...typography.styles.bodyMedium,
-    color: colors.textPrimary,
-  },
-
-  labelMedium: {
-    ...typography.styles.labelMedium,
-    color: colors.textSecondary,
-  },
-
-  labelSmall: {
-    ...typography.styles.labelSmall,
-    color: colors.textSecondary,
-  },
-
-  caption: {
-    fontSize: typography.fontSize.xs,
-    fontWeight: typography.fontWeight.regular,
-    color: colors.textTertiary,
-    lineHeight: 16,
   },
 
   // ─── Buttons ─────────────────────────────────────────────────────────────
@@ -247,4 +205,10 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+/** Public API: flat styles plus all text styles under the `typography` parent. */
+export const globalStyles = {
+  ...globalStylesBase,
+  typography: typographyStyles,
+};
 
