@@ -11,18 +11,18 @@ export const Default = () => <AppText>Hello, Gear Gauge</AppText>;
 
 /** Uses the headline typography token from globalStyles. */
 export const Headline = () => (
-  <AppText style={globalStyles.headlineLarge}>Section Headline</AppText>
+  <AppText style={globalStyles.typography.headlineLarge}>Section Headline</AppText>
 );
 
 /** Uses the mono label token — the JetBrainsMono fontFamily override
  *  is applied via the style prop and stacks on top of the default Inter. */
 export const MonoLabel = () => (
-  <AppText style={globalStyles.labelMedium}>12.4 km</AppText>
+  <AppText style={globalStyles.typography.labelMedium}>12.4 km</AppText>
 );
 
 /** Long text wrapping — verifies body copy renders cleanly. */
 export const LongBody = () => (
-  <AppText style={globalStyles.body}>
+  <AppText style={globalStyles.typography.body}>
     Track your running shoes, cycling gear, and more. Get notified when it&apos;s
     time to replace your equipment based on distance, duration, or calendar
     intervals.

@@ -10,7 +10,7 @@ export type StatusBadgeProps = {
 export function StatusBadge({ status }: StatusBadgeProps) {
   return (
     <View style={[globalStyles.statusChip, chipStyles(status)]}>
-      <AppText style={[globalStyles.labelSmall, { textAlign: "center" }]}>
+      <AppText style={[globalStyles.typography.labelSmall, { textAlign: "center" }]}>
         {statusLabels[status]}
       </AppText>
     </View>
