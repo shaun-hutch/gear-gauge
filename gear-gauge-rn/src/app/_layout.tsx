@@ -1,5 +1,4 @@
 import Constants from "expo-constants";
-import { Stack } from "expo-router";
 import { NativeTabs } from "expo-router/unstable-native-tabs";
 import { View } from "react-native";
 import { useFonts } from "expo-font";
@@ -22,6 +21,7 @@ SplashScreen.preventAutoHideAsync();
 // In production/storybook-disabled mode, this module is never required.
 let StorybookUIRoot: React.ComponentType | null = null;
 if (Constants.expoConfig?.extra?.storybookEnabled === "true") {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   StorybookUIRoot = require("../../.storybook").default;
 }
 

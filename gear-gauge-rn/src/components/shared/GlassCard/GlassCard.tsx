@@ -1,5 +1,5 @@
 import { View, StyleSheet, type ViewProps } from "react-native";
-import { colors, radii, spacing } from "@/styles/theme";
+import { colors, radii } from "@/styles/theme";
 import { hexToRgba } from "@/utils/utils";
 import { globalStyles } from "@/styles";
 
@@ -13,7 +13,12 @@ export function GlassCard({ children, style, tintColor }: GlassCardProps) {
 
   return (
     <View
-      style={[glassCardStyles.container, globalStyles.cardElevated, { backgroundColor }, style]}
+      style={[
+        glassCardStyles.container,
+        globalStyles.cardElevated,
+        { backgroundColor, borderRadius: radii.lg },
+        style,
+      ]}
     >
       {children}
     </View>

@@ -38,6 +38,8 @@ yarn-error.*
 
 example
 
-# generated native folders
-/ios
-/android
+# Native project directories are managed (committed) —
+# they contain custom AppDelegate, entitlements, bridging
+# headers etc. that prebuild alone cannot regenerate.
+# /ios
+# /android

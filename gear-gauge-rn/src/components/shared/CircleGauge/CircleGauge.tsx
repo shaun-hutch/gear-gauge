@@ -1,4 +1,3 @@
-import { globalStyles } from "@/styles/globalStyles";
 import { colors } from "@/styles/theme";
 import Svg, { Circle, Defs, FeDropShadow, Filter } from "react-native-svg";
 import { StyleSheet, View } from "react-native";

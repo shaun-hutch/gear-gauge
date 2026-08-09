@@ -1,4 +1,5 @@
-import { Status, StatusBadge } from "./StatusBadge";
+import { StatusBadge } from "./StatusBadge";
+import { Status } from "@/utils/labels";
 
 export default {
   title: "Components/StatusBadge",

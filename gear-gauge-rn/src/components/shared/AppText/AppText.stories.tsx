@@ -23,7 +23,7 @@ export const MonoLabel = () => (
 /** Long text wrapping — verifies body copy renders cleanly. */
 export const LongBody = () => (
   <AppText style={globalStyles.body}>
-    Track your running shoes, cycling gear, and more. Get notified when it's
+    Track your running shoes, cycling gear, and more. Get notified when it&apos;s
     time to replace your equipment based on distance, duration, or calendar
     intervals.
   </AppText>
