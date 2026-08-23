@@ -32,6 +32,23 @@ export const QuarterFilled = () => (
     strokeWidth={20} />
 );
 
+export const ZeroValueSliver = () => (
+  <CircleGauge
+    value={0}
+    maxValue={100}
+    size={200}
+    strokeWidth={20}
+    showZeroSliver />
+);
+
+export const ZeroValueEmpty = () => (
+  <CircleGauge
+    value={0}
+    maxValue={100}
+    size={200}
+    strokeWidth={20} />
+);
+
 export const CustomColor = () => (
   <>
     <CircleGauge

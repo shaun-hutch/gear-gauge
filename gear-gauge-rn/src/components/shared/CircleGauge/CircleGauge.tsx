@@ -27,6 +27,21 @@ interface CircleGaugeProps {
   children?: ReactNode;
   /** When true, animates the gauge fill from empty to the current value on mount/change. */
   animated?: boolean;
+  /** When true, a value of zero renders a 1% sliver so the ring stays visible (Apple Watch-style). */
+  showZeroSliver?: boolean;
+}
+
+/**
+ * Resolves the fraction of the ring to fill, clamping to a 1% sliver when
+ * `showZeroSliver` is enabled and the value is zero (or negative).
+ */
+export function resolveGaugeFraction(
+  value: number,
+  maxValue: number,
+  showZeroSliver = false,
+): number {
+  const rawFraction = Math.min(value / maxValue, 1);
+  return showZeroSliver && rawFraction <= 0 ? 0.001 : rawFraction;
 }
 
 /** Extra padding so the SVG drop shadow isn't clipped at the edges. */
@@ -41,13 +56,14 @@ export function CircleGauge({
   maxValue = 100,
   children,
   animated = false,
+  showZeroSliver = false,
 }: CircleGaugeProps) {
   const svgSize = size + SHADOW_PADDING * 2;
   const center = svgSize / 2;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
 
-  const fraction = Math.min(value / maxValue, 1);
+  const fraction = resolveGaugeFraction(value, maxValue, showZeroSliver);
   const offset = circumference * (1 - fraction);
 
   // --- Animated stroke dash offset ---
