@@ -1,5 +1,5 @@
 import { colors } from "@/styles/theme";
-import Svg, { Circle, Defs, FeDropShadow, Filter } from "react-native-svg";
+import Svg, { Circle } from "react-native-svg";
 import { StyleSheet, View } from "react-native";
 import { ReactNode, useEffect } from "react";
 import Animated, {
@@ -44,9 +44,6 @@ export function resolveGaugeFraction(
   return showZeroSliver && rawFraction <= 0 ? 0.001 : rawFraction;
 }
 
-/** Extra padding so the SVG drop shadow isn't clipped at the edges. */
-const SHADOW_PADDING = 8;
-
 export function CircleGauge({
   size,
   strokeWidth,
@@ -58,7 +55,7 @@ export function CircleGauge({
   animated = false,
   showZeroSliver = false,
 }: CircleGaugeProps) {
-  const svgSize = size + SHADOW_PADDING * 2;
+  const svgSize = size;
   const center = svgSize / 2;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -92,18 +89,11 @@ export function CircleGauge({
     strokeDasharray: circumference,
     transform: `rotate(-90 ${center} ${center})`,
     strokeLinecap: "round" as const,
-    filter: "url(#ringShadow)",
   };
 
   return (
     <View style={{ width: svgSize, height: svgSize, margin: 4 }}>
-      {/* SVG is slightly larger than the visual ring to accommodate the drop shadow */}
       <Svg width={svgSize} height={svgSize}>
-        <Defs>
-          <Filter id="ringShadow">
-            <FeDropShadow dx={0} dy={2} stdDeviation={2} floodColor={colors.black} floodOpacity={0.7} />
-          </Filter>
-        </Defs>
         {/* Background track — a full ring behind the progress arc */}
         {trackColor !== "transparent" && (
           <Circle

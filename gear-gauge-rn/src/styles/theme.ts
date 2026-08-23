@@ -278,25 +278,20 @@ export const radii = {
   full: 9999,
 } as const;
 
-// ─── Elevation (tonal layers — subtle, not heavy shadows) ────────────────────
+// ─── Surfaces (flat tonal layers — no drop shadows) ─────────────────────────
 
-export const elevation = {
-  /** Base background — no elevation */
+export const surfaces = {
+  /** Base background */
   base: {
     backgroundColor: colors.background,
   },
-  /** Slightly elevated for cards / containers */
+  /** Cards / containers */
   surface: {
     backgroundColor: colors.surfaceContainerLow,
   },
-  /** Higher elevation for modals / tooltips */
+  /** Modals / tooltips */
   overlay: {
     backgroundColor: colors.surfaceContainerHighest,
-    shadowColor: palette.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.10,
-    shadowRadius: 2,
-    elevation: 2,
   },
 } as const;
 

@@ -26,6 +26,7 @@ export function HomeGauge(props: HomeGaugeProps) {
         value={props.value}
         maxValue={props.maxValue}
         animated
+        showZeroSliver
       >
         {/* headlineLarge ships lineHeight 32 (for its default 24px size); when
             bumping fontSize to 48 we must raise lineHeight too, otherwise iOS

@@ -7,7 +7,7 @@
  */
 
 import { StyleSheet } from "react-native";
-import { colors, spacing, radii, typography, elevation } from "./theme";
+import { colors, spacing, radii, typography, surfaces } from "./theme";
 import { typographyStyles } from "./typography";
 
 /** Flat, non-typography styles — merged with `typographyStyles` below. */
@@ -58,14 +58,14 @@ const globalStylesBase = StyleSheet.create({
 
   /** Standard card — uses surface-container-low for subtle separation. */
   card: {
-    ...elevation.surface,
+    ...surfaces.surface,
     borderRadius: radii.lg,
     padding: spacing.sm,
   },
 
-  /** Elevated card for modals / overlays. */
+  /** Elevated card for modals / overlays — flat surface, no drop shadow. */
   cardElevated: {
-    ...elevation.overlay,
+    ...surfaces.overlay,
     borderRadius: radii.lg,
     padding: spacing.sm,
   },
@@ -140,7 +140,7 @@ const globalStylesBase = StyleSheet.create({
 
   /** Card for displaying a single prominent metric. */
   metricCard: {
-    ...elevation.surface,
+    ...surfaces.surface,
     borderRadius: radii.lg,
     padding: spacing.sm,
     alignItems: "center",
