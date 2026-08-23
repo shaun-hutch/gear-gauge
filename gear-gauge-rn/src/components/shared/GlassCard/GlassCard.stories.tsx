@@ -1,4 +1,4 @@
-import { globalStyles } from "@/styles";
+import { typographyStyles } from "@/styles/typography";
 import { colors } from "@/styles/theme";
 import { AppText } from "../AppText/AppText";
 import { GlassCard } from "./GlassCard";
@@ -12,7 +12,7 @@ export default {
 
 export const Default = () => (
   <GlassCard>
-    <AppText style={globalStyles.body}>Hello, World!</AppText>
+    <AppText style={typographyStyles.body}>Hello, World!</AppText>
   </GlassCard>
 );
 
@@ -20,7 +20,7 @@ export const MultipleCards = () => (
   <View style={gridStyles.row}>
     {Array.from({ length: 4 }, (_, i) => (
       <GlassCard key={i} style={gridStyles.item}>
-        <AppText style={globalStyles.body}>Card {i + 1}</AppText>
+        <AppText style={typographyStyles.body}>Card {i + 1}</AppText>
       </GlassCard>
     ))}
   </View>
@@ -29,16 +29,16 @@ export const MultipleCards = () => (
 export const BackgroundColors = () => (
   <View style={colorDemoStyles.row}>
     <GlassCard tintColor={colors.primarySurface}>
-      <AppText style={globalStyles.body}>Primary</AppText>
+      <AppText style={typographyStyles.body}>Primary</AppText>
     </GlassCard>
     <GlassCard tintColor={colors.secondaryContainer}>
-      <AppText style={globalStyles.body}>Secondary</AppText>
+      <AppText style={typographyStyles.body}>Secondary</AppText>
     </GlassCard>
     <GlassCard tintColor={colors.tertiaryContainer}>
-      <AppText style={globalStyles.body}>Tertiary</AppText>
+      <AppText style={typographyStyles.body}>Tertiary</AppText>
     </GlassCard>
     <GlassCard tintColor={colors.surfaceContainerHigh}>
-      <AppText style={globalStyles.body}>Surface High</AppText>
+      <AppText style={typographyStyles.body}>Surface High</AppText>
     </GlassCard>
   </View>
 );
