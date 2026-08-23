@@ -4,7 +4,7 @@ import { AppText } from "../AppText/AppText";
 
 describe("CircleGauge", () => {
   it("renders without crashing", async () => {
-    render(
+    await render(
       <CircleGauge size={200} strokeWidth={20} value={50} maxValue={100}>
         <AppText>50%</AppText>
       </CircleGauge>,

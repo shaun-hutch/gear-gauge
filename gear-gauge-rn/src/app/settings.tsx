@@ -1,6 +1,6 @@
 import { AppText } from "@/components/shared";
 import { GlassCard } from "@/components/shared/GlassCard/GlassCard";
-import { globalStyles } from "@/styles/globalStyles";
+import { typographyStyles } from "@/styles/typography";
 import { spacing } from "@/styles/theme";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,9 +10,9 @@ export default function Settings() {
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
       <View style={styles.container}>
-        <AppText style={globalStyles.headlineMedium}>Settings</AppText>
+        <AppText style={typographyStyles.headlineMedium}>Settings</AppText>
         <GlassCard style={styles.card}>
-          <AppText style={globalStyles.body}>HealthKit, notifications, and premium settings will appear here.</AppText>
+          <AppText style={typographyStyles.body}>HealthKit, notifications, and premium settings will appear here.</AppText>
         </GlassCard>
       </View>
     </SafeAreaView>

@@ -4,7 +4,7 @@ import { AppText } from "../AppText/AppText";
 
 describe("GlassCard", () => {
   it("renders without crashing", async () => {
-    render(
+    await render(
       <GlassCard>
         <AppText>Card content</AppText>
       </GlassCard>,
