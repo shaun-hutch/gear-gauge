@@ -1,5 +1,5 @@
 import { AppText } from "@/components/shared";
-import { GlassCard } from "@/components/shared/GlassCard/GlassCard";
+import { Card } from "@/components/shared/Card/Card";
 import { typographyStyles } from "@/styles/typography";
 import { spacing } from "@/styles/theme";
 import { View, StyleSheet } from "react-native";
@@ -11,9 +11,9 @@ export default function History() {
     <SafeAreaView style={styles.safe} edges={["top"]}>
       <View style={styles.container}>
         <AppText style={typographyStyles.headlineMedium}>Workout History</AppText>
-        <GlassCard style={styles.card}>
+        <Card style={styles.card}>
           <AppText style={typographyStyles.body}>No workouts synced yet. Connect HealthKit in Settings to get started.</AppText>
-        </GlassCard>
+        </Card>
       </View>
     </SafeAreaView>
   );

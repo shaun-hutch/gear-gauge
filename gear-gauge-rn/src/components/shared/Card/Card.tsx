@@ -3,18 +3,18 @@ import { colors, radii } from "@/styles/theme";
 import { hexToRgba } from "@/utils/utils";
 import { globalStyles } from "@/styles";
 
-interface GlassCardProps extends ViewProps {
-  /** Tint colour for the glass — applied at 0.7 opacity automatically. Defaults to white. */
+interface CardProps extends ViewProps {
+  /** Tint colour for the card — applied at 0.7 opacity automatically. Defaults to white. */
   tintColor?: string;
 }
 
-export function GlassCard({ children, style, tintColor }: GlassCardProps) {
+export function Card({ children, style, tintColor }: CardProps) {
   const backgroundColor = hexToRgba(tintColor ?? "#FFFFFF", 0.7);
 
   return (
     <View
       style={[
-        glassCardStyles.container,
+        cardStyles.container,
         globalStyles.cardElevated,
         { backgroundColor, borderRadius: radii.lg },
         style,
@@ -25,7 +25,7 @@ export function GlassCard({ children, style, tintColor }: GlassCardProps) {
   );
 }
 
-const glassCardStyles = StyleSheet.create({
+const cardStyles = StyleSheet.create({
   container: {
     borderWidth: 1,
     borderColor: hexToRgba(colors.secondaryContainer),

@@ -1,45 +1,45 @@
 import { typographyStyles } from "@/styles/typography";
 import { colors } from "@/styles/theme";
 import { AppText } from "../AppText/AppText";
-import { GlassCard } from "./GlassCard";
+import { Card } from "./Card";
 import { View } from "react-native";
 
 
 export default {
-  title: "Components/GlassCard",
-  component: GlassCard,
+  title: "Components/Card",
+  component: Card,
 };
 
 export const Default = () => (
-  <GlassCard>
+  <Card>
     <AppText style={typographyStyles.body}>Hello, World!</AppText>
-  </GlassCard>
+  </Card>
 );
 
 export const MultipleCards = () => (
   <View style={gridStyles.row}>
     {Array.from({ length: 4 }, (_, i) => (
-      <GlassCard key={i} style={gridStyles.item}>
+      <Card key={i} style={gridStyles.item}>
         <AppText style={typographyStyles.body}>Card {i + 1}</AppText>
-      </GlassCard>
+      </Card>
     ))}
   </View>
 );
 
 export const BackgroundColors = () => (
   <View style={colorDemoStyles.row}>
-    <GlassCard tintColor={colors.primarySurface}>
+    <Card tintColor={colors.primarySurface}>
       <AppText style={typographyStyles.body}>Primary</AppText>
-    </GlassCard>
-    <GlassCard tintColor={colors.secondaryContainer}>
+    </Card>
+    <Card tintColor={colors.secondaryContainer}>
       <AppText style={typographyStyles.body}>Secondary</AppText>
-    </GlassCard>
-    <GlassCard tintColor={colors.tertiaryContainer}>
+    </Card>
+    <Card tintColor={colors.tertiaryContainer}>
       <AppText style={typographyStyles.body}>Tertiary</AppText>
-    </GlassCard>
-    <GlassCard tintColor={colors.surfaceContainerHigh}>
+    </Card>
+    <Card tintColor={colors.surfaceContainerHigh}>
       <AppText style={typographyStyles.body}>Surface High</AppText>
-    </GlassCard>
+    </Card>
   </View>
 );
 

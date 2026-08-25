@@ -1,13 +1,13 @@
 import { render, screen } from "@testing-library/react-native";
-import { GlassCard } from "./GlassCard";
+import { Card } from "./Card";
 import { AppText } from "../AppText/AppText";
 
-describe("GlassCard", () => {
+describe("Card", () => {
   it("renders without crashing", async () => {
     await render(
-      <GlassCard>
+      <Card>
         <AppText>Card content</AppText>
-      </GlassCard>,
+      </Card>,
     );
     expect(screen.getByText("Card content")).toBeTruthy();
   });
