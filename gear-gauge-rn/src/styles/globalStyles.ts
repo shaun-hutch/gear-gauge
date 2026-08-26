@@ -175,22 +175,29 @@ const globalStylesBase = StyleSheet.create({
 
   statusChipSuccess: {
     backgroundColor: colors.successSurface,
-    color: colors.success,
   },
 
   statusChipError: {
     backgroundColor: colors.errorSurface,
-    color: colors.error,
   },
 
   statusChipWarning: {
     backgroundColor: colors.warningSurface,
-    color: colors.warning,
   },
 
   statusChipInfo: {
     backgroundColor: colors.infoSurface,
-    color: colors.info,
+  },
+
+  /** Compact variant for use inside list rows — content-sized and left-aligned. */
+  statusChipCompact: {
+    minWidth: 0,
+    alignSelf: "flex-start",
+    paddingHorizontal: spacing.xs,
+    paddingVertical: 2,
+    marginVertical: 0,
+    marginLeft: 0,
+    marginRight: 0,
   },
 
   // ─── Images ──────────────────────────────────────────────────────────────

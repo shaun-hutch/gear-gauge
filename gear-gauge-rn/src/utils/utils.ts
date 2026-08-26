@@ -9,3 +9,14 @@ export function hexToRgba(hex: string, opacity: number = 1): string {
   const b = parseInt(h.substring(4, 6), 16);
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
+
+/**
+ * Formats a number with thousands separators (e.g. 2450 → "2,450").
+ * Implemented with a regex rather than `Intl.NumberFormat` so it behaves
+ * consistently on Hermes, which ships with limited Intl support.
+ */
+export function formatNumber(value: number): string {
+  const rounded = Math.round(value);
+  const sign = rounded < 0 ? "-" : "";
+  return sign + Math.abs(rounded).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

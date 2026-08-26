@@ -20,3 +20,24 @@ export const statusLabels: Record<Status, string> = {
   [Status.Warning]: "MODERATE WEAR",
   [Status.Info]: "OPTIMAL",
 };
+
+/**
+ * Derives a gear's condition status from its usage percentage.
+ *
+ *   0–29%    → Success  (excellent)
+ *  30–59%    → Info     (optimal)
+ *  60–89%    → Warning  (moderate)
+ *  90–100%+  → Error    (critical: replace — values over 100 stay critical)
+ */
+export function getStatusFromPercentage(percentage: number): Status {
+  if (percentage < 30) {
+    return Status.Success;
+  }
+  if (percentage < 60) {
+    return Status.Info;
+  }
+  if (percentage < 90) {
+    return Status.Warning;
+  }
+  return Status.Error;
+}
