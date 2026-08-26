@@ -15,6 +15,7 @@
     "@testing-library/react-native": "^14.0.1",
     "expo": "^57.0.15",
     "expo-constants": "~57.0.2",
+    "expo-crypto": "~57.0.2",
     "expo-dev-client": "~57.0.14",
     "expo-device": "~57.0.1",
     "expo-font": "~57.0.0",
@@ -23,6 +24,7 @@
     "expo-linking": "~57.0.7",
     "expo-router": "~57.0.15",
     "expo-splash-screen": "~57.0.7",
+    "expo-sqlite": "~57.0.1",
     "expo-status-bar": "~57.0.1",
     "expo-symbols": "~57.0.2",
     "expo-system-ui": "~57.0.2",
@@ -40,7 +42,7 @@
   },
   "devDependencies": {
     "@gorhom/bottom-sheet": "^5.2.14",
-    "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native-community/datetimepicker": "^9.1.0",
     "@storybook/addon-ondevice-actions": "^10.4.7",
     "@storybook/addon-ondevice-controls": "^10.4.7",
@@ -69,7 +71,9 @@
   },
   "jest": {
     "preset": "jest-expo",
-    "setupFilesAfterEnv": ["<rootDir>/jest-setup.js"]
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest-setup.js"
+    ]
   },
   "private": true
 }

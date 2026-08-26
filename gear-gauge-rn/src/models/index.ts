@@ -28,10 +28,24 @@ export {
 } from './DistanceUnit';
 
 // ── Interfaces & helpers ──────────────────────────────────────────
-export type { Gear } from './Gear';
-export { computeCurrentDistance } from './Gear';
+export type { Gear, GearInput, GearValidationResult } from './Gear';
+export {
+  computeCurrentDistance,
+  createGear,
+  sortGear,
+  validateGearInput,
+  isGearDeleted,
+  isGearActive,
+  isGearPrimary,
+} from './Gear';
 
-export type { Workout } from './Workout';
+export type {
+  Workout,
+  WorkoutInput,
+  WorkoutSource,
+  WorkoutValidationResult,
+} from './Workout';
+export { createWorkout, validateWorkoutInput } from './Workout';
 
 // ── Constants ─────────────────────────────────────────────────────
 export { MAXIMUM_GEAR_DISTANCE } from './constants';
