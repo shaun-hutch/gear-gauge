@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   kicker: {
-    ...typographyStyles.labelSmall,
+    ...typographyStyles.caption,
     textTransform: "uppercase",
     color: colors.onSurfaceVariant,
   },

@@ -25,7 +25,7 @@ export function DistanceReadout({
   return (
     <Card style={styles.metrics}>
       <View style={styles.metric}>
-        <AppText style={typographyStyles.labelSmall}>
+        <AppText style={typographyStyles.caption}>
           Distance travelled
         </AppText>
         <AppText style={styles.metricValue}>
@@ -40,7 +40,7 @@ export function DistanceReadout({
       <View style={styles.divider} />
 
       <View style={styles.remainingColumn}>
-        <AppText style={typographyStyles.labelSmall}>Remaining</AppText>
+        <AppText style={typographyStyles.caption}>Remaining</AppText>
         <AppText style={styles.remainingValue}>
           {formatNumber(remainingKm)} km
         </AppText>
@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
   },
   metricSuffix: {
     ...typographyStyles.caption,
-    fontFamily: typography.fontFamily.mono,
   },
   divider: {
     width: 1,
