@@ -3,7 +3,7 @@ import { NativeTabs } from "expo-router/unstable-native-tabs";
 import { View } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 // Google Fonts — loaded via @expo-google-fonts packages
 import {
@@ -13,6 +13,8 @@ import {
 import { Inter_400Regular } from "@expo-google-fonts/inter";
 import { JetBrainsMono_500Medium } from "@expo-google-fonts/jetbrains-mono";
 import { colors } from "@/styles/theme";
+import { GearProvider } from "@/context/GearProvider";
+import { seedDemoData } from "@/data/seed";
 
 // Keep splash screen visible while fonts load
 SplashScreen.preventAutoHideAsync();
@@ -36,6 +38,35 @@ export default function RootLayout() {
     JetBrainsMono: JetBrainsMono_500Medium,
   });
 
+  // Dev-only demo seeding: when launched with SEED_DB=true (and Storybook is
+  // not active), wait until demo gear is in the DB before mounting the
+  // provider tree, so `GearProvider`'s first load sees the seeded rows.
+  const seedEnabled =
+    Constants.expoConfig?.extra?.seedDb === "true" && !StorybookUIRoot;
+  const [seedReady, setSeedReady] = useState(!seedEnabled);
+
+  useEffect(() => {
+    if (!seedEnabled) {
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      try {
+        await seedDemoData();
+      } catch (error) {
+        console.warn("[seed] Failed to seed demo data", error);
+      } finally {
+        // Always release the gate — a seed failure must not block the app.
+        if (!cancelled) {
+          setSeedReady(true);
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [seedEnabled]);
+
   // Only hide the splash screen once fonts are ready — prevents a
   // visible typeface swap from system fallback → custom font.
   const onLayoutRootView = useCallback(async () => {
@@ -44,7 +75,7 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || !seedReady) {
     return null;
   }
 
@@ -90,24 +121,26 @@ export default function RootLayout() {
 
   return (
     <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-      <NativeTabs labelStyle={tabLabelStyle} iconColor={tabIconStyle}>
-        <NativeTabs.Trigger name="index">
-            <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon sf={icons.home} md="home" />
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger name="gear">
-            <NativeTabs.Trigger.Label>Gear</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon sf={icons.gear} md="repeat" />
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger name="history">
-            <NativeTabs.Trigger.Label>History</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon sf={icons.history} md="history" />
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger name="settings">
-            <NativeTabs.Trigger.Label>Settings</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon sf={icons.settings} md="settings" />
-        </NativeTabs.Trigger>
-      </NativeTabs>
+      <GearProvider>
+        <NativeTabs labelStyle={tabLabelStyle} iconColor={tabIconStyle}>
+          <NativeTabs.Trigger name="index">
+              <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
+              <NativeTabs.Trigger.Icon sf={icons.home} md="home" />
+          </NativeTabs.Trigger>
+          <NativeTabs.Trigger name="gear">
+              <NativeTabs.Trigger.Label>Gear</NativeTabs.Trigger.Label>
+              <NativeTabs.Trigger.Icon sf={icons.gear} md="repeat" />
+          </NativeTabs.Trigger>
+          <NativeTabs.Trigger name="history">
+              <NativeTabs.Trigger.Label>History</NativeTabs.Trigger.Label>
+              <NativeTabs.Trigger.Icon sf={icons.history} md="history" />
+          </NativeTabs.Trigger>
+          <NativeTabs.Trigger name="settings">
+              <NativeTabs.Trigger.Label>Settings</NativeTabs.Trigger.Label>
+              <NativeTabs.Trigger.Icon sf={icons.settings} md="settings" />
+          </NativeTabs.Trigger>
+        </NativeTabs>
+      </GearProvider>
     </View>
   );
 }

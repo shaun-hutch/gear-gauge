@@ -113,8 +113,11 @@ describe("GearList", () => {
       release();
     });
 
-    // No rows → the fragment renders as nothing (the screen owns its empty state).
-    expect(view.toJSON()).toBeNull();
+    // Loaded with zero items → the container View still renders (no rows),
+    // so it must not be null, and no gear name should be present. The
+    // surrounding screen owns the empty-state messaging.
+    expect(view.toJSON()).not.toBeNull();
+    expect(screen.queryByText("Nike Pegasus 40")).toBeNull();
   });
 
   it("invokes the row onPress when an item is tapped", async () => {
