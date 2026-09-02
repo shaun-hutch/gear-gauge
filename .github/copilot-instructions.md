@@ -71,6 +71,8 @@ As for the pricing, I will set a one off purchase price for premium access. I fe
 
 The `gear-gauge-rn/` directory contains a parallel React Native implementation of the app using Expo SDK 57, React 19, and React Native 0.86. This is built with Expo Router for navigation and targets iOS as the primary platform.
 
+**Project location / terminal rule:** all React Native commands (`npm`, `npx`, `node`, `jest`, `tsc`, `storybook`, `expo`) MUST be run from inside `gear-gauge-rn/` — that is the only directory with `package.json` and `node_modules`. The workspace root (`/Users/shaun/source/gear-gauge`) has neither, so running npm/npx there will fail or prompt to install the wrong package versions. Always `cd gear-gauge-rn` (or use an absolute-path command) first. Node is pinned to 24.11.1 via `gear-gauge-rn/.nvmrc` — if a shell can't see `nvm`, don't rely on `nvm use`; just verify `node -v` before installing.
+
 ### Component Development with Storybook
 
 Components should be developed in isolation using **Storybook**. Each reusable UI component must have corresponding `.stories.tsx` files that demonstrate:
