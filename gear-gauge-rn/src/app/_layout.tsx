@@ -3,7 +3,7 @@ import { NativeTabs } from "expo-router/unstable-native-tabs";
 import { View } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 
 // Google Fonts — loaded via @expo-google-fonts packages
 import {
@@ -14,7 +14,7 @@ import { Inter_400Regular } from "@expo-google-fonts/inter";
 import { JetBrainsMono_500Medium } from "@expo-google-fonts/jetbrains-mono";
 import { colors } from "@/styles/theme";
 import { GearProvider } from "@/context/GearProvider";
-import { seedDemoData } from "@/data/seed";
+import { useDemoSeed } from "@/hooks/useDemoSeed";
 
 // Keep splash screen visible while fonts load
 SplashScreen.preventAutoHideAsync();
@@ -38,34 +38,9 @@ export default function RootLayout() {
     JetBrainsMono: JetBrainsMono_500Medium,
   });
 
-  // Dev-only demo seeding: when launched with SEED_DB=true (and Storybook is
-  // not active), wait until demo gear is in the DB before mounting the
-  // provider tree, so `GearProvider`'s first load sees the seeded rows.
-  const seedEnabled =
-    Constants.expoConfig?.extra?.seedDb === "true" && !StorybookUIRoot;
-  const [seedReady, setSeedReady] = useState(!seedEnabled);
-
-  useEffect(() => {
-    if (!seedEnabled) {
-      return;
-    }
-    let cancelled = false;
-    (async () => {
-      try {
-        await seedDemoData();
-      } catch (error) {
-        console.warn("[seed] Failed to seed demo data", error);
-      } finally {
-        // Always release the gate — a seed failure must not block the app.
-        if (!cancelled) {
-          setSeedReady(true);
-        }
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [seedEnabled]);
+  // Dev-only demo seeding (SEED_DB=true): gates mounting until demo data has
+  // been inserted, so `GearProvider`'s first load sees the seeded rows.
+  const seedReady = useDemoSeed();
 
   // Only hide the splash screen once fonts are ready — prevents a
   // visible typeface swap from system fallback → custom font.
