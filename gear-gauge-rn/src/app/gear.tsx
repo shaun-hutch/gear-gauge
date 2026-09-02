@@ -10,7 +10,7 @@ export default function Gear() {
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
       <View style={styles.container}>
-        <AppText style={typographyStyles.headlineMedium}>My Gear</AppText>
+        <AppText style={typographyStyles.headlineMedium}>Your Gear</AppText>
         <Card style={styles.card}>
           <AppText style={typographyStyles.body}>No gear tracked yet. Add your first pair of shoes or bicycle to get started.</AppText>
         </Card>
