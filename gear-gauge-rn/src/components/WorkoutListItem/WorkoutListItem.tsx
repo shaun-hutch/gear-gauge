@@ -34,7 +34,10 @@ export function WorkoutListItem({
       </View>
       <View style={styles.titleLabels}>
         <AppText style={styles.displayName}>{displayName}</AppText>
-        <AppText style={typographyStyles.caption}>{formatDateString(date)} • {distance}</AppText>
+        <AppText style={typographyStyles.caption}>{formatDateString(date)}</AppText>
+      </View>
+      <View style={styles.secondaryLabel}>
+        <AppText style={typographyStyles.body}>{distance} km</AppText>
       </View>
     </Card>
   );
@@ -50,27 +53,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
   },
+  secondaryLabel: {
+    flexDirection: "column",
+    alignItems: "flex-end",
+  },
   displayName: {
     ...typographyStyles.body,
     fontWeight: "700",
-  },
-  wearLabels: {
-    flexDirection: "column",
-    alignItems: "flex-end",
-    marginLeft: 8,
-  },
-  wearValue: {
-    ...typographyStyles.labelMedium,
-    color: colors.primary,
-    fontWeight: "700",
-  },
-  wearLabel: {
-    color: colors.textTertiary,
-    fontSize: 10,
-    lineHeight: 12,
-    fontWeight: "600",
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
   },
   iconContainer: {
     marginRight: 12,
