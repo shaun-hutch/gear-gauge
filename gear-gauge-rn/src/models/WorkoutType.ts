@@ -24,38 +24,48 @@ export interface WorkoutTypeMeta {
  * Lookup map providing `displayName` and `displayIcon` for every WorkoutType.
  * TS enums cannot hold methods, so metadata lives in this separate const.
  */
-export const WORKOUT_TYPE_META: Record<WorkoutType, WorkoutTypeMeta> = {
+const WORKOUT_TYPE_META: Record<WorkoutType, WorkoutTypeMeta> = {
   [WorkoutType.OutdoorRun]: {
     displayName: 'Outdoor Run',
-    displayIcon: 'figure.run.circle',
+    displayIcon: 'figure.run',
   },
   [WorkoutType.IndoorRun]: {
     displayName: 'Indoor Run',
-    displayIcon: 'figure.run.treadmill.circle',
+    displayIcon: 'figure.run.treadmill',
   },
   [WorkoutType.OutdoorWalk]: {
     displayName: 'Outdoor Walk',
-    displayIcon: 'figure.walk.circle',
+    displayIcon: 'figure.walk',
   },
   [WorkoutType.IndoorWalk]: {
     displayName: 'Indoor Walk',
-    displayIcon: 'figure.walk.treadmill.circle',
+    displayIcon: 'figure.walk.treadmill',
   },
   [WorkoutType.OutdoorCycle]: {
     displayName: 'Outdoor Cycle',
-    displayIcon: 'figure.outdoor.cycle.circle',
+    displayIcon: 'figure.outdoor.cycle',
   },
   [WorkoutType.IndoorCycle]: {
     displayName: 'Indoor Cycle',
-    displayIcon: 'figure.indoor.cycle.circle',
+    displayIcon: 'figure.indoor.cycle',
   },
   [WorkoutType.Other]: {
     displayName: 'Other',
-    displayIcon: 'chevron.right.circle',
+    displayIcon: 'chevron.right',
   },
 };
 
-/** Convenience accessor — returns display metadata for the given WorkoutType. */
-export function getWorkoutTypeMeta(type: WorkoutType): WorkoutTypeMeta {
-  return WORKOUT_TYPE_META[type];
+/**
+ * Returns the SF Symbol for a workout type, optionally without the `.circle` suffix.
+ * The non-circle variant is derived on demand rather than stored separately,
+ * keeping `WORKOUT_TYPE_META` a single source of truth.
+ */
+export function getWorkoutTypeMeta(type: WorkoutType, withCircle = true): WorkoutTypeMeta {
+  const icon = WORKOUT_TYPE_META[type].displayIcon;
+
+  return {
+    displayName: WORKOUT_TYPE_META[type].displayName,
+    displayIcon: withCircle ? `icon.${'circle'}` : icon,
+  };
 }
+

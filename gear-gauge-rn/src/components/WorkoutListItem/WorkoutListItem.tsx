@@ -6,30 +6,35 @@ import { SFSymbol, SymbolView } from "expo-symbols";
 import { colors } from "@/styles/theme";
 import { AppText } from "../shared";
 import { typographyStyles } from "@/styles/typography";
+import { formatDateString } from "@/utils/helpers";
 
 interface WorkoutListItemProps {
-  name: string;
   distance: string;
   date: string;
   type: WorkoutType;
 }
 
-export function WorkoutListItem({ name, distance, date, type }: WorkoutListItemProps) {
-  const { displayName, displayIcon } = getWorkoutTypeMeta(type); 
+export function WorkoutListItem({ distance, date, type }: WorkoutListItemProps) {
+  const { displayName, displayIcon } = getWorkoutTypeMeta(type, false); 
 
-  // format date to be today/yesterday/2/3 days ago, or just the date if older than 7 days
-  // ...
   
 
   return (
     <Card style={styles.card}>
-      <SymbolView
-        name={{ ios: displayIcon as SFSymbol }}
-        tintColor={colors.primary}
-      />
+      <View style={styles.iconContainer}>
+        <SymbolView
+          name={{ ios: displayIcon as SFSymbol }}
+          tintColor={colors.primary}
+          style={styles.icon}
+        />
+      </View>
       <View style={styles.titleLabels}>
         <AppText style={typographyStyles.labelMedium}>{displayName}</AppText>
-        <AppText style={typographyStyles.labelSmall}>{distance} • {date}</AppText>
+        <AppText style={typographyStyles.labelSmall}>{distance} • {formatDateString(date)}</AppText>
+      </View>
+
+
+      <View style={styles.detailLabels}>
       </View>
     </Card>
   );
@@ -43,6 +48,19 @@ const styles = StyleSheet.create({
   },
   titleLabels: {
     flexDirection: "column",
+  },
+  detailLabels: {
+    flexDirection: "column",
+  },
+  iconContainer: {
+    marginRight: 12,
+    backgroundColor: colors.background,
+    borderRadius: 8,
+    padding: 8,
+  },
+  icon: {
+    width: 32,
+    height: 32,
   },
 });
 

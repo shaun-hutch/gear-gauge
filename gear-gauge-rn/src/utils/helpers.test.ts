@@ -1,4 +1,4 @@
-import { FormatDateString } from './helpers';
+import { formatDateString } from './helpers';
 
 describe('FormatDateString', () => {
   // Freeze "now" so the relative-date logic is deterministic.
@@ -19,15 +19,15 @@ describe('FormatDateString', () => {
   };
 
   it('returns "Today" for the current date', () => {
-    expect(FormatDateString(new Date(now))).toBe('Today');
+    expect(formatDateString(now.toISOString())).toBe('Today');
   });
 
   it('returns "1 day ago" for yesterday', () => {
-    expect(FormatDateString(daysAgo(1))).toBe('1 day ago');
+    expect(formatDateString(daysAgo(1).toISOString())).toBe('1 day ago');
   });
 
   it.each([2, 3, 4, 5, 6])('returns "%s days ago" for %s days ago', (days) => {
-    expect(FormatDateString(daysAgo(days))).toBe(`${days} days ago`);
+    expect(formatDateString(daysAgo(days).toISOString())).toBe(`${days} days ago`);
   });
 
   it('formats older dates using the device locale', () => {
@@ -37,7 +37,7 @@ describe('FormatDateString', () => {
       day: '2-digit',
       year: 'numeric',
     }).format(date);
-    expect(FormatDateString(date)).toBe(expected);
+    expect(formatDateString(date.toISOString())).toBe(expected);
   });
 
   it('formats future dates using the device locale', () => {
@@ -48,10 +48,10 @@ describe('FormatDateString', () => {
       day: '2-digit',
       year: 'numeric',
     }).format(date);
-    expect(FormatDateString(date)).toBe(expected);
+    expect(formatDateString(date.toISOString())).toBe(expected);
   });
 
   it('returns an empty string when no date is provided', () => {
-    expect(FormatDateString(undefined as unknown as Date)).toBe('');
+    expect(formatDateString(undefined as unknown as string)).toBe('');
   });
 });

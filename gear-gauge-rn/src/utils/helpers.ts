@@ -6,15 +6,16 @@ const RELATIVE_DATE_DAYS = 6;
  * @param date The date to format
  * @returns The formatted date string
  */
-export const FormatDateString = (date: Date): string => {
+export const formatDateString = (date: string): string => {
   if (!date) {
     return '';
   }
 
+  const parsedDate = new Date(date);
   const now = new Date();
 
   const dayDiff = Math.round(
-    (startOfDay(now) - startOfDay(date)) / MILLISECONDS_PER_DAY
+    (startOfDay(now) - startOfDay(parsedDate)) / MILLISECONDS_PER_DAY
   );
 
   // within the last week, return a relative string
@@ -31,7 +32,7 @@ export const FormatDateString = (date: Date): string => {
     month: 'short',
     day: '2-digit',
     year: 'numeric',
-  }).format(date);
+  }).format(parsedDate);
 }
 
 // Compare calendar days (ignoring time of day)

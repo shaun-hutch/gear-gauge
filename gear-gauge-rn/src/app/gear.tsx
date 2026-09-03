@@ -47,6 +47,7 @@ export default function Gear() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
+    backgroundColor: colors.background,
   },
   content: {
     padding: spacing.sm,

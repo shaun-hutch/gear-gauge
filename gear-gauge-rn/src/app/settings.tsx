@@ -1,7 +1,7 @@
 import { AppText } from "@/components/shared";
 import { Card } from "@/components/shared/Card/Card";
 import { typographyStyles } from "@/styles/typography";
-import { spacing } from "@/styles/theme";
+import { colors, spacing } from "@/styles/theme";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -22,6 +22,7 @@ export default function Settings() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
+    backgroundColor: colors.background,
   },
   container: {
     flex: 1,

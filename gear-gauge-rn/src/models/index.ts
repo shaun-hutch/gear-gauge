@@ -15,7 +15,6 @@ export type { GearTypeMeta } from './GearType';
 
 export {
   WorkoutType,
-  WORKOUT_TYPE_META,
   getWorkoutTypeMeta,
 } from './WorkoutType';
 export type { WorkoutTypeMeta } from './WorkoutType';

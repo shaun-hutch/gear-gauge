@@ -95,7 +95,7 @@ export default function RootLayout() {
   
 
   return (
-    <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+    <View onLayout={onLayoutRootView} style={{ flex: 1, backgroundColor: colors.background }}>
       <GearProvider>
         <NativeTabs labelStyle={tabLabelStyle} iconColor={tabIconStyle}>
           <NativeTabs.Trigger name="index">

@@ -8,6 +8,8 @@ import { HomeGauge } from "@/components/HomeGauge/HomeGauge";
 import { NoPrimaryGearCard } from "@/components/NoPrimaryGearCard/NoPrimaryGearCard";
 import { useGearContext } from "@/context/GearProvider";
 import { colors, spacing } from "@/styles/theme";
+import WorkoutListItem from "@/components/WorkoutListItem/WorkoutListItem";
+import { WorkoutType } from "@/models/WorkoutType";
 
 /**
  * Home — showcases the user's primary gear with a large usage gauge, name and
@@ -19,32 +21,36 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
       <ScrollView contentContainerStyle={styles.content}>
-        {isLoading ? (
-          <View style={styles.center}>
-            <ActivityIndicator color={colors.primary} />
-          </View>
-        ) : error ? (
-          <ErrorCard message={error} />
-        ) : !primaryGear ? (
-          <NoPrimaryGearCard />
-        ) : (
-          <>
-            {/* Gear name + type */}
-            <GearHeading name={primaryGear.name} type={primaryGear.type} />
+        <>
+          {isLoading ? (
+            <View style={styles.center}>
+              <ActivityIndicator color={colors.primary} />
+            </View>
+          ) : error ? (
+            <ErrorCard message={error} />
+          ) : !primaryGear ? (
+            <NoPrimaryGearCard />
+          ) : (
+            <>
+              {/* Gear name + type */}
+              <GearHeading name={primaryGear.name} type={primaryGear.type} />
 
-            {/* Hero gauge */}
-            <HomeGauge
-              value={primaryGear.currentDistance}
-              maxValue={primaryGear.maxDistance}
-            />
+              {/* Hero gauge */}
+              <HomeGauge
+                value={primaryGear.currentDistance}
+                maxValue={primaryGear.maxDistance}
+              />
 
-            {/* Distance travelled vs remaining */}
-            <DistanceReadout
-              currentDistance={primaryGear.currentDistance}
-              maxDistance={primaryGear.maxDistance}
-            />
-          </>
-        )}
+              {/* Distance travelled vs remaining */}
+              <DistanceReadout
+                currentDistance={primaryGear.currentDistance}
+                maxDistance={primaryGear.maxDistance}
+              />
+            </>
+          )}
+        <WorkoutListItem distance="4.6" date="2024-06-01T07:30:00Z" type={WorkoutType.IndoorRun} />
+        </>
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -53,6 +59,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
+    backgroundColor: colors.background,
   },
   content: {
     padding: spacing.sm,
