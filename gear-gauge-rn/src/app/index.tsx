@@ -8,8 +8,8 @@ import { HomeGauge } from "@/components/HomeGauge/HomeGauge";
 import { NoPrimaryGearCard } from "@/components/NoPrimaryGearCard/NoPrimaryGearCard";
 import { useGearContext } from "@/context/GearProvider";
 import { colors, spacing } from "@/styles/theme";
-import WorkoutListItem from "@/components/WorkoutListItem/WorkoutListItem";
 import { WorkoutType } from "@/models/WorkoutType";
+import { WorkoutListItem } from "@/components/WorkoutListItem/WorkoutListItem";
 
 /**
  * Home — showcases the user's primary gear with a large usage gauge, name and

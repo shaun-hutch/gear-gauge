@@ -14,6 +14,7 @@ import { Inter_400Regular } from "@expo-google-fonts/inter";
 import { JetBrainsMono_500Medium } from "@expo-google-fonts/jetbrains-mono";
 import { colors } from "@/styles/theme";
 import { GearProvider } from "@/context/GearProvider";
+import { WorkoutProvider } from "@/context/WorkoutProvider";
 import { useDemoSeed } from "@/hooks/useDemoSeed";
 
 // Keep splash screen visible while fonts load
@@ -97,7 +98,8 @@ export default function RootLayout() {
   return (
     <View onLayout={onLayoutRootView} style={{ flex: 1, backgroundColor: colors.background }}>
       <GearProvider>
-        <NativeTabs labelStyle={tabLabelStyle} iconColor={tabIconStyle}>
+        <WorkoutProvider>
+          <NativeTabs labelStyle={tabLabelStyle} iconColor={tabIconStyle}>
           <NativeTabs.Trigger name="index">
               <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
               <NativeTabs.Trigger.Icon sf={icons.home} md="home" />
@@ -114,7 +116,8 @@ export default function RootLayout() {
               <NativeTabs.Trigger.Label>Settings</NativeTabs.Trigger.Label>
               <NativeTabs.Trigger.Icon sf={icons.settings} md="settings" />
           </NativeTabs.Trigger>
-        </NativeTabs>
+          </NativeTabs>
+        </WorkoutProvider>
       </GearProvider>
     </View>
   );

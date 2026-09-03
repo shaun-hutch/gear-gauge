@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 
-import { getWorkoutTypeMeta, WorkoutType } from "@/models/WorkoutType";
+import { getWorkoutTypeMeta, type WorkoutType } from "@/models";
 import { Card } from "../shared/Card/Card";
 import { SFSymbol, SymbolView } from "expo-symbols";
 import { colors } from "@/styles/theme";
@@ -14,7 +14,11 @@ interface WorkoutListItemProps {
   type: WorkoutType;
 }
 
-export function WorkoutListItem({ distance, date, type }: WorkoutListItemProps) {
+export function WorkoutListItem({
+  distance,
+  date,
+  type,
+}: WorkoutListItemProps) {
   const { displayName, displayIcon } = getWorkoutTypeMeta(type, false); 
 
   
@@ -29,12 +33,8 @@ export function WorkoutListItem({ distance, date, type }: WorkoutListItemProps) 
         />
       </View>
       <View style={styles.titleLabels}>
-        <AppText style={typographyStyles.labelMedium}>{displayName}</AppText>
-        <AppText style={typographyStyles.labelSmall}>{distance} • {formatDateString(date)}</AppText>
-      </View>
-
-
-      <View style={styles.detailLabels}>
+        <AppText style={styles.displayName}>{displayName}</AppText>
+        <AppText style={typographyStyles.caption}>{formatDateString(date)} • {distance}</AppText>
       </View>
     </Card>
   );
@@ -47,10 +47,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   titleLabels: {
+    flex: 1,
     flexDirection: "column",
   },
-  detailLabels: {
+  displayName: {
+    ...typographyStyles.body,
+    fontWeight: "700",
+  },
+  wearLabels: {
     flexDirection: "column",
+    alignItems: "flex-end",
+    marginLeft: 8,
+  },
+  wearValue: {
+    ...typographyStyles.labelMedium,
+    color: colors.primary,
+    fontWeight: "700",
+  },
+  wearLabel: {
+    color: colors.textTertiary,
+    fontSize: 10,
+    lineHeight: 12,
+    fontWeight: "600",
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
   },
   iconContainer: {
     marginRight: 12,

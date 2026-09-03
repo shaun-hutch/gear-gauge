@@ -23,7 +23,6 @@ describe("WorkoutListItem", () => {
   it("renders the workout type, distance and relative date", async () => {
     await render(
       <WorkoutListItem
-        name="Morning Run"
         distance="5.2 km"
         date={daysAgo(2)}
         type={WorkoutType.OutdoorRun}
@@ -38,7 +37,6 @@ describe("WorkoutListItem", () => {
   it("renders the display name for other workout types", async () => {
     await render(
       <WorkoutListItem
-        name="Road Ride"
         distance="42.1 km"
         date={daysAgo(1)}
         type={WorkoutType.OutdoorCycle}
@@ -52,7 +50,6 @@ describe("WorkoutListItem", () => {
   it("renders the fallback label for unrecognised types", async () => {
     await render(
       <WorkoutListItem
-        name="Mixed Activity"
         distance="10 km"
         date={daysAgo(0)}
         type={WorkoutType.Other}
@@ -61,5 +58,45 @@ describe("WorkoutListItem", () => {
 
     expect(screen.getByText("Other")).toBeTruthy();
     expect(screen.getByText(/Today/)).toBeTruthy();
+  });
+
+  it("renders the wear badge for a single associated gear item", async () => {
+    await render(
+      <WorkoutListItem
+        distance="5.2 km"
+        date={daysAgo(2)}
+        type={WorkoutType.OutdoorRun}
+        wear={{ kind: "single", wearLabel: "+0.4%" }}
+      />,
+    );
+
+    expect(screen.getByText("+0.4%")).toBeTruthy();
+    expect(screen.getByText("GEAR WEAR")).toBeTruthy();
+  });
+
+  it("renders a gear count for multiple associated gear items", async () => {
+    await render(
+      <WorkoutListItem
+        distance="5.2 km"
+        date={daysAgo(2)}
+        type={WorkoutType.OutdoorRun}
+        wear={{ kind: "multiple", gearCount: 2 }}
+      />,
+    );
+
+    expect(screen.getByText("2 items")).toBeTruthy();
+    expect(screen.getByText("GEAR WEAR")).toBeTruthy();
+  });
+
+  it("omits the wear badge when no wear info is provided", async () => {
+    await render(
+      <WorkoutListItem
+        distance="5.2 km"
+        date={daysAgo(2)}
+        type={WorkoutType.OutdoorRun}
+      />,
+    );
+
+    expect(screen.queryByText("GEAR WEAR")).toBeNull();
   });
 });

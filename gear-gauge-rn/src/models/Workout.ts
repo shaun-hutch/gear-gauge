@@ -48,6 +48,9 @@ export interface Workout {
   isDeleted: boolean;
 }
 
+export const formatWorkoutWear = (distance: number, maxDistance: number): string =>
+  `${((distance / maxDistance) * 100).toFixed(1)}%`;
+
 // ── Manual workout input & factory ───────────────────────────────────────────
 
 /** User-supplied fields for a manually-added workout (no HealthKit). */
