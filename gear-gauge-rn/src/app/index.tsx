@@ -10,6 +10,7 @@ import { useGearContext } from "@/context/GearProvider";
 import { colors, spacing } from "@/styles/theme";
 import { WorkoutType } from "@/models/WorkoutType";
 import { WorkoutListItem } from "@/components/WorkoutListItem/WorkoutListItem";
+import { WorkoutList } from "@/components/WorkoutList/WorkoutList";
 
 /**
  * Home — showcases the user's primary gear with a large usage gauge, name and
@@ -48,7 +49,8 @@ export default function Index() {
               />
             </>
           )}
-        <WorkoutListItem distance="4.6" date="2024-06-01T07:30:00Z" type={WorkoutType.IndoorRun} />
+          {/* Workout list */}
+          <WorkoutList recent />
         </>
 
       </ScrollView>
