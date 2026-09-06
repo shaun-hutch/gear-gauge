@@ -26,7 +26,11 @@ export function WorkoutList({ recent = false }: WorkoutListProps) {
               <AppText style={typographyStyles.headlineMedium}>Recent Workouts</AppText>
               {/* Navigate to the History tab; `asChild` passes link props to the TouchableOpacity */}
               <Link href="/history" asChild>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  accessibilityRole="button"
+                  accessibilityLabel="See all workouts"
+                  accessibilityHint="Shows your full workout history"
+                >
                   <AppText style={styles.seeAll}>See All</AppText>
                 </TouchableOpacity>
               </Link>

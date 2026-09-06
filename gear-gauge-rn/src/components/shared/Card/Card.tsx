@@ -8,11 +8,12 @@ interface CardProps extends ViewProps {
   tintColor?: string;
 }
 
-export function Card({ children, style, tintColor }: CardProps) {
+export function Card({ children, style, tintColor, ...rest }: CardProps) {
   const backgroundColor = hexToRgba(tintColor ?? colors.white, 0.7);
 
   return (
     <View
+      {...rest}
       style={[
         cardStyles.container,
         globalStyles.cardElevated,

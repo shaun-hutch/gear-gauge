@@ -9,7 +9,7 @@ export default {
 // Fixed date far enough in the past that `formatDateString` renders an
 // absolute date ("Aug 01, 2026") rather than a relative "X days ago" string.
 const defaultProps = {
-  distance: '5.2 km',
+  distance: '5.2',
   date: '2026-08-01T07:30:00.000Z',
   type: WorkoutType.OutdoorRun,
 };
@@ -37,7 +37,7 @@ export const OutdoorWalk = () => (
 export const OutdoorCycle = () => (
   <WorkoutListItem
     {...defaultProps}
-    distance="42.1 km"
+    distance="42.1"
     type={WorkoutType.OutdoorCycle}
   />
 );
@@ -54,7 +54,7 @@ export const Other = () => (
 export const LongDistance = () => (
   <WorkoutListItem
     {...defaultProps}
-    distance="1,234.5 km"
+    distance="1,234.5"
   />
 );
 

@@ -3,7 +3,8 @@ import { SymbolView, type SFSymbol } from "expo-symbols";
 
 import { GearType, getGearTypeMeta } from "@/models/GearType";
 import { AppText, Card, CircleGauge, StatusBadge } from "../shared";
-import { getStatusFromPercentage } from "@/utils/labels";
+import { buildAccessibilityLabel } from "@/utils/accessibility";
+import { getStatusFromPercentage, statusLabels } from "@/utils/labels";
 import { formatNumber } from "@/utils/utils";
 import { getStatusColor, getStatusSurfaceColor } from "@/utils/statusColors";
 import { colors, spacing, typography } from "@/styles/theme";
@@ -32,11 +33,21 @@ export function GearListItem({
   // Condition is derived from the percentage of the replacement distance used.
   const status = getStatusFromPercentage((currentDistance / maxDistance) * 100);
 
+  // Combine the row's text into a single screen-reader announcement.
+  const accessibilityLabel = buildAccessibilityLabel(
+    name,
+    `${formatNumber(currentDistance)} of ${formatNumber(maxDistance)} kilometres`,
+    statusLabels[status],
+  );
+
   return (
     <Card>
       <Pressable
         onPress={onPress}
         disabled={!onPress}
+        accessibilityRole="button"
+        accessibilityLabel={accessibilityLabel}
+        accessibilityHint={onPress ? "Opens gear details" : undefined}
         style={({ pressed }) => [styles.row, pressed && styles.pressed]}
       >
         {/* Circular usage gauge with the gear-type SF Symbol in its centre */}

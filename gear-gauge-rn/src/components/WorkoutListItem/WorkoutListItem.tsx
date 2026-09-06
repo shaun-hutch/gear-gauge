@@ -6,6 +6,7 @@ import { SFSymbol, SymbolView } from "expo-symbols";
 import { colors, radii, sizing, spacing, typography } from "@/styles/theme";
 import { AppText } from "../shared";
 import { typographyStyles } from "@/styles/typography";
+import { buildAccessibilityLabel } from "@/utils/accessibility";
 import { formatDateString } from "@/utils/helpers";
 
 interface WorkoutListItemProps {
@@ -19,12 +20,20 @@ export function WorkoutListItem({
   date,
   type,
 }: WorkoutListItemProps) {
-  const { displayName, displayIcon } = getWorkoutTypeMeta(type, false); 
+  const { displayName, displayIcon } = getWorkoutTypeMeta(type, false);
 
-  
+  // Combine the row's text fragments into one label so screen readers announce
+  // the workout as a single element instead of three disconnected text nodes.
+  const accessibilityLabel = buildAccessibilityLabel(
+    displayName,
+    formatDateString(date),
+    `${distance} km`,
+  );
 
   return (
-    <Card style={styles.card}>
+    // A hint would be ignored by screen readers on a static row, so it's omitted.
+    // eslint-disable-next-line react-native-a11y/has-accessibility-hint
+    <Card style={styles.card} accessible accessibilityLabel={accessibilityLabel}>
       <View style={styles.iconContainer}>
         <SymbolView
           name={{ ios: displayIcon as SFSymbol }}
