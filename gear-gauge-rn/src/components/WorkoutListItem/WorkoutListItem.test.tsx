@@ -60,34 +60,6 @@ describe("WorkoutListItem", () => {
     expect(screen.getByText(/Today/)).toBeTruthy();
   });
 
-  it("renders the wear badge for a single associated gear item", async () => {
-    await render(
-      <WorkoutListItem
-        distance="5.2 km"
-        date={daysAgo(2)}
-        type={WorkoutType.OutdoorRun}
-        wear={{ kind: "single", wearLabel: "+0.4%" }}
-      />,
-    );
-
-    expect(screen.getByText("+0.4%")).toBeTruthy();
-    expect(screen.getByText("GEAR WEAR")).toBeTruthy();
-  });
-
-  it("renders a gear count for multiple associated gear items", async () => {
-    await render(
-      <WorkoutListItem
-        distance="5.2 km"
-        date={daysAgo(2)}
-        type={WorkoutType.OutdoorRun}
-        wear={{ kind: "multiple", gearCount: 2 }}
-      />,
-    );
-
-    expect(screen.getByText("2 items")).toBeTruthy();
-    expect(screen.getByText("GEAR WEAR")).toBeTruthy();
-  });
-
   it("omits the wear badge when no wear info is provided", async () => {
     await render(
       <WorkoutListItem

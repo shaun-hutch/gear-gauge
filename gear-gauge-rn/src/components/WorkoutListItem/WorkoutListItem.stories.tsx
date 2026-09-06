@@ -62,14 +62,5 @@ export const LongDistance = () => (
 export const SingleGearWear = () => (
   <WorkoutListItem
     {...defaultProps}
-    wear={{ kind: "single", wearLabel: "+0.4%" }}
-  />
-);
-
-/** Multiple associated gear items — shows a count instead of one percentage. */
-export const MultipleGear = () => (
-  <WorkoutListItem
-    {...defaultProps}
-    wear={{ kind: "multiple", gearCount: 2 }}
   />
 );
