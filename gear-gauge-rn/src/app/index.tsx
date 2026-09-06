@@ -8,8 +8,6 @@ import { HomeGauge } from "@/components/HomeGauge/HomeGauge";
 import { NoPrimaryGearCard } from "@/components/NoPrimaryGearCard/NoPrimaryGearCard";
 import { useGearContext } from "@/context/GearProvider";
 import { colors, spacing } from "@/styles/theme";
-import { WorkoutType } from "@/models/WorkoutType";
-import { WorkoutListItem } from "@/components/WorkoutListItem/WorkoutListItem";
 import { WorkoutList } from "@/components/WorkoutList/WorkoutList";
 
 /**

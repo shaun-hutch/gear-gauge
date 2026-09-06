@@ -275,6 +275,9 @@ export const radii = {
   lg: 8,
   /** 12pt — large containers */
   xl: 12,
+  /** 16pt — larger rounded */
+  xxl: 16,
+  /** Full rounded */
   full: 9999,
 } as const;
 

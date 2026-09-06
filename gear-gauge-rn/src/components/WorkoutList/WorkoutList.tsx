@@ -1,11 +1,10 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { useWorkoutsContext } from "@/context/WorkoutProvider";
-import { spacing } from "@/styles/theme";
+import { spacing, colors } from "@/styles/theme";
 import { WorkoutListItem } from "../WorkoutListItem/WorkoutListItem";
 import { AppText } from "../shared";
 import { typographyStyles } from "@/styles/typography";
-import { colors } from "@/styles/theme";
 
 interface WorkoutListProps {
   recent?: boolean;

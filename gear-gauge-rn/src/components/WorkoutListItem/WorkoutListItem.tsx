@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { getWorkoutTypeMeta, type WorkoutType } from "@/models";
 import { Card } from "../shared/Card/Card";
 import { SFSymbol, SymbolView } from "expo-symbols";
-import { colors } from "@/styles/theme";
+import { colors, radii } from "@/styles/theme";
 import { AppText } from "../shared";
 import { typographyStyles } from "@/styles/typography";
 import { formatDateString } from "@/utils/helpers";
@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
   iconContainer: {
     marginRight: 12,
     backgroundColor: colors.surfaceContainer,
-    borderRadius: 8,
-    padding: 8,
+    borderRadius: radii.xxl,
+    padding: 16,
   },
   icon: {
     width: 32,
