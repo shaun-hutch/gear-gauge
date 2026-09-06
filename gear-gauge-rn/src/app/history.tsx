@@ -3,7 +3,6 @@ import { typographyStyles } from "@/styles/typography";
 import { colors, spacing } from "@/styles/theme";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { WorkoutList } from "@/components/WorkoutList/WorkoutList";
 
 /** Workout history — synced from HealthKit and linked to gear. */
 export default function History() {
@@ -11,7 +10,6 @@ export default function History() {
     <SafeAreaView style={styles.safe} edges={["top"]}>
       <View style={styles.container}>
         <AppText style={typographyStyles.headlineMedium}>Workout History</AppText>
-        <WorkoutList />
       </View>
     </SafeAreaView>
   );
