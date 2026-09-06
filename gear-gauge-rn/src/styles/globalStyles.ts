@@ -7,7 +7,7 @@
  */
 
 import { StyleSheet } from "react-native";
-import { colors, spacing, radii, typography, surfaces } from "./theme";
+import { colors, spacing, radii, sizing, typography, surfaces } from "./theme";
 import { typographyStyles } from "./typography";
 
 /** Flat, non-typography styles — merged with `typographyStyles` below. */
@@ -76,11 +76,11 @@ const globalStylesBase = StyleSheet.create({
   buttonPrimary: {
     backgroundColor: colors.primary,
     borderRadius: radii.DEFAULT,
-    paddingVertical: spacing.xs + 4, // 12pt — comfortable tap area
+    paddingVertical: spacing.xs + spacing.unit, // 12pt — comfortable tap area
     paddingHorizontal: spacing.sm,
     alignItems: "center",
     justifyContent: "center",
-    minHeight: 48,
+    minHeight: spacing.xxl,
   },
 
   buttonPrimaryText: {
@@ -94,11 +94,11 @@ const globalStylesBase = StyleSheet.create({
     borderRadius: radii.DEFAULT,
     borderWidth: 1,
     borderColor: colors.primary,
-    paddingVertical: spacing.xs + 4,
+    paddingVertical: spacing.xs + spacing.unit,
     paddingHorizontal: spacing.sm,
     alignItems: "center",
     justifyContent: "center",
-    minHeight: 48,
+    minHeight: spacing.xxl,
   },
 
   buttonOutlineText: {
@@ -133,7 +133,7 @@ const globalStylesBase = StyleSheet.create({
     paddingVertical: spacing.xs + 2,
     ...typography.styles.bodyMedium,
     color: colors.textPrimary,
-    minHeight: 44,
+    minHeight: sizing.touchTargetMin,
   },
 
   // ─── Metric Cards (design system: "Metric Cards") ────────────────────────
@@ -204,8 +204,8 @@ const globalStylesBase = StyleSheet.create({
 
   /** Circular avatar / gear thumbnail placeholder. */
   avatar: {
-    width: 48,
-    height: 48,
+    width: spacing.xxl,
+    height: spacing.xxl,
     borderRadius: radii.full,
     backgroundColor: colors.primarySurface,
     alignItems: "center",

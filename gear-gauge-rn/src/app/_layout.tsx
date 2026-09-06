@@ -10,7 +10,11 @@ import {
   Lexend_600SemiBold,
   Lexend_700Bold,
 } from "@expo-google-fonts/lexend";
-import { Inter_400Regular } from "@expo-google-fonts/inter";
+import {
+  Inter_400Regular,
+  Inter_600SemiBold,
+  Inter_700Bold,
+} from "@expo-google-fonts/inter";
 import { JetBrainsMono_500Medium } from "@expo-google-fonts/jetbrains-mono";
 import { colors } from "@/styles/theme";
 import { GearProvider } from "@/context/GearProvider";
@@ -36,6 +40,8 @@ export default function RootLayout() {
     "Lexend-SemiBold": Lexend_600SemiBold,
     "Lexend-Bold": Lexend_700Bold,
     Inter: Inter_400Regular,
+    "Inter-SemiBold": Inter_600SemiBold,
+    "Inter-Bold": Inter_700Bold,
     JetBrainsMono: JetBrainsMono_500Medium,
   });
 

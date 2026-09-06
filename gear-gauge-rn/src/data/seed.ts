@@ -59,10 +59,10 @@ const DEMO_GEAR: GearInput[] = [
  * holds everything else a manual workout needs. Dates are fixed in the past
  * so the history list renders realistic relative/absolute dates.
  */
-const DEMO_WORKOUTS: Array<{
+const DEMO_WORKOUTS: {
   gearNames: string[]
   input: Omit<WorkoutInput, 'gearIds'>
-}> = [
+}[] = [
   {
     gearNames: ['Nike Pegasus 40'],
     input: {

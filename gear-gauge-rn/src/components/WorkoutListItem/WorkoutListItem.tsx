@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { getWorkoutTypeMeta, type WorkoutType } from "@/models";
 import { Card } from "../shared/Card/Card";
 import { SFSymbol, SymbolView } from "expo-symbols";
-import { colors, radii } from "@/styles/theme";
+import { colors, radii, sizing, spacing, typography } from "@/styles/theme";
 import { AppText } from "../shared";
 import { typographyStyles } from "@/styles/typography";
 import { formatDateString } from "@/utils/helpers";
@@ -48,6 +48,8 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
     alignItems: "center",
+    // Tighter than the Card default (16pt) — matches the design's 12pt card padding.
+    padding: spacing.sm - spacing.unit,
   },
   titleLabels: {
     flex: 1,
@@ -58,18 +60,22 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   displayName: {
-    ...typographyStyles.body,
+    ...typographyStyles.bodyLarge,
+    fontFamily: typography.fontFamily.bodyBold,
     fontWeight: "700",
   },
   iconContainer: {
-    marginRight: 12,
+    width: spacing.xxl,
+    height: spacing.xxl,
+    marginRight: spacing.sm,
     backgroundColor: colors.surfaceContainer,
     borderRadius: radii.xxl,
-    padding: 16,
+    alignItems: "center",
+    justifyContent: "center",
   },
   icon: {
-    width: 32,
-    height: 32,
+    width: sizing.icon,
+    height: sizing.icon,
   },
 });
 

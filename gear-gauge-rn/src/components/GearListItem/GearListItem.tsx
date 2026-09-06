@@ -6,7 +6,7 @@ import { AppText, Card, CircleGauge, StatusBadge } from "../shared";
 import { getStatusFromPercentage } from "@/utils/labels";
 import { formatNumber } from "@/utils/utils";
 import { getStatusColor, getStatusSurfaceColor } from "@/utils/statusColors";
-import { colors, spacing } from "@/styles/theme";
+import { colors, spacing, typography } from "@/styles/theme";
 import { typographyStyles } from "@/styles/typography";
 
 interface GearListItemProps {
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
   },
   name: {
     ...typographyStyles.body,
+    fontFamily: typography.fontFamily.bodySemiBold,
     fontWeight: '600',
     flexShrink: 1,
   },

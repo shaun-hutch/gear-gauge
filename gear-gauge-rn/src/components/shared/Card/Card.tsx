@@ -9,7 +9,7 @@ interface CardProps extends ViewProps {
 }
 
 export function Card({ children, style, tintColor }: CardProps) {
-  const backgroundColor = hexToRgba(tintColor ?? "#FFFFFF", 0.7);
+  const backgroundColor = hexToRgba(tintColor ?? colors.white, 0.7);
 
   return (
     <View

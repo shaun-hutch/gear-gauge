@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 
 import { AppText, Card } from "@/components/shared";
 import { typographyStyles } from "@/styles/typography";
-import { colors, spacing, typography } from "@/styles/theme";
+import { colors, spacing } from "@/styles/theme";
 import { formatNumber } from "@/utils/utils";
 
 interface DistanceReadoutProps {

@@ -1,4 +1,4 @@
-import { colors } from "@/styles/theme";
+import { colors, spacing } from "@/styles/theme";
 import Svg, { Circle } from "react-native-svg";
 import { StyleSheet, View } from "react-native";
 import { ReactNode, useEffect } from "react";
@@ -92,7 +92,7 @@ export function CircleGauge({
   };
 
   return (
-    <View style={{ width: svgSize, height: svgSize, margin: 4 }}>
+    <View style={{ width: svgSize, height: svgSize, margin: spacing.unit }}>
       <Svg width={svgSize} height={svgSize}>
         {/* Background track — a full ring behind the progress arc */}
         {trackColor !== "transparent" && (

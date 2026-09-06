@@ -161,6 +161,10 @@ export const typography = {
     headline: "Lexend-SemiBold",
     /** 400 weight — body text */
     body: "Inter",
+    /** 600 weight — body text, emphasised (gear names) */
+    bodySemiBold: "Inter-SemiBold",
+    /** 700 weight — body text, bold (workout titles) */
+    bodyBold: "Inter-Bold",
     /** 500 weight — labels & technical data */
     mono: "JetBrainsMono",
   },
