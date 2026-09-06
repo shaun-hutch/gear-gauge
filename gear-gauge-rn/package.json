@@ -66,6 +66,7 @@
     "test": "jest",
     "storybook-generate": "sb-rn-get-stories --config-path .storybook",
     "storybook": "STORYBOOK_ENABLED='true' expo start",
+    "storybook:server": "STORYBOOK_ENABLED='true' expo start --port 8082",
     "storybook:ios": "STORYBOOK_ENABLED='true' expo run:ios",
     "storybook:android": "STORYBOOK_ENABLED='true' expo run:android"
   },

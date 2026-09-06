@@ -103,6 +103,47 @@ STORYBOOK_ENABLED='true' npx expo start
 
 > The app binary on the device is the same for both modes — only the Metro server determines whether Storybook or the normal app loads.
 
+## Running App + Storybook Simultaneously
+
+Because the mode is decided by the Metro server (not the binary), you can run **both**
+the normal app and Storybook at the same time by running two Metro servers on
+different ports and pointing two devices at them.
+
+| Instance | Device | Metro server |
+|----------|--------|--------------|
+| Normal app | iPhone | `npx expo start` (port 8081) |
+| Storybook | iOS Simulator | `npm run storybook:server` (port 8082) |
+
+### Steps
+
+1. Terminal A — normal app server:
+
+   ```bash
+   cd gear-gauge-rn
+   npx expo start
+   ```
+
+2. Terminal B — Storybook server:
+
+   ```bash
+   cd gear-gauge-rn
+   npm run storybook:server
+   ```
+
+3. iPhone — launch the app and make sure the dev launcher is pointed at the
+   **8081** server (normal app).
+
+4. Simulator — boot a simulator (e.g. iPhone 17 Pro), then point its dev client
+   at the Storybook server:
+
+   ```bash
+   xcrun simctl openurl booted exp://127.0.0.1:8082
+   ```
+
+> `127.0.0.1` works from the simulator because it shares the Mac's network. For a
+> physical iPhone use the Mac's LAN IP (e.g. `exp://192.168.x.x:8082`) and keep the
+> phone on the same Wi-Fi.
+
 ## Troubleshooting
 
 | Symptom | Fix |

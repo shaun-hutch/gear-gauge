@@ -106,6 +106,25 @@ STORYBOOK_ENABLED='true' npx expo start
 2. Start the desired Metro server (normal or Storybook)
 3. Re-launch the app on iPhone: `xcrun devicectl device process launch --device <DEVICE_UDID> com.shaun-hutch.gear-gauge-rn`
 
+### Running both simultaneously
+
+Run two Metro servers on different ports and point two devices at them:
+
+```bash
+# Terminal A — normal app (port 8081)
+cd gear-gauge-rn && npx expo start
+
+# Terminal B — Storybook (port 8082)
+cd gear-gauge-rn && npm run storybook:server
+```
+
+- iPhone → port 8081 (normal app).
+- iOS Simulator → port 8082 (Storybook):
+
+  ```bash
+  xcrun simctl openurl booted exp://127.0.0.1:8082
+  ```
+
 ## Troubleshooting
 
 | Symptom | Fix |
