@@ -1,9 +1,10 @@
+import { Link } from "expo-router";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { useWorkoutsContext } from "@/context/WorkoutProvider";
 import { spacing, colors } from "@/styles/theme";
 import { WorkoutListItem } from "../WorkoutListItem/WorkoutListItem";
-import { AppText } from "../shared";
+import { AppText, Card } from "../shared";
 import { typographyStyles } from "@/styles/typography";
 
 interface WorkoutListProps {
@@ -23,21 +24,30 @@ export function WorkoutList({ recent = false }: WorkoutListProps) {
           {recent && (
             <View style={styles.recentContainer}>
               <AppText style={typographyStyles.headlineMedium}>Recent Workouts</AppText>
-              <TouchableOpacity onPress={() => {
-                // Handle "See All" press
-              }}>
-                <AppText style={styles.seeAll}>See All</AppText>
-              </TouchableOpacity>
+              {/* Navigate to the History tab; `asChild` passes link props to the TouchableOpacity */}
+              <Link href="/history" asChild>
+                <TouchableOpacity>
+                  <AppText style={styles.seeAll}>See All</AppText>
+                </TouchableOpacity>
+              </Link>
             </View>
           )}
-          {displayedWorkouts.map((workout) => (
-            <WorkoutListItem
-              key={workout.id}
-              distance={workout.totalDistance.toFixed(1)}
-              date={workout.startDate}
-              type={workout.workoutType}
-            />
-          ))}
+          {workouts.length === 0 ? (
+            <Card style={styles.emptyCard}>
+              <AppText style={typographyStyles.body}>
+                No workouts synced yet. Connect HealthKit in Settings to get started.
+              </AppText>
+            </Card>
+          ) : (
+            displayedWorkouts.map((workout) => (
+              <WorkoutListItem
+                key={workout.id}
+                distance={workout.totalDistance.toFixed(1)}
+                date={workout.startDate}
+                type={workout.workoutType}
+              />
+            ))
+          )}
         </>
     }
     </View>
@@ -56,5 +66,8 @@ const styles = StyleSheet.create({
   seeAll: {
     ...typographyStyles.caption,
     color: colors.primary,
-  }
+  },
+  emptyCard: {
+    padding: spacing.sm,
+  },
 });

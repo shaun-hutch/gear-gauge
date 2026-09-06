@@ -1,5 +1,7 @@
+import { useCallback, useRef } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useFocusEffect } from "expo-router";
 
 import { DistanceReadout } from "@/components/DistanceReadout/DistanceReadout";
 import { ErrorCard } from "@/components/ErrorCard/ErrorCard";
@@ -16,10 +18,19 @@ import { WorkoutList } from "@/components/WorkoutList/WorkoutList";
  */
 export default function Index() {
   const { primaryGear, isLoading, error } = useGearContext();
+  const scrollRef = useRef<ScrollView>(null);
+
+  // Reset scroll to the top whenever the Home tab regains focus, so returning
+  // from another tab (e.g. History via "See All") doesn't leave the user mid-scroll.
+  useFocusEffect(
+    useCallback(() => {
+      scrollRef.current?.scrollTo({ y: 0, animated: false });
+    }, [])
+  );
 
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView ref={scrollRef} contentContainerStyle={styles.content}>
         <>
           {isLoading ? (
             <View style={styles.center}>
